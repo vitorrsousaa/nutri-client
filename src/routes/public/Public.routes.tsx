@@ -1,8 +1,8 @@
 import { Route, Routes as RoutesProvider } from 'react-router-dom';
 
+import LandingPage from '../../pages/LandingPage';
 import SignIn from '../../pages/SignIn';
 import SignUp from '../../pages/SignUp';
-import LandingPage from '../../pages/LandingPage';
 
 const routes = [
   { path: '/', element: <LandingPage /> },

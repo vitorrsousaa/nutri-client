@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
-import { PublicRoutes } from './routes';
+
 import { queryClient, QueryClientProvider } from './libs/query';
+import { PublicRoutes } from './routes';
 
 function App() {
   return (
