@@ -1,3 +1,3 @@
-import { QueryClientProvider, queryClient } from './queryClient';
+import { queryClient,QueryClientProvider } from './queryClient';
 
-export { QueryClientProvider, queryClient };
+export { queryClient,QueryClientProvider };
