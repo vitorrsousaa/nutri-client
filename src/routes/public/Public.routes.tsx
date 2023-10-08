@@ -1,0 +1,21 @@
+import { Route, Routes as RoutesProvider } from 'react-router-dom';
+
+import SignIn from '../../pages/SignIn';
+import SignUp from '../../pages/SignUp';
+import LandingPage from '../../pages/LandingPage';
+
+const routes = [
+  { path: '/', element: <LandingPage /> },
+  { path: '/sign-in', element: <SignIn /> },
+  { path: '/sign-up', element: <SignUp /> },
+];
+
+export default function PublicRoutes() {
+  return (
+    <RoutesProvider>
+      {routes.map((route) => (
+        <Route key={route.path} path={route.path} element={route.element} />
+      ))}
+    </RoutesProvider>
+  );
+}
