@@ -8,8 +8,8 @@ import api from './../api';
 class HttpClient {
   private baseURL: string;
 
-  constructor(baseURL = 'http://localhost:3001/api') {
-    this.baseURL = baseURL;
+  constructor(baseURL: string) {
+    this.baseURL = 'http://localhost:3001/api' + baseURL;
   }
 
   get<T>(path: string) {
