@@ -28,7 +28,7 @@ export function SignIn() {
 
   return (
     <div>
-      <h1>SignIn</h1>
+      <h1>sign in</h1>
       <form style={{ width: 300 }} onSubmit={handleSubmit(handleSignIn)}>
         <input placeholder="email" type="email" {...register('email')} />
         {errors.email && <small>{errors.email.message}</small>}
