@@ -1,9 +1,9 @@
 import { ReactElement, ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 
-interface ProvidersProps {
+type ProvidersProps = {
   children: ReactNode;
-}
+};
 
 function AllTheProviders(props: ProvidersProps) {
   const { children } = props;
