@@ -50,6 +50,7 @@ export class AuthService {
   async recover() {
     return {
       email: 'any_email',
+      name: 'any_name',
     };
   }
 }
