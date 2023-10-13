@@ -1,5 +1,7 @@
 import HttpClient from '../HttpClient';
 
-import { AuthService } from './AuthService';
+import { AuthService as Service } from './AuthService';
 
-export default new AuthService(new HttpClient('/auth'));
+const AuthService = new Service(new HttpClient('/auth'));
+
+export default AuthService;
