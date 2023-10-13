@@ -1,21 +1,22 @@
-import { Route, Routes as RoutesProvider } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import LandingPage from '../../pages/LandingPage';
 import SignIn from '../../pages/SignIn';
 import SignUp from '../../pages/SignUp';
+import { AuthGuard } from '../utils/AuthGuard';
 
 const routes = [
-  { path: '/', element: <LandingPage /> },
-  { path: '/sign-in', element: <SignIn /> },
-  { path: '/sign-up', element: <SignUp /> },
+  { path: '/login', element: <SignIn /> },
+  { path: '/register', element: <SignUp /> },
 ];
 
 export default function PublicRoutes() {
   return (
-    <RoutesProvider>
-      {routes.map((route) => (
-        <Route key={route.path} path={route.path} element={route.element} />
-      ))}
-    </RoutesProvider>
+    <Routes>
+      <Route element={<AuthGuard isPrivate={false} />}>
+        {routes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.element} />
+        ))}
+      </Route>
+    </Routes>
   );
 }

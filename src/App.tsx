@@ -1,15 +1,14 @@
-import { BrowserRouter } from 'react-router-dom';
-
+import { AuthProvider } from './contexts/auth';
 import { queryClient, QueryClientProvider } from './libs/query';
-import { PublicRoutes } from './routes';
+import Routes from './routes';
 
 function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <PublicRoutes />
-        </BrowserRouter>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
       </QueryClientProvider>
     </>
   );
