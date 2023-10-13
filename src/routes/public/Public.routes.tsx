@@ -2,9 +2,10 @@ import { Route, Routes } from 'react-router-dom';
 
 import SignIn from '../../pages/SignIn';
 import SignUp from '../../pages/SignUp';
+import { TRoute } from '../types';
 import { AuthGuard } from '../utils/AuthGuard';
 
-const routes = [
+const routes: TRoute[] = [
   { path: '/login', element: <SignIn /> },
   { path: '/register', element: <SignUp /> },
 ];
