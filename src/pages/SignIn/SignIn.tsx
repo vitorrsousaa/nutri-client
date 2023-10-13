@@ -6,8 +6,7 @@ const signInFormSchema = z.object({
   email: z
     .string()
     .min(1, { message: 'Email is required' })
-    .email('Formato de email inválido')
-    .toLowerCase(),
+    .email('Formato de email inválido'),
   password: z
     .string()
     .min(8, { message: 'Password must be atleast 8 characters' }),

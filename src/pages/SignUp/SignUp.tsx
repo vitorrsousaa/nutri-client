@@ -19,8 +19,7 @@ const registerFormSchema = z
     email: z
       .string()
       .min(1, { message: 'E-mail é obrigatório' })
-      .email('Formato de e-mail inválido')
-      .toLowerCase(),
+      .email('Formato de e-mail inválido'),
     password: z
       .string()
       .min(8, { message: 'Password must be atleast 8 characters' }),
