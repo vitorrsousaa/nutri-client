@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 import AuthService from '../../service/Auth';
 import token from '../../storage/token';
@@ -45,7 +46,7 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isError) {
-      console.log('Sessao expirou!');
+      toast.error('Erro ao cadastrar conta!');
 
       signOut();
     }
