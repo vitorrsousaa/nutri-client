@@ -5,9 +5,7 @@ class TokenStorage {
     const tokenJSON = localStorage.getItem(TOKEN_COLLECTION);
 
     if (tokenJSON) {
-      const token = JSON.parse(tokenJSON);
-
-      return token;
+      return tokenJSON;
     }
 
     return null;
