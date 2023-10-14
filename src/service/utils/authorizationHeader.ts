@@ -1,6 +1,6 @@
 import api from '../api';
 
-export function setAuthorizationHeader(token: string | null) {
+export function setAuthorizationHeader(token: string) {
   api.defaults.headers.Authorization = `Bearer ${token}`;
 }
 
