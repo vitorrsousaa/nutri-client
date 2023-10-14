@@ -1,7 +1,11 @@
-import HttpClient from '../HttpClient';
+// import HttpClient from '../HttpClient';
 
-import { AuthService as Service } from './AuthService';
+import { Service } from './AuthService';
 
-const AuthService = new Service(new HttpClient('/auth'));
+// const http = new HttpClient('/auth');
+
+// console.log('http', http);
+
+const AuthService = new Service();
 
 export default AuthService;
