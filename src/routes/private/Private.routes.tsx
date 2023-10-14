@@ -1,19 +1,19 @@
 import { Route, Routes } from 'react-router-dom';
 
-import SignIn from '../../pages/SignIn';
-import SignUp from '../../pages/SignUp';
+import CreatePatient from '../../pages/CreatePatient';
+import Dashboard from '../../pages/Dashboard';
 import { TRoute } from '../types';
 import { AuthGuard } from '../utils/AuthGuard';
 
 const routes: TRoute[] = [
-  { path: '/login', element: <SignIn /> },
-  { path: '/register', element: <SignUp /> },
+  { path: '/', element: <Dashboard /> },
+  { path: '/create', element: <CreatePatient /> },
 ];
 
-export default function PublicRoutes() {
+export default function PrivateRoutes() {
   return (
     <Routes>
-      <Route element={<AuthGuard isPrivate={false} />}>
+      <Route element={<AuthGuard isPrivate />}>
         {routes.map((route) => (
           <Route key={route.path} path={route.path} element={route.element} />
         ))}

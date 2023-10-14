@@ -33,6 +33,7 @@ export function CreatePatient() {
   });
 
   const handleSignIn: SubmitHandler<CreatePatientFormSchema> = async (data) => {
+    // eslint-disable-next-line no-console
     console.log(data);
   };
 

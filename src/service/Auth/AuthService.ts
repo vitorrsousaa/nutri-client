@@ -3,8 +3,14 @@ import HttpClient from '../HttpClient';
 
 import AuthMapper from './mappers';
 
-export class AuthService {
-  constructor(private readonly httpClient: HttpClient) {}
+export class Service {
+  private httpClient;
+
+  constructor() {
+    const instance = new HttpClient();
+    this.httpClient = instance;
+    this.signIn = this.signIn.bind(this);
+  }
 
   async signIn(user: {
     email: string;
@@ -13,7 +19,7 @@ export class AuthService {
     const response = await this.httpClient.post<
       TUserPersistance & { token: string },
       { email: string; password: string }
-    >('/signIn', user);
+    >('/auth/signIn', user);
 
     const { token, ...userPersistance } = response;
 
@@ -35,7 +41,7 @@ export class AuthService {
     const response = await this.httpClient.post<
       TUserPersistance & { token: string },
       { email: string; password: string }
-    >('/signUp', userPrisma);
+    >('/auth/signUp', userPrisma);
 
     const { token, ...userPersistance } = response;
 
@@ -44,12 +50,6 @@ export class AuthService {
     return {
       ...userMapped,
       token,
-    };
-  }
-
-  async recover() {
-    return {
-      email: 'any_email',
     };
   }
 }
