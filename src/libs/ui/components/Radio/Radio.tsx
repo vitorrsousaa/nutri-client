@@ -43,7 +43,7 @@ CustomRadio.displayName = 'CustomRadio';
 
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ name, defaultValue, options, direction, ...props }, ref) => {
+  ({ name, defaultValue, options, direction, ...props }, _ref) => {
     const { field } = useController({
       name,
       defaultValue,
