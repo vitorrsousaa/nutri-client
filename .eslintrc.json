@@ -28,18 +28,7 @@
     "react/prop-types": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "no-console": "warn",
-    "@typescript-eslint/naming-convention": [
-      "error",
-      {
-        "selector": "interface",
-        "format": ["PascalCase"],
-        "custom": {
-          "regex": "^I[A-Z]",
-          "match": true
-        }
-      }
-    ]
+    "no-console": "warn"
   },
   "overrides": [
     {
