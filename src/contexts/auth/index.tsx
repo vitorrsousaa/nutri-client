@@ -3,6 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 import UserService from '../../service/User';
+import {
+  removeAuthorizationHeader,
+  setAuthorizationHeader,
+} from '../../service/utils/authorizationHeader';
 import token from '../../storage/token';
 
 type AuthContextValue = {
@@ -20,6 +24,10 @@ export function AuthProvider(props: { children: React.ReactNode }) {
   const [signedIn, setSignedIn] = useState<boolean>(() => {
     const storagedAccessToken = token.get();
 
+    if (storagedAccessToken) {
+      setAuthorizationHeader(storagedAccessToken);
+    }
+
     return !!storagedAccessToken;
   });
 
@@ -33,11 +41,15 @@ export function AuthProvider(props: { children: React.ReactNode }) {
   const signIn = useCallback((accessToken: string) => {
     token.set(accessToken);
 
+    setAuthorizationHeader(accessToken);
+
     setSignedIn(true);
   }, []);
 
   const signOut = useCallback(() => {
     token.remove();
+
+    removeAuthorizationHeader();
 
     remove();
 
