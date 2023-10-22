@@ -4,16 +4,18 @@ import Dashboard from '../../pages/Dashboard';
 import { TRoute } from '../types';
 import { AuthGuard } from '../utils/AuthGuard';
 
-const routes: TRoute[] = [{ path: '/', element: <Dashboard /> }];
+const routes: TRoute[] = [{ path: '/dashboard', element: <Dashboard /> }];
 
 export default function PrivateRoutes() {
   return (
     <Routes>
-      <Route element={<AuthGuard isPrivate />}>
-        {routes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.element} />
-        ))}
-      </Route>
+      {routes.map((route) => (
+        <Route
+          key={route.path}
+          path={route.path}
+          element={<AuthGuard>{route.element}</AuthGuard>}
+        />
+      ))}
     </Routes>
   );
 }
