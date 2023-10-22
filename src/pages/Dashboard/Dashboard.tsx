@@ -1,3 +1,5 @@
+import { useAuth } from '../../hooks/useAuth';
+
 import ModalCreatePatient from './components/ModalCreatePatient';
 import { useDashboardHook } from './Dashboard.hook';
 
@@ -16,9 +18,13 @@ const patients = [
 export function Dashboard() {
   const { handleCloseModal, handleOpenModal, modalIsOpen } = useDashboardHook();
 
+  const { signOut } = useAuth();
+
   return (
     <div>
       <button onClick={handleOpenModal}>Adicionar novo paciente</button>
+      <button onClick={signOut}>Logout</button>
+      <strong>Dashboard</strong>
       <div>
         {patients.map((patient) => (
           <div key={patient.name}>

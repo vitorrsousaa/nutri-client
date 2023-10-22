@@ -10,6 +10,7 @@ export class Service {
     const instance = new HttpClient();
     this.httpClient = instance;
     this.signIn = this.signIn.bind(this);
+    this.signUp = this.signUp.bind(this);
   }
 
   async signIn(user: {

@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
@@ -26,11 +28,19 @@ export function useSignInHook() {
     formState: { errors },
   } = useForm<SignInFormSchema>({ resolver: zodResolver(signInFormSchema) });
 
+  const { signIn, signedIn } = useAuth();
+
+  const navigate = useNavigate();
+
   const { isLoading, mutateAsync } = useMutation({
     mutationFn: AuthService.signIn,
   });
 
-  const { signIn } = useAuth();
+  useEffect(() => {
+    if (signedIn) {
+      navigate('/dashboard');
+    }
+  }, [signedIn]);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
