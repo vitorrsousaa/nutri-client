@@ -1,39 +1,64 @@
 import { useAuth } from '../../hooks/useAuth';
+import Button from '../../libs/ui/components/Button';
 
 import ModalCreatePatient from './components/ModalCreatePatient';
+import ModalDeletePatient from './components/ModalDeletePatient';
 import { useDashboardHook } from './Dashboard.hook';
 
-const patients = [
-  {
-    name: 'Paciente 1',
-  },
-  {
-    name: 'Paciente 2',
-  },
-  {
-    name: 'Paciente 3',
-  },
-];
-
 export function Dashboard() {
-  const { handleCloseModal, handleOpenModal, modalIsOpen } = useDashboardHook();
+  const {
+    modalCreatePatientIsOpen,
+    handleCloseModalCreatePatient,
+    handleOpenModalCreatePatient,
+    modalDeletePatientIsOpen,
+    handleCloseModalDeletePatient,
+    handleOpenModalDeletePatient,
+    data,
+    isLoading,
+  } = useDashboardHook();
 
   const { signOut } = useAuth();
 
   return (
     <div>
-      <button onClick={handleOpenModal}>Adicionar novo paciente</button>
-      <button onClick={signOut}>Logout</button>
-      <strong>Dashboard</strong>
-      <div>
-        {patients.map((patient) => (
-          <div key={patient.name}>
-            <strong>{patient.name}</strong>
+      <h1>Dashboard</h1>
+      <Button onClick={handleOpenModalCreatePatient}>
+        Adicionar novo paciente
+      </Button>
+      <Button onClick={signOut}>Logout</Button> <br />
+      {!isLoading ? (
+        <>
+          <strong>{data?.length} pacientes cadastrados</strong>
+          <div>
+            {data?.map((patient) => (
+              <div
+                key={patient.name}
+                style={{
+                  padding: 8,
+                  border: 'dashed 2px blue',
+                  borderRadius: 8,
+                }}
+              >
+                <strong>{patient.name}</strong> <br />
+                <strong>{patient.email}</strong>
+                <Button onClick={handleOpenModalDeletePatient}>
+                  Deletar paciente
+                </Button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      <ModalCreatePatient isOpen={modalIsOpen} onClose={handleCloseModal} />
+        </>
+      ) : (
+        <strong>Carregando...</strong>
+      )}
+      <ModalCreatePatient
+        isOpen={modalCreatePatientIsOpen}
+        onClose={handleCloseModalCreatePatient}
+      />
+      <ModalDeletePatient
+        isOpen={modalDeletePatientIsOpen}
+        onClose={handleCloseModalDeletePatient}
+      />
     </div>
   );
 }
