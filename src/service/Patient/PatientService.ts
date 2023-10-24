@@ -6,10 +6,17 @@ import HttpClient from '../HttpClient';
 import PatientMapper from './mappers';
 
 export class Service {
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) {
+    this.getAll = this.getAll.bind(this);
+  }
 
   async getAll() {
-    return console.log('getALl');
+    const patientsPersistance =
+      await this.httpClient.get<TPatientPersistance[]>('/');
+
+    const patients = patientsPersistance.map(PatientMapper.toDomain);
+
+    return patients;
   }
 
   async create(createPatient: createPatientDTO): Promise<TPatient> {
