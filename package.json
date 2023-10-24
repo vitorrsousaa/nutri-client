@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@chakra-ui/button": "^2.1.0",
+    "@chakra-ui/form-control": "^2.1.1",
     "@chakra-ui/input": "^2.1.1",
     "@chakra-ui/modal": "^2.3.1",
     "@chakra-ui/number-input": "^2.1.1",
