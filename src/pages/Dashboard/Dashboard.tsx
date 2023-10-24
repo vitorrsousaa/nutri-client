@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom';
+
+import { useGetAllPatients } from '../../hooks/patients';
 import { useAuth } from '../../hooks/useAuth';
 import Button from '../../libs/ui/components/Button';
 
 import ModalCreatePatient from './components/ModalCreatePatient';
-import ModalDeletePatient from './components/ModalDeletePatient';
 import { useDashboardHook } from './Dashboard.hook';
 
 export function Dashboard() {
@@ -10,14 +12,13 @@ export function Dashboard() {
     modalCreatePatientIsOpen,
     handleCloseModalCreatePatient,
     handleOpenModalCreatePatient,
-    modalDeletePatientIsOpen,
-    handleCloseModalDeletePatient,
-    handleOpenModalDeletePatient,
-    data,
-    isLoading,
   } = useDashboardHook();
 
   const { signOut } = useAuth();
+
+  const navigate = useNavigate();
+
+  const { patients, isFetchingPatients } = useGetAllPatients();
 
   return (
     <div>
@@ -26,23 +27,24 @@ export function Dashboard() {
         Adicionar novo paciente
       </Button>
       <Button onClick={signOut}>Logout</Button> <br />
-      {!isLoading ? (
+      {!isFetchingPatients ? (
         <>
-          <strong>{data?.length} pacientes cadastrados</strong>
+          <strong>{patients?.length} pacientes cadastrados</strong>
           <div>
-            {data?.map((patient) => (
+            {patients?.map((patient) => (
               <div
                 key={patient.name}
                 style={{
                   padding: 8,
                   border: 'dashed 2px blue',
                   borderRadius: 8,
+                  marginBottom: 8,
                 }}
               >
                 <strong>{patient.name}</strong> <br />
                 <strong>{patient.email}</strong>
-                <Button onClick={handleOpenModalDeletePatient}>
-                  Deletar paciente
+                <Button onClick={() => navigate(`/patient/${patient.id}`)}>
+                  Acessar informações
                 </Button>
               </div>
             ))}
@@ -54,10 +56,6 @@ export function Dashboard() {
       <ModalCreatePatient
         isOpen={modalCreatePatientIsOpen}
         onClose={handleCloseModalCreatePatient}
-      />
-      <ModalDeletePatient
-        isOpen={modalDeletePatientIsOpen}
-        onClose={handleCloseModalDeletePatient}
       />
     </div>
   );
