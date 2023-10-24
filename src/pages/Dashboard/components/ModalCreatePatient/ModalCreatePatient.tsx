@@ -17,8 +17,14 @@ export interface ModalCreatePatientProps {
 export default function ModalCreatePatient(props: ModalCreatePatientProps) {
   const { isOpen } = props;
 
-  const { errors, handleSubmit, methods, isValid, handleCloseModal } =
-    useModalCreatePatient(props);
+  const {
+    errors,
+    handleSubmit,
+    methods,
+    isValid,
+    handleCloseModal,
+    isLoading,
+  } = useModalCreatePatient(props);
 
   return (
     <Modal.Root isOpen={isOpen} onClose={handleCloseModal}>
@@ -106,6 +112,7 @@ export default function ModalCreatePatient(props: ModalCreatePatientProps) {
           <Button
             type="submit"
             isDisabled={!isValid}
+            isLoading={isLoading}
             style={{ backgroundColor: isValid ? '#195' : '#ccc' }}
           >
             submit

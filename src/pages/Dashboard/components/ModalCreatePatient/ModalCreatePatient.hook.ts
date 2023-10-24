@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as z from 'zod';
 
 import { GenderEnum } from '../../../../entities/gender';
+import { useCreatePatients } from '../../../../hooks/patients';
 
 import { ModalCreatePatientProps } from './ModalCreatePatient';
 
@@ -46,13 +48,28 @@ export function useModalCreatePatient(props: ModalCreatePatientProps) {
   const {
     handleSubmit: hookFormSubmit,
     formState: { errors, isValid },
+    setError,
     reset,
   } = methods;
 
+  const { createPatient, isCreatingPatient } = useCreatePatients();
+
   const handleSubmit = hookFormSubmit(async (data) => {
-    console.log(data);
-    console.log('chamar a function para criar o paciente');
-    console.log('depois chamar a onClose', onClose);
+    try {
+      await createPatient(data);
+
+      toast.success('Paciente criado com sucesso');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.message === '404 - Email already in use') {
+        toast.error('Este e-mail já esta em uso');
+        setError('email', { message: 'E-mail já cadastrado' });
+        return;
+      }
+      toast.error('Erro ao criar paciente');
+    }
+
+    onClose();
   });
 
   const handleCloseModal = useCallback(() => {
@@ -66,5 +83,6 @@ export function useModalCreatePatient(props: ModalCreatePatientProps) {
     methods,
     isValid,
     handleCloseModal,
+    isLoading: isCreatingPatient,
   };
 }

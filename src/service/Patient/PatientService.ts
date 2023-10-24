@@ -19,7 +19,7 @@ export class Service {
     return patients;
   }
 
-  async create(createPatient: createPatientDTO): Promise<TPatient> {
+  create = async (createPatient: createPatientDTO) => {
     const patientPersistance = await this.httpClient.post<
       TPatientPersistance,
       createPatientDTO
@@ -28,9 +28,25 @@ export class Service {
     const patientDomain = PatientMapper.toDomain(patientPersistance);
 
     return patientDomain;
+  };
+
+  async findById(id: string | undefined): Promise<TPatient | null> {
+    if (!id) {
+      return null;
+    }
+
+    const patientPersistance = await this.httpClient.get<TPatientPersistance>(
+      `/${id}`
+    );
+
+    const patientDomain = PatientMapper.toDomain(patientPersistance);
+
+    return patientDomain;
   }
 
   async update() {}
 
-  async delete() {}
+  async delete(id: string) {
+    await this.httpClient.delete(`/${id}`);
+  }
 }
