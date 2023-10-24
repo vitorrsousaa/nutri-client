@@ -4,11 +4,7 @@ import HttpClient from '../HttpClient';
 import AuthMapper from './mappers';
 
 export class Service {
-  private httpClient;
-
-  constructor() {
-    const instance = new HttpClient();
-    this.httpClient = instance;
+  constructor(private readonly httpClient: HttpClient) {
     this.signIn = this.signIn.bind(this);
     this.signUp = this.signUp.bind(this);
   }
@@ -20,7 +16,7 @@ export class Service {
     const response = await this.httpClient.post<
       TUserPersistance & { token: string },
       { email: string; password: string }
-    >('/auth/signIn', user);
+    >('/signIn', user);
 
     const { token, ...userPersistance } = response;
 
@@ -42,7 +38,7 @@ export class Service {
     const response = await this.httpClient.post<
       TUserPersistance & { token: string },
       { email: string; password: string }
-    >('/auth/signUp', userPrisma);
+    >('/signUp', userPrisma);
 
     const { token, ...userPersistance } = response;
 

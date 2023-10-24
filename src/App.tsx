@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { ToastContainer } from 'react-toastify';
 
 import { AuthProvider } from './contexts/auth';
@@ -11,7 +12,9 @@ function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Routes />
+          <ChakraProvider>
+            <Routes />
+          </ChakraProvider>
           <ToastContainer />
         </AuthProvider>
       </QueryClientProvider>

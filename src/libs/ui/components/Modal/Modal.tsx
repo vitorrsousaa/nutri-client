@@ -6,10 +6,10 @@ interface IModalProps extends ModalProps {
 }
 
 export default function Modal(props: IModalProps) {
-  const { isOpen, children, ...modalProps } = props;
+  const { children, ...modalProps } = props;
 
   return (
-    <ModalUI isOpen={isOpen} motionPreset="scale" {...modalProps}>
+    <ModalUI motionPreset="scale" {...modalProps}>
       <ModalOverlay />
 
       {children}

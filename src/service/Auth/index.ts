@@ -1,11 +1,8 @@
-// import HttpClient from '../HttpClient';
+import HttpClient from '../HttpClient';
 
 import { Service } from './AuthService';
 
-// const http = new HttpClient('/auth');
-
-// console.log('http', http);
-
-const AuthService = new Service();
+const instance = new HttpClient('/auth');
+const AuthService = new Service(instance);
 
 export default AuthService;

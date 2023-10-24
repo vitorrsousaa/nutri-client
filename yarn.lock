@@ -389,7 +389,7 @@
   dependencies:
     "@chakra-ui/shared-utils" "2.0.5"
 
-"@chakra-ui/button@2.1.0":
+"@chakra-ui/button@2.1.0", "@chakra-ui/button@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@chakra-ui/button/-/button-2.1.0.tgz#623ed32cc92fc8e52492923e9924791fc6f25447"
   integrity sha512-95CplwlRKmmUXkdEp/21VkEWgnwcx2TOBG6NfYlsuLBDHSLlo5FKIiE2oSi4zXc4TLcopGcWPNcm/NDaSC5pvA==
