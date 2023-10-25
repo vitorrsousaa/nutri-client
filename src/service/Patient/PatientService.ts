@@ -46,7 +46,11 @@ export class Service {
 
   async update() {}
 
-  async delete(id: string) {
+  delete = async (id: string | undefined) => {
+    if (!id) {
+      return null;
+    }
+
     await this.httpClient.delete(`/${id}`);
-  }
+  };
 }

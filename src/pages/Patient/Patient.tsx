@@ -1,40 +1,43 @@
-import { useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
-
 import Button from '../../libs/ui/components/Button';
-import PatientService from '../../service/Patient';
+
+import ModalDeletePatient from './components/ModalDeletePatient';
+import { usePatientHook } from './Patient.hook';
 
 export function Patient() {
-  const { id } = useParams<{ id: string }>();
-
-  const { data, isLoading, remove } = useQuery({
-    queryKey: ['patient', id],
-    queryFn: () => PatientService.findById(id),
-  });
-
-  const navigate = useNavigate();
-
-  const returnPage = useCallback(() => {
-    remove();
-    navigate('/dashboard');
-  }, []);
-
-  console.log(data);
+  const {
+    modalDeleteIsOpen,
+    handleCloseModalDelete,
+    handleOpenModalDelete,
+    handleDeletePatient,
+    returnPage,
+    isFetchingPatient,
+    patient,
+    isDeletingPatient,
+  } = usePatientHook();
 
   return (
     <div>
-      {isLoading ? (
+      {isFetchingPatient ? (
         <>
           <strong>isLoading</strong>
         </>
       ) : (
         <>
           <Button onClick={returnPage}>Voltar</Button>
+          <Button onClick={handleOpenModalDelete}>Deletar</Button>
           <strong>patient</strong>
-          <small>{id}</small>
+          <h1>{patient?.name}</h1>
+
+          <Button>Criar planejamento alimentar</Button>
         </>
       )}
+
+      <ModalDeletePatient
+        isOpen={modalDeleteIsOpen}
+        onClose={handleCloseModalDelete}
+        onDelete={handleDeletePatient}
+        isDeleting={isDeletingPatient}
+      />
     </div>
   );
 }
