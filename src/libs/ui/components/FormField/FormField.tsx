@@ -13,7 +13,7 @@ import {
 } from 'react-hook-form';
 
 export interface IFormFieldProps extends FormControlProps {
-  name: string;
+  name?: string;
   label?: string;
   children: React.ReactElement;
   errorMessage?: string;
@@ -36,7 +36,7 @@ export default function FormField(props: IFormFieldProps) {
       {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
 
       <Controller
-        name={name}
+        name={name ?? ''}
         control={control}
         defaultValue={defaultValue}
         render={({ field }) => renderChildrenWithField(field)}

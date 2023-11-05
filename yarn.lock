@@ -552,7 +552,7 @@
     "@chakra-ui/react-context" "2.1.0"
     "@chakra-ui/shared-utils" "2.0.5"
 
-"@chakra-ui/layout@2.3.1":
+"@chakra-ui/layout@2.3.1", "@chakra-ui/layout@^2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@chakra-ui/layout/-/layout-2.3.1.tgz#0601c5eb91555d24a7015a7c9d4e01fed2698557"
   integrity sha512-nXuZ6WRbq0WdgnRgLw+QuxWAHuhDtVX8ElWqcTK+cSMFg/52eVP47czYBE5F35YhnoW2XBwfNoNgZ7+e8Z01Rg==
@@ -925,7 +925,7 @@
     "@chakra-ui/utils" "2.0.15"
     "@chakra-ui/visually-hidden" "2.2.0"
 
-"@chakra-ui/select@2.1.1":
+"@chakra-ui/select@2.1.1", "@chakra-ui/select@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@chakra-ui/select/-/select-2.1.1.tgz#0792eeebdb82b1710c4527e7e8e2e07c686c714d"
   integrity sha512-CERDATncv5w05Zo5/LrFtf1yKp1deyMUyDGv6eZvQG/etyukH4TstsuIHt/0GfNXrCF3CJLZ8lINzpv5wayVjQ==
@@ -1046,7 +1046,7 @@
     "@chakra-ui/react-use-safe-layout-effect" "2.1.0"
     "@chakra-ui/shared-utils" "2.0.5"
 
-"@chakra-ui/tag@3.1.1":
+"@chakra-ui/tag@3.1.1", "@chakra-ui/tag@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@chakra-ui/tag/-/tag-3.1.1.tgz#d05284b6549a84d3a08e57eec57df3ad0eebd882"
   integrity sha512-Bdel79Dv86Hnge2PKOU+t8H28nm/7Y3cKd4Kfk9k3lOpUh4+nkSGe58dhRzht59lEqa4N9waCgQiBdkydjvBXQ==

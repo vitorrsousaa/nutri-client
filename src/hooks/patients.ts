@@ -35,3 +35,37 @@ export function useCreatePatients() {
     createPatient,
   };
 }
+
+export function useFindByIdPatient(id: string | undefined) {
+  const {
+    data: patient,
+    isFetching: isFetchingPatient,
+    remove: removePatient,
+  } = useQuery({
+    queryKey: ['@patients', id],
+    queryFn: () => PatientService.findById(id),
+  });
+
+  return {
+    patient,
+    isFetchingPatient,
+    removePatient,
+  };
+}
+
+export function useDeletePatient() {
+  const queryClient = useQueryClient();
+
+  const { isLoading: isDeletingPatient, mutateAsync: deletePatient } =
+    useMutation({
+      mutationFn: PatientService.delete,
+      onSuccess: () => {
+        queryClient.invalidateQueries(['@patients']);
+      },
+    });
+
+  return {
+    isDeletingPatient,
+    deletePatient,
+  };
+}
