@@ -39,7 +39,11 @@ export function usePatientHook() {
 
       returnPage();
     }
-  }, []);
+  }, [id]);
+
+  const redirectToCreatePlanning = useCallback(() => {
+    navigate(`/patient/${id}/plano`);
+  }, [id]);
 
   return {
     modalDeleteIsOpen,
@@ -50,5 +54,6 @@ export function usePatientHook() {
     isFetchingPatient,
     patient,
     isDeletingPatient,
+    redirectToCreatePlanning,
   };
 }

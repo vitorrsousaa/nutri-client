@@ -13,6 +13,7 @@ export function Patient() {
     isFetchingPatient,
     patient,
     isDeletingPatient,
+    redirectToCreatePlanning,
   } = usePatientHook();
 
   return (
@@ -28,7 +29,9 @@ export function Patient() {
           <strong>patient</strong>
           <h1>{patient?.name}</h1>
 
-          <Button>Criar planejamento alimentar</Button>
+          <Button onClick={redirectToCreatePlanning}>
+            Criar planejamento alimentar
+          </Button>
         </>
       )}
 
