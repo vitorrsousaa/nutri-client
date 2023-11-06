@@ -5,7 +5,7 @@ export function SignUp() {
 
   return (
     <div>
-      <h1>SignUp</h1>
+      <h1>sign up</h1>
       <form style={{ width: 300 }} onSubmit={handleSubmit}>
         <input placeholder="name" type="text" {...register('name')} />
         {errors.name && <small>{errors.name.message}</small>}

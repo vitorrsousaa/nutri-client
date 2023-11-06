@@ -70,7 +70,6 @@ export function useSignUpHook() {
       const { email, name, password } = data;
       const newUser = { email, name, password };
 
-      console.log(newUser);
       const { token } = await mutateAsync(newUser);
 
       signIn(token);
