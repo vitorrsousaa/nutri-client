@@ -2,8 +2,8 @@ import * as ReactQuery from '@tanstack/react-query';
 
 import { render, renderHook, RenderHookResult } from '../../utils/test-utils';
 
-import { SignIn } from './SignIn';
-import { useSignInHook } from './SignIn.hook';
+import { SignUp } from './SignUp';
+import { useSignUpHook } from './SignUp.hook';
 
 jest.mock('../../hooks/useAuth', () => {
   const originalModule = jest.requireActual('../../hooks/useAuth');
@@ -17,7 +17,7 @@ jest.mock('../../hooks/useAuth', () => {
   };
 });
 
-describe('Sign In', () => {
+describe('Sign Up', () => {
   let spy = {
     mutation: {} as jest.SpyInstance,
   };
@@ -48,15 +48,15 @@ describe('Sign In', () => {
       spy.mutation.mockReturnValue({ isLoading: false });
 
       // Act
-      rendered = render(<SignIn />);
+      rendered = render(<SignUp />);
 
       // Assert
-      expect(rendered.getByText('sign in'));
+      expect(rendered.getByText('sign up'));
     });
   });
 
   describe('Hook', () => {
-    let rendered: RenderHookResult<ReturnType<typeof useSignInHook>, unknown>;
+    let rendered: RenderHookResult<ReturnType<typeof useSignUpHook>, unknown>;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -71,7 +71,7 @@ describe('Sign In', () => {
       spy.mutation.mockReturnValue({ isLoading: false });
 
       // Act
-      rendered = renderHook(() => useSignInHook());
+      rendered = renderHook(() => useSignUpHook());
 
       // Assert
       expect(rendered.result.current.isLoading).toBeFalsy();
