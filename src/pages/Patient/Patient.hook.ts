@@ -15,13 +15,9 @@ export function usePatientHook() {
 
   const navigate = useNavigate();
 
-  const handleCloseModalDelete = useCallback(() => {
-    setModalDeleteIsOpen(false);
-  }, []);
-
-  const handleOpenModalDelete = useCallback(() => {
-    setModalDeleteIsOpen(true);
-  }, []);
+  const toggleModalDeletePatient = useCallback(() => {
+    setModalDeleteIsOpen((prevState) => !prevState);
+  }, [setModalDeleteIsOpen]);
 
   const returnPage = useCallback(() => {
     navigate('/dashboard');
@@ -35,7 +31,7 @@ export function usePatientHook() {
     } catch {
       toast.error('Tivemos um erro para deletar o paciente');
     } finally {
-      handleCloseModalDelete();
+      toggleModalDeletePatient();
 
       returnPage();
     }
@@ -47,13 +43,12 @@ export function usePatientHook() {
 
   return {
     modalDeleteIsOpen,
-    handleCloseModalDelete,
-    handleOpenModalDelete,
-    handleDeletePatient,
-    returnPage,
     isFetchingPatient,
     patient,
     isDeletingPatient,
+    toggleModalDeletePatient,
+    handleDeletePatient,
+    returnPage,
     redirectToCreatePlanning,
   };
 }

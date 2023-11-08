@@ -8,11 +8,8 @@ import ModalCreatePatient from './components/ModalCreatePatient';
 import { useDashboardHook } from './Dashboard.hook';
 
 export function Dashboard() {
-  const {
-    modalCreatePatientIsOpen,
-    handleCloseModalCreatePatient,
-    handleOpenModalCreatePatient,
-  } = useDashboardHook();
+  const { modalCreatePatientIsOpen, toggleModalCreatePatient } =
+    useDashboardHook();
 
   const { signOut } = useAuth();
 
@@ -23,7 +20,7 @@ export function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
-      <Button onClick={handleOpenModalCreatePatient}>
+      <Button onClick={toggleModalCreatePatient}>
         Adicionar novo paciente
       </Button>
       <Button onClick={signOut}>Logout</Button> <br />
@@ -55,7 +52,7 @@ export function Dashboard() {
       )}
       <ModalCreatePatient
         isOpen={modalCreatePatientIsOpen}
-        onClose={handleCloseModalCreatePatient}
+        onClose={toggleModalCreatePatient}
       />
     </div>
   );

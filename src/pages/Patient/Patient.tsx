@@ -6,8 +6,7 @@ import { usePatientHook } from './Patient.hook';
 export function Patient() {
   const {
     modalDeleteIsOpen,
-    handleCloseModalDelete,
-    handleOpenModalDelete,
+    toggleModalDeletePatient,
     handleDeletePatient,
     returnPage,
     isFetchingPatient,
@@ -25,7 +24,7 @@ export function Patient() {
       ) : (
         <>
           <Button onClick={returnPage}>Voltar</Button>
-          <Button onClick={handleOpenModalDelete}>Deletar</Button>
+          <Button onClick={toggleModalDeletePatient}>Deletar</Button>
           <strong>patient</strong>
           <h1>{patient?.name}</h1>
 
@@ -37,7 +36,7 @@ export function Patient() {
 
       <ModalDeletePatient
         isOpen={modalDeleteIsOpen}
-        onClose={handleCloseModalDelete}
+        onClose={toggleModalDeletePatient}
         onDelete={handleDeletePatient}
         isDeleting={isDeletingPatient}
       />

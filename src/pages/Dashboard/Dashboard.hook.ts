@@ -1,20 +1,15 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export function useDashboardHook() {
   const [modalCreatePatientIsOpen, setModalCreatePatientIsOpen] =
     useState(false);
 
-  function handleCloseModalCreatePatient() {
-    setModalCreatePatientIsOpen(false);
-  }
-
-  function handleOpenModalCreatePatient() {
-    setModalCreatePatientIsOpen(true);
-  }
+  const toggleModalCreatePatient = useCallback(() => {
+    setModalCreatePatientIsOpen((prevState) => !prevState);
+  }, [setModalCreatePatientIsOpen]);
 
   return {
     modalCreatePatientIsOpen,
-    handleCloseModalCreatePatient,
-    handleOpenModalCreatePatient,
+    toggleModalCreatePatient,
   };
 }
