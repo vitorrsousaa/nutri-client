@@ -1,18 +1,9 @@
-name: Push Branch Main
+name: "Install"
+description: "Sets up Node.js and runs install"
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - develop
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
+runs:
+  using: composite
+  steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -30,12 +21,5 @@ jobs:
             **/.production
           key: node_modules-${{ hashFiles('**/package.json') }}
 
-      - name: Install dependencies
-        run: yarn
-
-      - name: Run build package
-        run: yarn build
-
-      - name: Notificar Status do Build
-        if: success()
-        run: echo "O build foi bem-sucedido!"
+    - name: Install dependencies
+      run: yarn
