@@ -25,27 +25,31 @@ export function ModalAddFood(props: ModalAddFoodProps) {
           Adicionando um novo alimento
           <Modal.CloseButton />
         </Modal.Header>
-        <FormField label="Nome do alimento">
-          <Input
-            type="text"
-            placeholder="Nome do alimento"
-            onChange={(e) => handleChangeFieldFood('name', e.target.value)}
-          />
+        <FormField
+          label="Nome do alimento"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleChangeFieldFood('name', e.target.value)
+          }
+        >
+          <Input type="text" placeholder="Nome do alimento" />
         </FormField>
 
-        <FormField label="Quantidade em gramas (g)">
-          <Input
-            type="number"
-            placeholder="Quantidade do alimento"
-            onChange={(e) =>
-              handleChangeFieldFood('quantity', Number(e.target.value))
-            }
-          />
+        <FormField
+          label="Quantidade em gramas (g)"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleChangeFieldFood('quantity', Number(e.target.value))
+          }
+        >
+          <Input type="number" placeholder="Quantidade do alimento" />
         </FormField>
 
         <Modal.Footer>
-          <Button onClick={onClose}>Cancelar</Button>
-          <Button onClick={handleAddNewFood}>Adicionar</Button>
+          <Button onClick={onClose} colorScheme="red">
+            Cancelar
+          </Button>
+          <Button onClick={handleAddNewFood} colorScheme="green">
+            Adicionar
+          </Button>
         </Modal.Footer>
       </Modal.Content>
     </Modal.Root>

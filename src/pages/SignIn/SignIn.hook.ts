@@ -25,6 +25,8 @@ export function useSignInHook() {
   const {
     handleSubmit: hookFormSubmit,
     register,
+    resetField,
+    setFocus,
     formState: { errors },
   } = useForm<SignInFormSchema>({ resolver: zodResolver(signInFormSchema) });
 
@@ -48,6 +50,8 @@ export function useSignInHook() {
 
       signIn(token);
     } catch {
+      resetField('password');
+      setFocus('password');
       toast.error('Email ou senha incorretos');
     }
   });
