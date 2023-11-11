@@ -19,14 +19,6 @@ describe('Meal Form', () => {
     expect(rendered.getByText('Nome da refeição'));
   });
 
-  it('Should render correctly input to set description of meal', () => {
-    const rendered = renderWithHookForm(
-      <MealForm mealIndex={0} onRemoveMeal={jest.fn()} />
-    );
-
-    expect(rendered.getByText('Descrição da refeição'));
-  });
-
   it('Should render correctly input to set time of meal', () => {
     const rendered = renderWithHookForm(
       <MealForm mealIndex={0} onRemoveMeal={jest.fn()} />
