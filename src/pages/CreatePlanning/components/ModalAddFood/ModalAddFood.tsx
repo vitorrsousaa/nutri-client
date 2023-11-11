@@ -4,6 +4,7 @@ import Button from '../../../../libs/ui/components/Button';
 import FormField from '../../../../libs/ui/components/FormField';
 import Input from '../../../../libs/ui/components/Input';
 import Modal from '../../../../libs/ui/components/Modal';
+import Radio from '../../../../libs/ui/components/Radio';
 
 import { useModalAddFood } from './ModalAddFood.hook';
 
@@ -16,7 +17,10 @@ export interface ModalAddFoodProps {
 export function ModalAddFood(props: ModalAddFoodProps) {
   const { isOpen, onClose } = props;
 
-  const { handleAddNewFood, handleChangeFieldFood } = useModalAddFood(props);
+  const { foods, handleAddNewFood, handleChangeFieldFood, handleChangeOrigin } =
+    useModalAddFood(props);
+
+  console.log(foods);
 
   return (
     <Modal.Root isOpen={isOpen} onClose={onClose}>
@@ -25,6 +29,26 @@ export function ModalAddFood(props: ModalAddFoodProps) {
           Adicionando um novo alimento
           <Modal.CloseButton />
         </Modal.Header>
+        <small>
+          Qual referência você deseja utilizar para o planejamento alimentar?
+        </small>
+
+        <FormField
+          name="reference"
+          defaultValue={'DATABASE'}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            handleChangeOrigin(e.target.value);
+          }}
+        >
+          <Radio
+            direction="row"
+            name="reference"
+            options={[
+              { label: 'Tabela própria', value: 'DATABASE' },
+              { label: 'USDA', value: 'CUSTOM' },
+            ]}
+          />
+        </FormField>
         <FormField
           label="Nome do alimento"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

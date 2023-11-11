@@ -3,7 +3,6 @@ import { FormProvider } from 'react-hook-form';
 import Button from '../../libs/ui/components/Button';
 import FormField from '../../libs/ui/components/FormField';
 import Input from '../../libs/ui/components/Input';
-import Radio from '../../libs/ui/components/Radio';
 
 import MealForm from './components/MealForm';
 import { useCreatePlanning } from './CreatePlanning.hook';
@@ -33,22 +32,6 @@ export function CreatePlanning() {
             style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
             onSubmit={handleSubmit}
           >
-            <small>
-              Qual referência você deseja utilizar para o planejamento
-              alimentar?
-            </small>
-
-            <FormField name="reference" defaultValue={'table'}>
-              <Radio
-                direction="row"
-                name="reference"
-                options={[
-                  { label: 'Tabela própria', value: 'table' },
-                  { label: 'USDA', value: 'usda' },
-                ]}
-              />
-            </FormField>
-
             <FormField
               label="Descrição"
               isInvalid={Boolean(errors.description)}
