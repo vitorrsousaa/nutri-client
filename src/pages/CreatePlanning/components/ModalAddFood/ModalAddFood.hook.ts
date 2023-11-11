@@ -1,10 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import {
   OriginFoodEnum,
   TOriginFoodEnum,
 } from '../../../../entities/food/origin/TOrigin';
 import { useGetAllFoods } from '../../../../hooks/food';
+import { SelectOptionsType } from '../../../../libs/ui/components/Select';
 
 import { ModalAddFoodProps } from './ModalAddFood';
 
@@ -22,7 +23,7 @@ export function useModalAddFood(props: ModalAddFoodProps) {
   });
   const [origin, setOrigin] = useState<TOriginFoodEnum>('DATABASE');
 
-  const { foods } = useGetAllFoods(origin);
+  const { foods, isFetchingFoods } = useGetAllFoods(origin);
 
   const handleAddNewFood = useCallback(() => {
     appendFood(newFood);
@@ -52,8 +53,14 @@ export function useModalAddFood(props: ModalAddFoodProps) {
     [setOrigin]
   );
 
+  const foodOptions = useMemo<SelectOptionsType[]>(() => {
+    return foods.map((food) => ({ label: food.name, value: food.id }));
+  }, [foods]);
+
   return {
     foods,
+    foodOptions,
+    isFetchingFoods,
     handleAddNewFood,
     handleChangeOrigin,
     handleChangeFieldFood,
