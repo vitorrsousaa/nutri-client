@@ -1,17 +1,25 @@
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Select as ChakraSelect,
   SelectProps as ChakraSelectProps,
 } from '@chakra-ui/select';
+import { Spinner } from '@chakra-ui/spinner';
+
+export type SelectOptionsType = { label: string; value: string };
 
 interface SelectProps extends ChakraSelectProps {
-  options: { label: string; value: string }[];
+  options: SelectOptionsType[];
+  isLoading?: boolean;
 }
 
 export function Select(props: SelectProps) {
-  const { options, ...selectProps } = props;
+  const { options, isLoading, ...selectProps } = props;
 
   return (
-    <ChakraSelect {...selectProps}>
+    <ChakraSelect
+      {...selectProps}
+      icon={isLoading ? <Spinner /> : <ChevronDownIcon />}
+    >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}

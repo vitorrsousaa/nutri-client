@@ -5,6 +5,7 @@ import FormField from '../../../../libs/ui/components/FormField';
 import Input from '../../../../libs/ui/components/Input';
 import Modal from '../../../../libs/ui/components/Modal';
 import Radio from '../../../../libs/ui/components/Radio';
+import Select from '../../../../libs/ui/components/Select';
 
 import { useModalAddFood } from './ModalAddFood.hook';
 
@@ -17,8 +18,14 @@ export interface ModalAddFoodProps {
 export function ModalAddFood(props: ModalAddFoodProps) {
   const { isOpen, onClose } = props;
 
-  const { foods, handleAddNewFood, handleChangeFieldFood, handleChangeOrigin } =
-    useModalAddFood(props);
+  const {
+    foods,
+    foodOptions,
+    isFetchingFoods,
+    handleAddNewFood,
+    handleChangeFieldFood,
+    handleChangeOrigin,
+  } = useModalAddFood(props);
 
   console.log(foods);
 
@@ -29,33 +36,33 @@ export function ModalAddFood(props: ModalAddFoodProps) {
           Adicionando um novo alimento
           <Modal.CloseButton />
         </Modal.Header>
-        <small>
-          Qual referência você deseja utilizar para o planejamento alimentar?
-        </small>
 
         <FormField
-          name="reference"
+          name="origin"
           defaultValue={'DATABASE'}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            handleChangeOrigin(e.target.value);
-          }}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleChangeOrigin(e.target.value)
+          }
+          isRequired
+          label="Tabela de origem"
         >
           <Radio
             direction="row"
-            name="reference"
+            name="origin"
             options={[
               { label: 'Tabela própria', value: 'DATABASE' },
               { label: 'USDA', value: 'CUSTOM' },
             ]}
           />
         </FormField>
+
         <FormField
-          label="Nome do alimento"
+          label="Alimento"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleChangeFieldFood('name', e.target.value)
           }
         >
-          <Input type="text" placeholder="Nome do alimento" />
+          <Select options={foodOptions} isLoading={isFetchingFoods} />
         </FormField>
 
         <FormField
