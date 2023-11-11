@@ -1,5 +1,11 @@
 import { useCallback, useState } from 'react';
 
+import {
+  OriginFoodEnum,
+  TOriginFoodEnum,
+} from '../../../../entities/food/origin/TOrigin';
+import { useGetAllFoods } from '../../../../hooks/food';
+
 import { ModalAddFoodProps } from './ModalAddFood';
 
 type CreateFoodSchema = {
@@ -14,6 +20,9 @@ export function useModalAddFood(props: ModalAddFoodProps) {
     name: '',
     quantity: 0,
   });
+  const [origin, setOrigin] = useState<TOriginFoodEnum>('DATABASE');
+
+  const { foods } = useGetAllFoods(origin);
 
   const handleAddNewFood = useCallback(() => {
     appendFood(newFood);
@@ -35,9 +44,18 @@ export function useModalAddFood(props: ModalAddFoodProps) {
     [setNewFood, newFood]
   );
 
-  return {
-    handleAddNewFood,
+  const handleChangeOrigin = useCallback(
+    (origin: string) => {
+      const parsedOrigin = OriginFoodEnum.parse(origin);
+      setOrigin(parsedOrigin);
+    },
+    [setOrigin]
+  );
 
+  return {
+    foods,
+    handleAddNewFood,
+    handleChangeOrigin,
     handleChangeFieldFood,
   };
 }

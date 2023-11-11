@@ -29,13 +29,6 @@ export function MealForm(props: MealFormProps) {
         <Input placeholder="Horário da refeição" type="time" />
       </FormField>
 
-      <FormField
-        name={`meals.${mealIndex}.description`}
-        label="Descrição da refeição"
-      >
-        <Input placeholder="Descrição da refeição" />
-      </FormField>
-
       <FoodForm mealIndex={mealIndex} />
 
       <Button colorScheme="red" onClick={() => onRemoveMeal(mealIndex)}>
