@@ -10,7 +10,7 @@ import { SelectOptionsType } from '../../../../libs/ui/components/Select';
 import { ModalAddFoodProps } from './ModalAddFood';
 
 type CreateFoodSchema = {
-  name: string;
+  selectedFood: string;
   quantity: number;
 };
 
@@ -18,18 +18,51 @@ export function useModalAddFood(props: ModalAddFoodProps) {
   const { onClose, appendFood } = props;
 
   const [newFood, setNewFood] = useState<CreateFoodSchema>({
-    name: '',
+    selectedFood: '',
     quantity: 0,
   });
-  const [origin, setOrigin] = useState<TOriginFoodEnum>('DATABASE');
+  const [origin, setOrigin] = useState<TOriginFoodEnum>('TACO');
 
   const { foods, isFetchingFoods } = useGetAllFoods(origin);
 
   const handleAddNewFood = useCallback(() => {
-    appendFood(newFood);
+    const currentFood = foods.find((food) => food.id === newFood.selectedFood);
+
+    if (!currentFood) {
+      return;
+    }
+
+    appendFood({
+      name: currentFood?.name,
+      quantity: newFood.quantity,
+      baseUnit: currentFood?.baseUnit,
+      foodId: currentFood?.id,
+      origin,
+      energy:
+        (newFood.quantity *
+          Number(
+            currentFood.attributes.find((attr) => attr.name === 'energy')?.qty
+          ) || 0) / currentFood.baseQty,
+      protein:
+        (newFood.quantity *
+          Number(
+            currentFood.attributes.find((attr) => attr.name === 'protein')?.qty
+          ) || 0) / currentFood.baseQty,
+      carbohydrate:
+        (newFood.quantity *
+          Number(
+            currentFood.attributes.find((attr) => attr.name === 'carbohydrate')
+              ?.qty
+          ) || 0) / currentFood.baseQty,
+      lipid:
+        (newFood.quantity *
+          Number(
+            currentFood.attributes.find((attr) => attr.name === 'lipid')?.qty
+          ) || 0) / currentFood.baseQty,
+    });
 
     onClose();
-  }, [newFood, appendFood, onClose]);
+  }, [newFood, appendFood, onClose, foods]);
 
   const handleChangeFieldFood = useCallback(
     <Field extends keyof CreateFoodSchema>(
@@ -54,13 +87,24 @@ export function useModalAddFood(props: ModalAddFoodProps) {
   );
 
   const foodOptions = useMemo<SelectOptionsType[]>(() => {
-    return foods.map((food) => ({ label: food.name, value: food.id }));
+    const mappedFoods = foods.map((food) => ({
+      label: food.name,
+      value: food.id,
+    }));
+    mappedFoods.unshift({ label: 'Selecione um alimento', value: '' });
+
+    return mappedFoods;
   }, [foods]);
+
+  const isValid = useMemo(() => {
+    return Boolean(newFood.selectedFood.length > 0);
+  }, [newFood]);
 
   return {
     foods,
     foodOptions,
     isFetchingFoods,
+    isValid,
     handleAddNewFood,
     handleChangeOrigin,
     handleChangeFieldFood,

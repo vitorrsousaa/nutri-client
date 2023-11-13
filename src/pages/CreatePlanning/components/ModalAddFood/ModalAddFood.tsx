@@ -19,15 +19,13 @@ export function ModalAddFood(props: ModalAddFoodProps) {
   const { isOpen, onClose } = props;
 
   const {
-    foods,
     foodOptions,
     isFetchingFoods,
+    isValid,
     handleAddNewFood,
     handleChangeFieldFood,
     handleChangeOrigin,
   } = useModalAddFood(props);
-
-  console.log(foods);
 
   return (
     <Modal.Root isOpen={isOpen} onClose={onClose}>
@@ -39,7 +37,7 @@ export function ModalAddFood(props: ModalAddFoodProps) {
 
         <FormField
           name="origin"
-          defaultValue={'DATABASE'}
+          defaultValue={'TACO'}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleChangeOrigin(e.target.value)
           }
@@ -50,7 +48,7 @@ export function ModalAddFood(props: ModalAddFoodProps) {
             direction="row"
             name="origin"
             options={[
-              { label: 'Tabela própria', value: 'DATABASE' },
+              { label: 'Tabela própria', value: 'TACO' },
               { label: 'USDA', value: 'CUSTOM' },
             ]}
           />
@@ -59,7 +57,7 @@ export function ModalAddFood(props: ModalAddFoodProps) {
         <FormField
           label="Alimento"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleChangeFieldFood('name', e.target.value)
+            handleChangeFieldFood('selectedFood', e.target.value)
           }
         >
           <Select options={foodOptions} isLoading={isFetchingFoods} />
@@ -78,7 +76,11 @@ export function ModalAddFood(props: ModalAddFoodProps) {
           <Button onClick={onClose} colorScheme="red">
             Cancelar
           </Button>
-          <Button onClick={handleAddNewFood} colorScheme="green">
+          <Button
+            onClick={handleAddNewFood}
+            colorScheme="green"
+            disabled={!isValid}
+          >
             Adicionar
           </Button>
         </Modal.Footer>

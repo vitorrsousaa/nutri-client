@@ -1,9 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as z from 'zod';
 
+import { OriginFoodEnum } from '../../entities/food/origin/TOrigin';
 import { useFindByIdPatient } from '../../hooks/patients';
 
 const createMealFormSchema = z.object({
@@ -20,12 +21,19 @@ const createMealFormSchema = z.object({
         .refine((number) => number > 1, {
           message: 'Deve ser maior do que 1 g',
         }),
+      baseUnit: z.string(),
+      foodId: z.string(),
+      origin: OriginFoodEnum,
+      energy: z.number().positive(),
+      protein: z.number().positive(),
+      carbohydrate: z.number().positive(),
+      lipid: z.number().positive(),
     })
   ),
 });
 
 const createPlanningFormSchema = z.object({
-  description: z.string(),
+  description: z.string().optional(),
   meals: z
     .array(createMealFormSchema)
     .min(1, 'É necessário pelo menos uma refeição'),
@@ -46,7 +54,7 @@ export function useCreatePlanning() {
 
   const {
     handleSubmit: hookFormSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid: formIsValid },
     control,
   } = methods;
 
@@ -82,6 +90,14 @@ export function useCreatePlanning() {
     navigate(-1);
   }, []);
 
+  const isValid = useMemo(() => {
+    const foods = meals.map((meal) => meal.food);
+
+    console.log(foods);
+
+    return Boolean(formIsValid && meals.length > 0);
+  }, [formIsValid, meals]);
+
   return {
     isFetchingPatient,
     patient,
@@ -89,6 +105,7 @@ export function useCreatePlanning() {
     meals,
     isValid,
     errors,
+    control,
     returnPage,
     handleSubmit,
     handleRemoveMeal,
