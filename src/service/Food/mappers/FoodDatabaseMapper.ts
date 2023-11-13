@@ -1,17 +1,31 @@
-import { TFoodDatabase } from '../../../entities/food/TFoodPrisma';
+import { TFood } from '../../../entities/food/TFood';
+import { TFoodTaco } from '../../../entities/food/TFoodPrisma';
+
+export type FormatFood = 'COMPLETE' | 'PARTIAL';
 
 class FoodDatabaseMapper {
-  toDomain(food: TFoodDatabase) {
+  toDomain(food: TFoodTaco, format?: FormatFood): TFood {
+    const { attributes, ...restFood } = food;
+
     return {
-      name: food.name,
-      calories: food.calories,
-      protein: food.protein,
-      carbo: food.carbo,
-      fat: food.fat,
-      quantity: food.quantity,
-      id: food.id,
-      group: food.group,
+      ...restFood,
+      attributes: this.getFilteredAttributes(attributes, format),
     };
+  }
+
+  private getFilteredAttributes(
+    attributes: TFoodTaco['attributes'],
+    format?: FormatFood
+  ) {
+    const attributesPartial = ['protein', 'carbohydrate', 'energy', 'lipid'];
+
+    if (format === 'COMPLETE') {
+      return attributes;
+    }
+
+    return attributes.filter((attribute) =>
+      attributesPartial.includes(attribute.name)
+    );
   }
 }
 

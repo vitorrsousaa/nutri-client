@@ -1,18 +1,22 @@
 import * as z from 'zod';
 
 /**
- * Model for food returned by the database
+ * Model for food returned by the taco table
  */
 
-export const FoodSchemaDatabase = z.object({
+export const FoodSchemaTaco = z.object({
   name: z.string(),
-  calories: z.number().positive(),
-  protein: z.number().positive(),
-  carbo: z.number().positive(),
-  fat: z.number().positive(),
-  quantity: z.number().positive(),
   id: z.string(),
-  group: z.string(),
+  baseQty: z.number().positive(),
+  baseUnit: z.string(),
+  categoryName: z.string(),
+  attributes: z.array(
+    z.object({
+      qty: z.number().positive().or(z.string()),
+      name: z.string(),
+      unit: z.string(),
+    })
+  ),
 });
 
-export type TFoodDatabase = z.infer<typeof FoodSchemaDatabase>;
+export type TFoodTaco = z.infer<typeof FoodSchemaTaco>;

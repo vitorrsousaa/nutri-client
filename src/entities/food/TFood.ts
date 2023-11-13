@@ -6,12 +6,17 @@ import * as z from 'zod';
 
 export const FoodSchema = z.object({
   name: z.string(),
-  calories: z.number().positive(),
-  protein: z.number().positive(),
-  carbo: z.number().positive(),
-  fat: z.number().positive(),
-  quantity: z.number().positive(),
+  baseQty: z.number().positive(),
+  baseUnit: z.string(),
+  categoryName: z.string(),
   id: z.string(),
+  attributes: z.array(
+    z.object({
+      qty: z.number().positive().or(z.string()),
+      name: z.string(),
+      unit: z.string(),
+    })
+  ),
 });
 
 export type TFood = z.infer<typeof FoodSchema>;
