@@ -12,22 +12,17 @@ const createMealFormSchema = z.object({
   time: z.string().refine((value) => /^([01]\d|2[0-3]):[0-5]\d$/.test(value), {
     message: 'Insira um formato de hora válido (HH:mm).',
   }),
-  food: z.array(
+  foods: z.array(
     z.object({
       name: z.string(),
-      quantity: z
-        .string()
-        .pipe(z.coerce.number())
-        .refine((number) => number > 1, {
-          message: 'Deve ser maior do que 1 g',
-        }),
+      quantity: z.number(),
       baseUnit: z.string(),
       foodId: z.string(),
       origin: OriginFoodEnum,
-      energy: z.number().positive(),
-      protein: z.number().positive(),
-      carbohydrate: z.number().positive(),
-      lipid: z.number().positive(),
+      energy: z.number().min(0),
+      protein: z.number().min(0),
+      carbohydrate: z.number().min(0),
+      lipid: z.number().min(0),
     })
   ),
 });
@@ -68,7 +63,17 @@ export function useCreatePlanning() {
   });
 
   const handleSubmit = hookFormSubmit(async (data) => {
-    console.log(data);
+    const isValid = data.meals.every((meal) => {
+      return (
+        meal.foods.length > 0 && meal.foods.every((food) => food.quantity > 0)
+      );
+    });
+
+    if (!isValid) {
+      return;
+    }
+
+    console.log('data', data);
   });
 
   const handleRemoveMeal = useCallback(
@@ -81,7 +86,7 @@ export function useCreatePlanning() {
   const handleAddNewMeal = useCallback(() => {
     appendMeals({
       name: '',
-      food: [],
+      foods: [],
       time: '',
     });
   }, [appendMeals]);
@@ -91,11 +96,7 @@ export function useCreatePlanning() {
   }, []);
 
   const isValid = useMemo(() => {
-    const foods = meals.map((meal) => meal.food);
-
-    console.log(foods);
-
-    return Boolean(formIsValid && meals.length > 0);
+    return Boolean(formIsValid);
   }, [formIsValid, meals]);
 
   return {
