@@ -2,39 +2,12 @@ import { useCallback, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import * as z from 'zod';
 
-import { OriginFoodEnum } from '../../entities/food/origin/TOrigin';
+import {
+  CreatePlanningMealDTO,
+  CreatePlanningMealSchema,
+} from '../../entities/planning/dtos/create-planning-meal-dto';
 import { useFindByIdPatient } from '../../hooks/patients';
-
-const createMealFormSchema = z.object({
-  name: z.string().min(1, 'O nome da refeição é obrigatório'),
-  time: z.string().refine((value) => /^([01]\d|2[0-3]):[0-5]\d$/.test(value), {
-    message: 'Insira um formato de hora válido (HH:mm).',
-  }),
-  foods: z.array(
-    z.object({
-      name: z.string(),
-      quantity: z.number(),
-      baseUnit: z.string(),
-      foodId: z.string(),
-      origin: OriginFoodEnum,
-      energy: z.number().min(0),
-      protein: z.number().min(0),
-      carbohydrate: z.number().min(0),
-      lipid: z.number().min(0),
-    })
-  ),
-});
-
-const createPlanningFormSchema = z.object({
-  description: z.string().optional(),
-  meals: z
-    .array(createMealFormSchema)
-    .min(1, 'É necessário pelo menos uma refeição'),
-});
-
-type CreatePlanningFormSchema = z.infer<typeof createPlanningFormSchema>;
 
 export function useCreatePlanning() {
   const { id } = useParams<{ id: string }>();
@@ -43,8 +16,8 @@ export function useCreatePlanning() {
 
   const { patient, isFetchingPatient } = useFindByIdPatient(id);
 
-  const methods = useForm<CreatePlanningFormSchema>({
-    resolver: zodResolver(createPlanningFormSchema),
+  const methods = useForm<CreatePlanningMealDTO>({
+    resolver: zodResolver(CreatePlanningMealSchema),
   });
 
   const {
