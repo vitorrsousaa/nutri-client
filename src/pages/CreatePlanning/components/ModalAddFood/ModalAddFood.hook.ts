@@ -7,6 +7,7 @@ import {
 import { useGetAllFoods } from '../../../../hooks/food';
 import { SelectOptionsType } from '../../../../libs/ui/components/Select';
 
+import { getCalculateAttributes } from './funcs/calculateAttributes';
 import { ModalAddFoodProps } from './ModalAddFood';
 
 type CreateFoodSchema = {
@@ -17,18 +18,24 @@ type CreateFoodSchema = {
 export function useModalAddFood(props: ModalAddFoodProps) {
   const { onClose, appendFood } = props;
 
-  const [newFood, setNewFood] = useState<CreateFoodSchema>({
-    selectedFood: '',
-    quantity: 0,
-  });
+  const [newFood, setNewFood] = useState<CreateFoodSchema | null>(null);
   const [origin, setOrigin] = useState<TOriginFoodEnum>('TACO');
 
   const { foods, isFetchingFoods } = useGetAllFoods(origin);
 
+  const handleCloseModal = useCallback(() => {
+    onClose();
+    setNewFood(null);
+  }, [onClose, setNewFood]);
+
   const handleAddNewFood = useCallback(() => {
-    const currentFood = foods.find((food) => food.id === newFood.selectedFood);
+    const currentFood = foods.find((food) => food.id === newFood?.selectedFood);
 
     if (!currentFood) {
+      return;
+    }
+
+    if (!newFood) {
       return;
     }
 
@@ -38,30 +45,17 @@ export function useModalAddFood(props: ModalAddFoodProps) {
       baseUnit: currentFood?.baseUnit,
       foodId: currentFood?.id,
       origin,
-      energy:
-        (newFood.quantity *
-          Number(
-            currentFood.attributes.find((attr) => attr.name === 'energy')?.qty
-          ) || 0) / currentFood.baseQty,
-      protein:
-        (newFood.quantity *
-          Number(
-            currentFood.attributes.find((attr) => attr.name === 'protein')?.qty
-          ) || 0) / currentFood.baseQty,
-      carbohydrate:
-        (newFood.quantity *
-          Number(
-            currentFood.attributes.find((attr) => attr.name === 'carbohydrate')
-              ?.qty
-          ) || 0) / currentFood.baseQty,
-      lipid:
-        (newFood.quantity *
-          Number(
-            currentFood.attributes.find((attr) => attr.name === 'lipid')?.qty
-          ) || 0) / currentFood.baseQty,
+      energy: getCalculateAttributes(newFood.quantity, currentFood, 'energy'),
+      protein: getCalculateAttributes(newFood.quantity, currentFood, 'protein'),
+      carbohydrate: getCalculateAttributes(
+        newFood.quantity,
+        currentFood,
+        'carbohydrate'
+      ),
+      lipid: getCalculateAttributes(newFood.quantity, currentFood, 'lipid'),
     });
 
-    onClose();
+    handleCloseModal();
   }, [newFood, appendFood, onClose, foods]);
 
   const handleChangeFieldFood = useCallback(
@@ -69,11 +63,21 @@ export function useModalAddFood(props: ModalAddFoodProps) {
       field: Field,
       newValue: CreateFoodSchema[Field]
     ) => {
-      setNewFood((prevFood) => ({
-        ...prevFood,
+      setNewFood((prevFood) => {
+        if (prevFood === null) {
+          const createObject: CreateFoodSchema = {
+            selectedFood: '',
+            quantity: 0,
+          };
+          return { ...createObject, [field]: newValue };
+        }
 
-        [field]: newValue,
-      }));
+        return {
+          ...prevFood,
+
+          [field]: newValue,
+        };
+      });
     },
     [setNewFood, newFood]
   );
@@ -97,7 +101,9 @@ export function useModalAddFood(props: ModalAddFoodProps) {
   }, [foods]);
 
   const isValid = useMemo(() => {
-    return Boolean(newFood.selectedFood.length > 0);
+    return Boolean(
+      newFood && newFood.quantity > 0 && newFood.selectedFood.length > 0
+    );
   }, [newFood]);
 
   return {
@@ -108,5 +114,6 @@ export function useModalAddFood(props: ModalAddFoodProps) {
     handleAddNewFood,
     handleChangeOrigin,
     handleChangeFieldFood,
+    handleCloseModal,
   };
 }

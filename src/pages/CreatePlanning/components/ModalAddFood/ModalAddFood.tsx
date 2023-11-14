@@ -12,11 +12,11 @@ import { useModalAddFood } from './ModalAddFood.hook';
 export interface ModalAddFoodProps {
   isOpen: boolean;
   onClose: () => void;
-  appendFood: UseFieldArrayAppend<FieldValues, `meals.${number}.food`>;
+  appendFood: UseFieldArrayAppend<FieldValues, `meals.${number}.foods`>;
 }
 
 export function ModalAddFood(props: ModalAddFoodProps) {
-  const { isOpen, onClose } = props;
+  const { isOpen } = props;
 
   const {
     foodOptions,
@@ -25,10 +25,11 @@ export function ModalAddFood(props: ModalAddFoodProps) {
     handleAddNewFood,
     handleChangeFieldFood,
     handleChangeOrigin,
+    handleCloseModal,
   } = useModalAddFood(props);
 
   return (
-    <Modal.Root isOpen={isOpen} onClose={onClose}>
+    <Modal.Root isOpen={isOpen} onClose={handleCloseModal}>
       <Modal.Content>
         <Modal.Header>
           Adicionando um novo alimento
@@ -73,14 +74,10 @@ export function ModalAddFood(props: ModalAddFoodProps) {
         </FormField>
 
         <Modal.Footer>
-          <Button onClick={onClose} colorScheme="red">
+          <Button onClick={handleCloseModal} colorScheme="red">
             Cancelar
           </Button>
-          <Button
-            onClick={handleAddNewFood}
-            colorScheme="green"
-            disabled={!isValid}
-          >
+          <Button onClick={handleAddNewFood} isDisabled={!isValid}>
             Adicionar
           </Button>
         </Modal.Footer>

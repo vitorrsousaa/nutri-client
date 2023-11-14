@@ -16,8 +16,6 @@ export function FoodForm(props: FoodFormProps) {
     appendFood,
   } = useFoodFormHook(props);
 
-  console.log(foods);
-
   return (
     <>
       {foods.map((food, foodIndex) => {

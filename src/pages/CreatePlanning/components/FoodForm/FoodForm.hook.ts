@@ -22,7 +22,7 @@ export function useFoodFormHook(props: FoodFormProps) {
     append: appendFood,
   } = useFieldArray({
     control,
-    name: `meals.${mealIndex}.food`,
+    name: `meals.${mealIndex}.foods`,
   });
 
   const toggleModalAddNewFood = useCallback(() => {
