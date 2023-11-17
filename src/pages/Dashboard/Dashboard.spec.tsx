@@ -1,24 +1,36 @@
-import { act } from 'react-dom/test-utils';
-
-import { render, renderHook, RenderHookResult } from '../../utils/test-utils';
+import * as PatientService from '../../hooks/patients';
+import * as Authentication from '../../hooks/useAuth';
+import {
+  act,
+  render,
+  renderHook,
+  RenderHookResult,
+} from '../../utils/test-utils';
 
 import { Dashboard } from './Dashboard';
 import { useDashboardHook } from './Dashboard.hook';
 
-jest.mock('../../hooks/useAuth', () => {
-  const originalModule = jest.requireActual('../../hooks/useAuth');
-
-  return {
-    ...originalModule,
-    useAuth: jest.fn().mockReturnValue({
-      signedIn: false,
-      signIn: jest.fn(),
-      signOut: jest.fn(),
-    }),
-  };
-});
-
 describe('Dashboard Page', () => {
+  let spy = {
+    useAuth: {} as jest.SpyInstance<
+      Partial<ReturnType<(typeof Authentication)['useAuth']>>
+    >,
+    useGetAllPatients: {} as jest.SpyInstance<
+      Partial<ReturnType<typeof PatientService.useGetAllPatients>>
+    >,
+  };
+
+  beforeEach(() => {
+    spy = {
+      useAuth: jest.spyOn(Authentication, 'useAuth'),
+      useGetAllPatients: jest.spyOn(PatientService, 'useGetAllPatients'),
+    };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('Page', () => {
     let rendered: ReturnType<typeof render>;
 
@@ -27,17 +39,57 @@ describe('Dashboard Page', () => {
     });
 
     afterEach(() => {
-      rendered.unmount();
+      rendered?.unmount();
     });
 
-    it('Should render correctly', () => {
+    it('Should render correctly name of user', () => {
       // Arrange
+      spy.useAuth.mockReturnValue({
+        name: 'John Doe',
+      });
 
       // Act
       rendered = render(<Dashboard />);
 
       // Assert
-      expect(rendered.getByText('Dashboard'));
+      expect(rendered.getByText('John Doe'));
+    });
+
+    it('Should render spinner when is fetching patients', () => {
+      // Arrange
+      spy.useGetAllPatients.mockReturnValue({
+        isFetchingPatients: true,
+      });
+
+      // Act
+      rendered = render(<Dashboard />);
+
+      // Assert
+      expect(rendered.getByText('Loading...'));
+    });
+
+    it('Should render correctly number of patients', () => {
+      // Arrange
+      spy.useGetAllPatients.mockReturnValue({
+        patients: [
+          {
+            birthDate: new Date(),
+            email: 'any_email',
+            gender: 'MASC',
+            height: 1.8,
+            id: 'any_id',
+            name: 'any_name',
+            weight: 80,
+          },
+        ],
+      });
+
+      // Act
+
+      rendered = render(<Dashboard />);
+
+      // Assert
+      expect(rendered.getByText('1 pacientes cadastrados'));
     });
   });
 

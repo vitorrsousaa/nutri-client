@@ -19,4 +19,32 @@ export const theme = extendTheme({
       },
     },
   },
+
+  components: {
+    Button: {
+      baseStyle: {
+        borderRadius: '2px',
+        fontWeight: 'regular',
+        fontSize: '16px',
+      },
+      variants: {
+        solid: {
+          bg: '#59BD5A',
+          color: '#fff',
+          _hover: {
+            bg: '#59BD5A',
+            opacity: 0.85,
+            _disabled: {
+              bg: '#ccc',
+              opacity: 0.8,
+            },
+          },
+          _disabled: {
+            bg: '#ccc',
+            opacity: 1,
+          },
+        },
+      },
+    },
+  },
 });
