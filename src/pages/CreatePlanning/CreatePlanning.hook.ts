@@ -2,12 +2,14 @@ import { useCallback, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import {
   CreatePlanningMealDTO,
   CreatePlanningMealSchema,
 } from '../../entities/planning/dtos/create-planning-meal-dto';
 import { useFindByIdPatient } from '../../hooks/patients';
+import PlanningMealService from '../../service/Planning';
 
 export function useCreatePlanning() {
   const { id } = useParams<{ id: string }>();
@@ -46,7 +48,14 @@ export function useCreatePlanning() {
       return;
     }
 
-    console.log('data', data);
+    try {
+      await PlanningMealService.create(data, patient?.id as string);
+      toast.success('Planejamento criado com sucesso');
+    } catch {
+      toast.error('Erro ao criar o planejamento');
+    } finally {
+      navigate(-1);
+    }
   });
 
   const handleRemoveMeal = useCallback(
