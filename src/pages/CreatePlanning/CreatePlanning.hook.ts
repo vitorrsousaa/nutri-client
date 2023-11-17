@@ -9,7 +9,7 @@ import {
   CreatePlanningMealSchema,
 } from '../../entities/planning/dtos/create-planning-meal-dto';
 import { useFindByIdPatient } from '../../hooks/patients';
-import PlanningMealService from '../../service/Planning';
+import { useCreatePlanningMeal } from '../../hooks/planningMeal';
 
 export function useCreatePlanning() {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +17,8 @@ export function useCreatePlanning() {
   const navigate = useNavigate();
 
   const { patient, isFetchingPatient } = useFindByIdPatient(id);
+
+  const { createPlanningMeal } = useCreatePlanningMeal();
 
   const methods = useForm<CreatePlanningMealDTO>({
     resolver: zodResolver(CreatePlanningMealSchema),
@@ -49,7 +51,11 @@ export function useCreatePlanning() {
     }
 
     try {
-      await PlanningMealService.create(data, patient?.id as string);
+      await createPlanningMeal({
+        createPlanningMeal: data,
+        patientId: patient?.id as string,
+      });
+
       toast.success('Planejamento criado com sucesso');
     } catch {
       toast.error('Erro ao criar o planejamento');
