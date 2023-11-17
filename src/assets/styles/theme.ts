@@ -43,6 +43,10 @@ export const theme = extendTheme({
             bg: '#ccc',
             opacity: 1,
           },
+          _active: {
+            bg: '#59BD5A',
+            opacity: 1.7,
+          },
         },
       },
     },
