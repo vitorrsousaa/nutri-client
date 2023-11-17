@@ -1,9 +1,9 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Center, HStack, Text, VStack } from '@chakra-ui/layout';
-import { Spinner } from '@chakra-ui/spinner';
 
 import Sidebar from '../../components/Sidebar';
 import Button from '../../libs/ui/components/Button';
+import Spinner from '../../libs/ui/components/Spinner';
 
 import ModalCreatePatient from './components/ModalCreatePatient';
 import { useDashboardHook } from './Dashboard.hook';
@@ -38,13 +38,7 @@ export function Dashboard() {
         >
           {isFetchingPatients ? (
             <>
-              <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="#59bd5a"
-                size="xl"
-              />
+              <Spinner />
             </>
           ) : patients.length > 0 ? (
             <>
