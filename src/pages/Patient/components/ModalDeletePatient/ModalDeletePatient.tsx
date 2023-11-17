@@ -20,7 +20,7 @@ export function ModalDeletePatient(props: ModalDeletePatientProps) {
         </Modal.Header>
         Essa ação não pode ser desfeita!
         <Modal.Footer>
-          <Button onClick={onClose} disabled={isDeleting}>
+          <Button onClick={onClose} isDisabled={isDeleting}>
             Cancelar
           </Button>
           <Button onClick={onDelete} colorScheme="red" isLoading={isDeleting}>

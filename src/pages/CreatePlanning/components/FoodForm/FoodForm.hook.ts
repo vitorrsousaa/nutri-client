@@ -16,18 +16,18 @@ export function useFoodFormHook(props: FoodFormProps) {
 
   const { control } = useFormContext();
 
-  const toggleModalAddNewFood = useCallback(() => {
-    setModalAddFoodIsOpen((prev) => !prev);
-  }, [modalAddFoodIsOpen]);
-
   const {
     fields,
     remove: removeFood,
     append: appendFood,
   } = useFieldArray({
     control,
-    name: `meals.${mealIndex}.food`,
+    name: `meals.${mealIndex}.foods`,
   });
+
+  const toggleModalAddNewFood = useCallback(() => {
+    setModalAddFoodIsOpen((prev) => !prev);
+  }, [modalAddFoodIsOpen]);
 
   const foods = useMemo(() => {
     return fields;

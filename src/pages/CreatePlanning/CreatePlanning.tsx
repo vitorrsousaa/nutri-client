@@ -1,3 +1,4 @@
+import { DevTool } from '@hookform/devtools';
 import { FormProvider } from 'react-hook-form';
 
 import Button from '../../libs/ui/components/Button';
@@ -14,15 +15,19 @@ export function CreatePlanning() {
     meals,
     isValid,
     errors,
+    control,
     returnPage,
     handleSubmit,
     handleRemoveMeal,
     handleAddNewMeal,
   } = useCreatePlanning();
 
+  console.log(isValid);
+
   return (
     <div>
       <h1>create</h1>
+      <DevTool control={control} />
       <Button onClick={returnPage}>Voltar</Button>
       {isFetchingPatient ? (
         <strong>isLoading</strong>
@@ -68,6 +73,7 @@ export function CreatePlanning() {
               isDisabled={!isValid}
               style={{ backgroundColor: isValid ? '#195' : '#ccc' }}
             >
+              {isValid ? 'validao' : 'nada'}
               Cadastrar
             </Button>
           </form>

@@ -1,37 +1,15 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import * as z from 'zod';
+import { toast } from 'react-toastify';
 
+import {
+  CreatePlanningMealDTO,
+  CreatePlanningMealSchema,
+} from '../../entities/planning/dtos/create-planning-meal-dto';
 import { useFindByIdPatient } from '../../hooks/patients';
-
-const createMealFormSchema = z.object({
-  name: z.string().min(1, 'O nome da refeição é obrigatório'),
-  time: z.string().refine((value) => /^([01]\d|2[0-3]):[0-5]\d$/.test(value), {
-    message: 'Insira um formato de hora válido (HH:mm).',
-  }),
-  food: z.array(
-    z.object({
-      name: z.string(),
-      quantity: z
-        .string()
-        .pipe(z.coerce.number())
-        .refine((number) => number > 1, {
-          message: 'Deve ser maior do que 1 g',
-        }),
-    })
-  ),
-});
-
-const createPlanningFormSchema = z.object({
-  description: z.string(),
-  meals: z
-    .array(createMealFormSchema)
-    .min(1, 'É necessário pelo menos uma refeição'),
-});
-
-type CreatePlanningFormSchema = z.infer<typeof createPlanningFormSchema>;
+import { useCreatePlanningMeal } from '../../hooks/planningMeal';
 
 export function useCreatePlanning() {
   const { id } = useParams<{ id: string }>();
@@ -40,13 +18,15 @@ export function useCreatePlanning() {
 
   const { patient, isFetchingPatient } = useFindByIdPatient(id);
 
-  const methods = useForm<CreatePlanningFormSchema>({
-    resolver: zodResolver(createPlanningFormSchema),
+  const { createPlanningMeal } = useCreatePlanningMeal();
+
+  const methods = useForm<CreatePlanningMealDTO>({
+    resolver: zodResolver(CreatePlanningMealSchema),
   });
 
   const {
     handleSubmit: hookFormSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid: formIsValid },
     control,
   } = methods;
 
@@ -60,7 +40,28 @@ export function useCreatePlanning() {
   });
 
   const handleSubmit = hookFormSubmit(async (data) => {
-    console.log(data);
+    const isValid = data.meals.every((meal) => {
+      return (
+        meal.foods.length > 0 && meal.foods.every((food) => food.quantity > 0)
+      );
+    });
+
+    if (!isValid) {
+      return;
+    }
+
+    try {
+      await createPlanningMeal({
+        createPlanningMeal: data,
+        patientId: patient?.id as string,
+      });
+
+      toast.success('Planejamento criado com sucesso');
+    } catch {
+      toast.error('Erro ao criar o planejamento');
+    } finally {
+      navigate(-1);
+    }
   });
 
   const handleRemoveMeal = useCallback(
@@ -73,7 +74,7 @@ export function useCreatePlanning() {
   const handleAddNewMeal = useCallback(() => {
     appendMeals({
       name: '',
-      food: [],
+      foods: [],
       time: '',
     });
   }, [appendMeals]);
@@ -82,6 +83,10 @@ export function useCreatePlanning() {
     navigate(-1);
   }, []);
 
+  const isValid = useMemo(() => {
+    return Boolean(formIsValid);
+  }, [formIsValid, meals]);
+
   return {
     isFetchingPatient,
     patient,
@@ -89,6 +94,7 @@ export function useCreatePlanning() {
     meals,
     isValid,
     errors,
+    control,
     returnPage,
     handleSubmit,
     handleRemoveMeal,

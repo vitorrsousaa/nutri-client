@@ -26,6 +26,12 @@ class HttpClient {
     });
   }
 
+  /**
+   * This function, 'post', is a generic method with two type parameters, T for specifying the expected response type and K for representing the payload data type in the HTTP POST request.
+   * @param path  The path parameter specifies the endpoint URL
+   * @param data The data parameter of type K represents the payload to be sent with the request
+   * @returns
+   */
   post<T, K>(path: string, data: K) {
     return this.makeRequest<T>({
       method: 'post',
