@@ -38,6 +38,10 @@ describe('Patients Page', () => {
     it('Should render correctly name of user', () => {
       // Arrange
       spy.useAuth.mockReturnValue({ name: 'John Doe' });
+      spy.useGetAllPatients.mockReturnValue({
+        isFetchingPatients: false,
+        patients: [],
+      });
 
       // Act
       rendered = render(<Patients />);
@@ -80,6 +84,46 @@ describe('Patients Page', () => {
 
       // Assert
       expect(rendered.getByText('Loading...'));
+    });
+
+    it('Should render search input when is fetching patients is false and there patients', () => {
+      // Arrange
+      spy.useGetAllPatients.mockReturnValue({
+        isFetchingPatients: false,
+        patients: [
+          {
+            birthDate: new Date(),
+            email: 'string',
+            gender: 'MASC',
+            height: 1,
+            id: 'string',
+            name: 'string',
+            weight: 1,
+          },
+        ],
+      });
+
+      // Act
+      rendered = render(<Patients />);
+
+      // Assert
+      expect(rendered.getByPlaceholderText('Procurar pacientes'));
+    });
+
+    it('Should render correctly text when has no patients', () => {
+      // Arrange
+      spy.useGetAllPatients.mockReturnValue({
+        isFetchingPatients: false,
+        patients: [],
+      });
+
+      // Act
+      rendered = render(<Patients />);
+
+      // Assert
+      expect(
+        rendered.getByText('Você ainda não possui nenhum paciente cadastrado!')
+      );
     });
   });
 });
