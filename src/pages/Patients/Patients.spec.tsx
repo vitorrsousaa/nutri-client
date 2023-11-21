@@ -20,6 +20,7 @@ describe('Patients Page', () => {
       useGetAllPatients: jest.spyOn(PatientService, 'useGetAllPatients'),
     };
   });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

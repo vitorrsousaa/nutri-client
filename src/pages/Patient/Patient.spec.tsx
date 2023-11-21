@@ -1,4 +1,5 @@
-import * as patient from '../../hooks/patients';
+import * as PatientService from '../../hooks/patients';
+import * as Authentication from '../../hooks/useAuth';
 import {
   act,
   render,
@@ -10,6 +11,26 @@ import { Patient } from './Patient';
 import { usePatientHook } from './Patient.hook';
 
 describe('Patient Page', () => {
+  let spy = {
+    useFindByIdPatient: {} as jest.SpyInstance<
+      Partial<ReturnType<typeof PatientService.useFindByIdPatient>>
+    >,
+    useAuth: {} as jest.SpyInstance<
+      Partial<ReturnType<(typeof Authentication)['useAuth']>>
+    >,
+  };
+
+  beforeEach(() => {
+    spy = {
+      useFindByIdPatient: jest.spyOn(PatientService, 'useFindByIdPatient'),
+      useAuth: jest.spyOn(Authentication, 'useAuth'),
+    };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('Page', () => {
     let rendered: ReturnType<typeof render>;
 
@@ -23,28 +44,26 @@ describe('Patient Page', () => {
 
     it('Should render loading when isFetchingPatient is true', () => {
       // Arrange
-
-      // Act
-      rendered = render(<Patient />);
-
-      // Assert
-      expect(rendered.getByText('isLoading'));
-    });
-
-    it('Should render correctly', () => {
-      // Arrange
-      jest.spyOn(patient, 'useFindByIdPatient').mockReturnValue({
-        isFetchingPatient: false,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        patient: {} as any,
-        removePatient: jest.fn(),
+      spy.useFindByIdPatient.mockReturnValue({
+        isFetchingPatient: true,
       });
 
       // Act
       rendered = render(<Patient />);
 
       // Assert
-      expect(rendered.getByText('patient'));
+      expect(rendered.getByText('Loading...'));
+    });
+
+    it('Should render correctly name of user', () => {
+      // Arrange
+      spy.useAuth.mockReturnValue({ name: 'John Doe' });
+
+      // Act
+      rendered = render(<Patient />);
+
+      // Assert
+      expect(rendered.getByText(/John Doe/));
     });
   });
 
