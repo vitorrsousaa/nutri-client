@@ -1,6 +1,7 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Center, HStack, Text, VStack } from '@chakra-ui/layout';
 
+import HeaderPage from '../../components/HeaderPage';
 import Sidebar from '../../components/Sidebar';
 import Button from '../../libs/ui/components/Button';
 import Spinner from '../../libs/ui/components/Spinner';
@@ -22,14 +23,7 @@ export function Dashboard() {
     <HStack width={'100%'} height={'100%'}>
       <Sidebar />
       <VStack padding={'24px 48px'} width={'100%'} height={'100%'}>
-        <HStack width={'100%'}>
-          <Text fontSize={'24px'} color={'#444'}>
-            Olá,
-          </Text>
-          <Text fontWeight={500} fontSize={'24px'} color={'#444'}>
-            {name}
-          </Text>
-        </HStack>
+        <HeaderPage username={name} title="Dashboard" />
         <Center
           width={'100%'}
           height={'100%'}
