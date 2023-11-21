@@ -14,6 +14,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@chakra-ui/avatar": "^2.3.0",
     "@chakra-ui/button": "^2.1.0",
     "@chakra-ui/form-control": "^2.2.0",
     "@chakra-ui/icons": "^2.1.1",

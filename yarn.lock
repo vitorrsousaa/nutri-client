@@ -366,6 +366,16 @@
     "@chakra-ui/react-context" "2.1.0"
     "@chakra-ui/shared-utils" "2.0.5"
 
+"@chakra-ui/avatar@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/avatar/-/avatar-2.3.0.tgz#f018a2714d1e3ba5970bcf66558887925fdfccf4"
+  integrity sha512-8gKSyLfygnaotbJbDMHDiJoF38OHXUYVme4gGxZ1fLnQEdPVEaIWfH+NndIjOM0z8S+YEFnT9KyGMUtvPrBk3g==
+  dependencies:
+    "@chakra-ui/image" "2.1.0"
+    "@chakra-ui/react-children-utils" "2.0.6"
+    "@chakra-ui/react-context" "2.1.0"
+    "@chakra-ui/shared-utils" "2.0.5"
+
 "@chakra-ui/breadcrumb@2.2.0":
   version "2.2.0"
   resolved "https://registry.npmjs.org/@chakra-ui/breadcrumb/-/breadcrumb-2.2.0.tgz"
@@ -1031,24 +1041,9 @@
     "@chakra-ui/react-context" "2.1.0"
     "@chakra-ui/shared-utils" "2.0.5"
 
-"@chakra-ui/tabs@3.0.0":
+"@chakra-ui/tabs@3.0.0", "@chakra-ui/tabs@^3.0.0":
   version "3.0.0"
   resolved "https://registry.npmjs.org/@chakra-ui/tabs/-/tabs-3.0.0.tgz"
-  integrity sha512-6Mlclp8L9lqXmsGWF5q5gmemZXOiOYuh0SGT/7PgJVNPz3LXREXlXg2an4MBUD8W5oTkduCX+3KTMCwRrVrDYw==
-  dependencies:
-    "@chakra-ui/clickable" "2.1.0"
-    "@chakra-ui/descendant" "3.1.0"
-    "@chakra-ui/lazy-utils" "2.0.5"
-    "@chakra-ui/react-children-utils" "2.0.6"
-    "@chakra-ui/react-context" "2.1.0"
-    "@chakra-ui/react-use-controllable-state" "2.1.0"
-    "@chakra-ui/react-use-merge-refs" "2.1.0"
-    "@chakra-ui/react-use-safe-layout-effect" "2.1.0"
-    "@chakra-ui/shared-utils" "2.0.5"
-
-"@chakra-ui/tabs@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/tabs/-/tabs-3.0.0.tgz#854c06880af26158d7c72881c4b5e0453f6c485d"
   integrity sha512-6Mlclp8L9lqXmsGWF5q5gmemZXOiOYuh0SGT/7PgJVNPz3LXREXlXg2an4MBUD8W5oTkduCX+3KTMCwRrVrDYw==
   dependencies:
     "@chakra-ui/clickable" "2.1.0"
