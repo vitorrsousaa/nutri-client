@@ -11,7 +11,7 @@ export function Sidebar() {
     <VStack
       as={'aside'}
       width={250}
-      height={'100%'}
+      height={'100vh'}
       gap={0}
       backgroundColor={'#F3F3F3'}
     >

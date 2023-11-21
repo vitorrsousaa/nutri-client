@@ -1,5 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
+import { tabsTheme } from './components/tab.styles';
+
 export const theme = extendTheme({
   fonts: {
     heading: 'Poppins',
@@ -48,6 +50,12 @@ export const theme = extendTheme({
             opacity: 1.7,
           },
         },
+      },
+    },
+    Tabs: tabsTheme,
+    Text: {
+      baseStyle: {
+        color: '#111',
       },
     },
   },
