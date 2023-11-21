@@ -3,20 +3,11 @@ import { HStack, Text, VStack } from '@chakra-ui/layout';
 interface HeaderPageProps {
   children?: React.ReactNode;
   username?: string;
-  isLoading?: boolean;
   title: string;
 }
 
-type DefaultProps = Pick<HeaderPageProps, 'isLoading'>;
-
-const defaultProps: DefaultProps = {
-  isLoading: false,
-};
-
-type Props = HeaderPageProps & DefaultProps;
-
-function HeaderPage(props: Props) {
-  const { username, isLoading, title, children } = props;
+function HeaderPage(props: HeaderPageProps) {
+  const { username, title, children } = props;
 
   return (
     <>
@@ -35,13 +26,11 @@ function HeaderPage(props: Props) {
             {title}
           </Text>
 
-          {!isLoading && Boolean(children) && <HStack>{children}</HStack>}
+          {children && <HStack>{children}</HStack>}
         </HStack>
       </VStack>
     </>
   );
 }
-
-HeaderPage.defaultProps = defaultProps;
 
 export default HeaderPage;

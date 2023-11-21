@@ -38,33 +38,5 @@ describe('HeaderPage Component', () => {
       // Assert
       expect(rendered.getByText(/title/));
     });
-
-    it('Should render children when is loading is false', () => {
-      // Arrange
-
-      // Act
-      rendered = render(
-        <HeaderPage isLoading={false} title="title">
-          <div> children</div>
-        </HeaderPage>
-      );
-
-      // Assert
-      expect(rendered.getByText(/children/));
-    });
-
-    it('Should not render children when is loading is true', () => {
-      // Arrange
-
-      // Act
-      rendered = render(
-        <HeaderPage isLoading={true} title="title">
-          <div> children</div>
-        </HeaderPage>
-      );
-
-      // Assert
-      expect(rendered.queryByText(/children/)).toBeNull();
-    });
   });
 });

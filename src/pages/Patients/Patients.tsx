@@ -17,15 +17,17 @@ export function Patients() {
     <HStack width={'100%'} height={'100%'}>
       <Sidebar />
       <VStack padding={'24px 48px'} width={'100%'} height={'100vh'}>
-        <HeaderPage
-          username={name}
-          isLoading={isFetchingPatients}
-          title="Pacientes"
-        >
-          {patients.length > 0 && <Input placeholder="Procurar pacientes" />}
-          <Button leftIcon={<AddIcon />} paddingX={16}>
-            Novo paciente
-          </Button>
+        <HeaderPage username={name} title="Pacientes">
+          {!isFetchingPatients && (
+            <>
+              {patients.length > 0 && (
+                <Input placeholder="Procurar pacientes" />
+              )}
+              <Button leftIcon={<AddIcon />} paddingX={16}>
+                Novo paciente
+              </Button>
+            </>
+          )}
         </HeaderPage>
 
         <Center
