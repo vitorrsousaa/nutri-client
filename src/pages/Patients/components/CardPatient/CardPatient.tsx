@@ -1,6 +1,7 @@
 import { Center, Flex, HStack, Text, VStack } from '@chakra-ui/layout';
 
 import { TPatient } from '../../../../entities/patient/TPatient';
+import Avatar from '../../../../libs/ui/components/Avatar';
 
 import { useCardPatientHook } from './CardPatient.hook';
 
@@ -24,7 +25,7 @@ export function CardPatient(props: CardPatientProps) {
       gap={'12px'}
     >
       <HStack gap={'8px'}>
-        <div>Avatar</div>
+        <Avatar name={patient.name} />
         <VStack alignItems={'flex-start'}>
           <Text fontWeight={500}>{patient.name}</Text>
           <Text color={'#666'} fontSize={'12px'}>

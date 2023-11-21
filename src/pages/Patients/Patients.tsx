@@ -10,18 +10,7 @@ import PanelPatients from './components/PanelPatients';
 import { usePatientsHook } from './Patients.hook';
 
 export function Patients() {
-  const {
-    // patients,
-    //  isFetchingPatients,
-    name,
-  } = usePatientsHook();
-
-  const isFetchingPatients = false;
-  const patients = [
-    {
-      name: 'patient',
-    },
-  ];
+  const { patients, isFetchingPatients, name } = usePatientsHook();
 
   return (
     <HStack width={'100%'} height={'100%'}>
