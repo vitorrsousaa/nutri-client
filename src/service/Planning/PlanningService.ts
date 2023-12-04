@@ -23,4 +23,12 @@ export class Service {
 
     return null;
   };
+
+  findByPatientId = async (patientId: string) => {
+    return this.httpClient.get(`/${patientId}`);
+  };
+
+  update = async () => {
+    return null;
+  };
 }

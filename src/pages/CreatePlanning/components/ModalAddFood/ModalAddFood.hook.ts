@@ -16,12 +16,77 @@ type CreateFoodSchema = {
 };
 
 export function useModalAddFood(props: ModalAddFoodProps) {
-  const { onClose, appendFood } = props;
+  const { onClose, appendFood, updateFood } = props;
 
+  const [isEditingFood, setIsEditingFood] = useState(false);
+  const [indexFood, setIndexFood] = useState<null | number>(null);
   const [newFood, setNewFood] = useState<CreateFoodSchema | null>(null);
   const [origin, setOrigin] = useState<TOriginFoodEnum>('TACO');
 
   const { foods, isFetchingFoods } = useGetAllFoods(origin);
+
+  // const isFetchingFoods = false;
+
+  // const foods = [
+  //   {
+  //     id: 'any_id_1',
+  //     name: 'any_name_1',
+  //     categoryName: 'any_category',
+  //     baseUnit: 'any_base',
+  //     baseQty: 100,
+  //     attributes: [
+  //       {
+  //         name: 'carbohydrate',
+  //         unit: 'any_unit',
+  //         qty: 100,
+  //       },
+  //       {
+  //         name: 'energy',
+  //         unit: 'any_unit',
+  //         qty: 100,
+  //       },
+  //       {
+  //         name: 'protein',
+  //         unit: 'any_unit',
+  //         qty: 100,
+  //       },
+  //       {
+  //         name: 'lipid',
+  //         unit: 'any_unit',
+  //         qty: 100,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 'any_id',
+  //     name: 'any_name',
+  //     categoryName: 'any_category',
+  //     baseUnit: 'any_base',
+  //     baseQty: 100,
+  //     attributes: [
+  //       {
+  //         name: 'carbohydrate',
+  //         unit: 'any_unit',
+  //         qty: 100,
+  //       },
+  //       {
+  //         name: 'energy',
+  //         unit: 'any_unit',
+  //         qty: 100,
+  //       },
+  //       {
+  //         name: 'protein',
+  //         unit: 'any_unit',
+  //         qty: 100,
+  //       },
+  //       {
+  //         name: 'lipid',
+  //         unit: 'any_unit',
+  //         qty: 100,
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const handleCloseModal = useCallback(() => {
     onClose();
@@ -39,21 +104,11 @@ export function useModalAddFood(props: ModalAddFoodProps) {
       return;
     }
 
-    appendFood({
-      name: currentFood?.name,
-      quantity: newFood.quantity,
-      baseUnit: currentFood?.baseUnit,
-      foodId: currentFood?.id,
-      origin,
-      energy: getCalculateAttributes(newFood.quantity, currentFood, 'energy'),
-      protein: getCalculateAttributes(newFood.quantity, currentFood, 'protein'),
-      carbohydrate: getCalculateAttributes(
-        newFood.quantity,
-        currentFood,
-        'carbohydrate'
-      ),
-      lipid: getCalculateAttributes(newFood.quantity, currentFood, 'lipid'),
-    });
+    if (!isEditingFood) {
+      appendFood(selectedFood);
+    } else {
+      updateFood(indexFood!, selectedFood);
+    }
 
     handleCloseModal();
   }, [newFood, appendFood, onClose, foods]);
@@ -106,14 +161,72 @@ export function useModalAddFood(props: ModalAddFoodProps) {
     );
   }, [newFood]);
 
+  const selectedFood = useMemo(() => {
+    const currentFood = foods.find((food) => food.id === newFood?.selectedFood);
+
+    if (!currentFood) {
+      return undefined;
+    }
+
+    if (!newFood) {
+      return undefined;
+    }
+
+    return {
+      name: currentFood?.name,
+      quantity: newFood.quantity,
+      baseUnit: currentFood?.baseUnit,
+      foodId: currentFood?.id,
+      origin,
+      energy: getCalculateAttributes(newFood.quantity, currentFood, 'energy'),
+      protein: getCalculateAttributes(newFood.quantity, currentFood, 'protein'),
+      carbohydrate: getCalculateAttributes(
+        newFood.quantity,
+        currentFood,
+        'carbohydrate'
+      ),
+      lipid: getCalculateAttributes(newFood.quantity, currentFood, 'lipid'),
+    };
+  }, [newFood, foods, origin]);
+
+  const dataChart = useMemo(() => {
+    if (!selectedFood) {
+      return [];
+    }
+
+    return [
+      {
+        x: 'Carboidratos (g)',
+        y: selectedFood.carbohydrate,
+      },
+      {
+        x: 'Proteínas (g)',
+        y: selectedFood.protein,
+      },
+      {
+        x: 'Lipídios (g)',
+        y: selectedFood.lipid,
+      },
+      {
+        x: 'Calorias (kcal)',
+        y: selectedFood.energy,
+      },
+    ];
+  }, [selectedFood]);
+
   return {
     foods,
     foodOptions,
     isFetchingFoods,
     isValid,
+    selectedFood,
+    dataChart,
+    indexFood,
     handleAddNewFood,
     handleChangeOrigin,
     handleChangeFieldFood,
     handleCloseModal,
+    setIsEditingFood,
+    setIndexFood,
   };
 }
