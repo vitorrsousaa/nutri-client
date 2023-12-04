@@ -3,25 +3,24 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useDeletePatient, useFindByIdPatient } from '../../hooks/patients';
+import { useAuth } from '../../hooks/useAuth';
 
 export function usePatientHook() {
-  const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
-
   const { id } = useParams<{ id: string }>();
+
+  const navigate = useNavigate();
+
+  const { name } = useAuth();
 
   const { patient, isFetchingPatient } = useFindByIdPatient(id);
 
   const { deletePatient, isDeletingPatient } = useDeletePatient();
 
-  const navigate = useNavigate();
+  const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
 
   const toggleModalDeletePatient = useCallback(() => {
     setModalDeleteIsOpen((prevState) => !prevState);
   }, [setModalDeleteIsOpen]);
-
-  const returnPage = useCallback(() => {
-    navigate('/dashboard');
-  }, []);
 
   const handleDeletePatient = useCallback(async () => {
     try {
@@ -33,22 +32,22 @@ export function usePatientHook() {
     } finally {
       toggleModalDeletePatient();
 
-      returnPage();
+      navigate('/dashboard');
     }
-  }, [id]);
+  }, [deletePatient, id, navigate, toggleModalDeletePatient]);
 
   const redirectToCreatePlanning = useCallback(() => {
-    navigate(`/patient/${id}/plano`);
-  }, [id]);
+    navigate(`/pacientes/${id}/plano/criar`);
+  }, [id, navigate]);
 
   return {
     modalDeleteIsOpen,
     isFetchingPatient,
     patient,
     isDeletingPatient,
+    name,
     toggleModalDeletePatient,
     handleDeletePatient,
-    returnPage,
     redirectToCreatePlanning,
   };
 }

@@ -1,3 +1,5 @@
+import * as ReactRouter from 'react-router-dom';
+
 import * as PatientService from '../../hooks/patients';
 import * as Authentication from '../../hooks/useAuth';
 import {
@@ -18,12 +20,20 @@ describe('Patient Page', () => {
     useAuth: {} as jest.SpyInstance<
       Partial<ReturnType<(typeof Authentication)['useAuth']>>
     >,
+    useParams: {} as jest.SpyInstance<
+      Partial<ReturnType<(typeof ReactRouter)['useParams']>>
+    >,
+    useNavigate: {} as jest.SpyInstance<
+      Partial<ReturnType<(typeof ReactRouter)['useNavigate']>>
+    >,
   };
 
   beforeEach(() => {
     spy = {
       useFindByIdPatient: jest.spyOn(PatientService, 'useFindByIdPatient'),
       useAuth: jest.spyOn(Authentication, 'useAuth'),
+      useNavigate: jest.spyOn(ReactRouter, 'useNavigate'),
+      useParams: jest.spyOn(ReactRouter, 'useParams'),
     };
   });
 
@@ -89,6 +99,38 @@ describe('Patient Page', () => {
 
       // Assert
       expect(rendered.result.current.modalDeleteIsOpen).toBeTruthy();
+    });
+
+    it('Should call redirectToCreatePlanning with correct params', () => {
+      // Arrange
+      const navigate = jest.fn();
+      spy.useParams.mockReturnValue({ id: 'any_id' });
+      spy.useNavigate.mockReturnValue(navigate);
+      rendered = renderHook(() => usePatientHook());
+
+      // Act
+      act(() => {
+        rendered.result.current.redirectToCreatePlanning();
+      });
+
+      // Assert
+      expect(navigate).toHaveBeenCalledWith('/pacientes/any_id/plano/criar');
+    });
+
+    it('Should redirect user when call deletePatient', () => {
+      // Arrange
+      const navigate = jest.fn();
+      spy.useNavigate.mockReturnValue({ navigate });
+
+      rendered = renderHook(() => usePatientHook());
+
+      // Act
+      act(() => {
+        rendered.result.current.handleDeletePatient();
+      });
+
+      // Assert
+      expect(navigate).toHaveBeenCalledWith('/dashboard');
     });
   });
 });

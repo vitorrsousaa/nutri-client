@@ -1,9 +1,11 @@
-import { Center, HStack, Text, VStack } from '@chakra-ui/layout';
+import { AttachmentIcon, InfoIcon } from '@chakra-ui/icons';
+import { Center, Flex, HStack, Text, VStack } from '@chakra-ui/layout';
 
+import HeaderPage from '../../components/HeaderPage';
 import Sidebar from '../../components/Sidebar';
-import Button from '../../libs/ui/components/Button';
 import Spinner from '../../libs/ui/components/Spinner';
 
+import Header from './components/Header';
 import ModalDeletePatient from './components/ModalDeletePatient';
 import { usePatientHook } from './Patient.hook';
 
@@ -12,44 +14,46 @@ export function Patient() {
     modalDeleteIsOpen,
     toggleModalDeletePatient,
     handleDeletePatient,
-    returnPage,
-    // isFetchingPatient,
+    isFetchingPatient,
     patient,
     isDeletingPatient,
+    name,
     redirectToCreatePlanning,
   } = usePatientHook();
 
-  const isFetchingPatient = false;
+  // const isFetchingPatient = false;
 
-  const name = 'Osborne';
+  // const name = 'Osborne David';
+
+  // const patient: TPatient = {
+  //   name: 'John Doe',
+  //   birthDate: new Date('1999-01-01'),
+  //   email: 'any_email@email.com',
+  //   gender: 'MASC',
+  //   height: 1.8,
+  //   id: 'any_id',
+  //   weight: 80,
+  // };
+
+  // console.log(
+  //   'Repetir o último texto várias vezes para verificar qual o comportamento da sidebar quando tiver um conteúdo com uma altura gradona'
+  // );
 
   return (
     <>
       <HStack width={'100%'} height={'100%'}>
         <Sidebar />
         <VStack padding={'24px 48px'} width={'100%'} height={'100vh'}>
-          <VStack width={'100%'}>
-            <HStack width={'100%'}>
-              <Text fontSize={'24px'} color={'#444'}>
-                Olá,
-              </Text>
-              <Text fontWeight={500} fontSize={'24px'} color={'#444'}>
-                {name}
-              </Text>
-            </HStack>
+          <HeaderPage username={name} title="Paciente" />
 
-            <HStack width={'100%'} justifyContent={'space-between'}>
-              <Text color={'#111'} fontSize={'32px'} fontWeight={600}>
-                Paciente
-              </Text>
-            </HStack>
-          </VStack>
+          <Flex background={'#999'} height={'2px'} width={'100%'} />
 
-          <Center
+          <VStack
             width={'100%'}
             height={'100%'}
             flexDirection={'column'}
             gap={'16px'}
+            alignItems={'flex-start'}
           >
             {isFetchingPatient ? (
               <>
@@ -57,34 +61,100 @@ export function Patient() {
               </>
             ) : (
               <>
-                <strong>patient</strong>
-                <h1>{patient?.name}</h1>
+                <Header patient={patient} />
 
-                <Button onClick={redirectToCreatePlanning}>
-                  Criar planejamento alimentar
-                </Button>
+                <Flex
+                  gap={'16px'}
+                  alignItems={'flex-start'}
+                  direction={'column'}
+                >
+                  <Text fontWeight={500}>Escolha uma opção:</Text>
+                  <HStack>
+                    <Flex
+                      as="button"
+                      padding={'42px 16px'}
+                      gap={'10px'}
+                      backgroundColor={'#F3F3F3'}
+                      alignItems={'center'}
+                    >
+                      <span>Avalição clínica</span>
+                      <InfoIcon color={'#111'} />
+                    </Flex>
+                    <Flex
+                      as="button"
+                      padding={'42px 16px'}
+                      gap={'10px'}
+                      backgroundColor={'#F3F3F3'}
+                      alignItems={'center'}
+                      onClick={redirectToCreatePlanning}
+                    >
+                      <span>Planejamento alimentar</span>
+                      <AttachmentIcon color={'#111'} />
+                    </Flex>
+                  </HStack>
+                </Flex>
+
+                <Flex
+                  gap={'16px'}
+                  alignItems={'flex-start'}
+                  direction={'column'}
+                  width={'100%'}
+                >
+                  <Text fontWeight={500}>Planejamento alimentar:</Text>
+                  <Center>
+                    <Text color="#333" align={'center'}>
+                      O paciente Theodory Western ainda não possui planejamento
+                      alimentar! Clique no botão{' '}
+                      <Text fontWeight={700} color="##59BD5A" as="span">
+                        “Planejamento alimentar”
+                      </Text>
+                      acima para cadastrar o planejamento alimentar.
+                    </Text>
+                  </Center>
+                </Flex>
+
+                <Flex
+                  gap={'16px'}
+                  alignItems={'flex-start'}
+                  direction={'column'}
+                  width={'100%'}
+                >
+                  <Text fontWeight={500}>Planejamento alimentar:</Text>
+                  <Center>
+                    <Text color="#333" align={'center'}>
+                      O paciente Theodory Western ainda não possui planejamento
+                      alimentar! Clique no botão{' '}
+                      <Text fontWeight={700} color="##59BD5A" as="span">
+                        “Planejamento alimentar”
+                      </Text>
+                      acima para cadastrar o planejamento alimentar.
+                    </Text>
+                  </Center>
+                </Flex>
+
+                <Flex
+                  gap={'16px'}
+                  alignItems={'flex-start'}
+                  direction={'column'}
+                  width={'100%'}
+                >
+                  <Text fontWeight={500}>Planejamento alimentar:</Text>
+                  <Center>
+                    <Text color="#333" align={'center'}>
+                      O paciente Theodory Western ainda não possui planejamento
+                      alimentar! Clique no botão{' '}
+                      <Text fontWeight={700} color="##59BD5A" as="span">
+                        “Planejamento alimentar”
+                      </Text>
+                      acima para cadastrar o planejamento alimentar.
+                    </Text>
+                  </Center>
+                </Flex>
               </>
             )}
-          </Center>
+          </VStack>
         </VStack>
       </HStack>
-
-      {isFetchingPatient ? (
-        <>
-          <strong>isLoading</strong>
-        </>
-      ) : (
-        <>
-          <Button onClick={returnPage}>Voltar</Button>
-          <Button onClick={toggleModalDeletePatient}>Deletar</Button>
-          <strong>patient</strong>
-          <h1>{patient?.name}</h1>
-
-          <Button onClick={redirectToCreatePlanning}>
-            Criar planejamento alimentar
-          </Button>
-        </>
-      )}
 
       <ModalDeletePatient
         isOpen={modalDeleteIsOpen}
