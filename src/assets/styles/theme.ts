@@ -15,11 +15,11 @@ export const theme = extendTheme({
   },
 
   styles: {
-    global: {
-      '#root': {
-        height: '100vh',
-      },
-    },
+    // global: {
+    //   '#root': {
+    //     height: 'auto',
+    //   },
+    // },
   },
 
   components: {
