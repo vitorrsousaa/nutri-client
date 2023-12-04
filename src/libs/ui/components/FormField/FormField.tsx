@@ -35,12 +35,16 @@ export default function FormField(props: IFormFieldProps) {
     <ChakraFormControl {...formProps}>
       {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
 
-      <Controller
-        name={name ?? ''}
-        control={control}
-        defaultValue={defaultValue}
-        render={({ field }) => renderChildrenWithField(field)}
-      />
+      {name ? (
+        <Controller
+          name={name}
+          control={control}
+          defaultValue={defaultValue}
+          render={({ field }) => renderChildrenWithField(field)}
+        />
+      ) : (
+        children
+      )}
 
       {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
     </ChakraFormControl>

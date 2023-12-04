@@ -1,5 +1,7 @@
+import { useRef } from 'react';
+
 import Button from '../../../../libs/ui/components/Button';
-import ModalAddFood from '../ModalAddFood';
+import ModalAddFood, { IModalAddFoodRef } from '../ModalAddFood';
 
 import { useFoodFormHook } from './FoodForm.hook';
 
@@ -14,7 +16,10 @@ export function FoodForm(props: FoodFormProps) {
     toggleModalAddNewFood,
     removeFood,
     appendFood,
+    updateFood,
   } = useFoodFormHook(props);
+
+  const modalFormRef = useRef<IModalAddFoodRef>(null);
 
   return (
     <>
@@ -33,9 +38,20 @@ export function FoodForm(props: FoodFormProps) {
               <h2>{food.name}</h2>
               <h3>{food.quantity}</h3>
             </div>
-            <Button onClick={() => removeFood(foodIndex)}>
-              Remover alimento
-            </Button>
+            <div>
+              <Button
+                onClick={() => {
+                  toggleModalAddNewFood();
+                  modalFormRef.current?.setFieldsValues(food);
+                  modalFormRef.current?.setIndexFood(foodIndex);
+                }}
+              >
+                Editar
+              </Button>
+              <Button onClick={() => removeFood(foodIndex)}>
+                Remover alimento
+              </Button>
+            </div>
           </div>
         );
       })}
@@ -44,6 +60,8 @@ export function FoodForm(props: FoodFormProps) {
         isOpen={modalAddFoodIsOpen}
         onClose={toggleModalAddNewFood}
         appendFood={appendFood}
+        updateFood={updateFood}
+        ref={modalFormRef}
       />
 
       <Button onClick={toggleModalAddNewFood}>Adicionar alimento</Button>
