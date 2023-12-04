@@ -10,8 +10,8 @@ import { AuthGuard } from '../utils/AuthGuard';
 const routes: TRoute[] = [
   { path: '/dashboard', element: <Dashboard /> },
   { path: '/pacientes', element: <Patients /> },
-  { path: '/patient/:id', element: <Patient /> },
-  { path: '/patient/:id/plano', element: <CreatePlanning /> },
+  { path: '/pacientes/:id', element: <Patient /> },
+  { path: '/pacientes/:id/plano/criar', element: <CreatePlanning /> },
 ];
 
 export default function PrivateRoutes() {
