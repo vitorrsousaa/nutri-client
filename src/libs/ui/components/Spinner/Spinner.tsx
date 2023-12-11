@@ -3,14 +3,15 @@ import {
   SpinnerProps as ChakraSpinnerProps,
 } from '@chakra-ui/spinner';
 
-interface SpinnerProps {
+interface SpinnerProps extends ChakraSpinnerProps {
   size: ChakraSpinnerProps['size'];
 }
 
-type DefaultProps = Pick<SpinnerProps, 'size'>;
+type DefaultProps = Pick<SpinnerProps, 'size' | 'thickness'>;
 
 const defaultProps: DefaultProps = {
   size: 'xl',
+  thickness: '4px',
 };
 
 type Props = SpinnerProps & DefaultProps;
@@ -18,10 +19,10 @@ type Props = SpinnerProps & DefaultProps;
 export function Spinner(props: Props) {
   return (
     <ChakraSpinner
-      thickness="4px"
       speed="0.65s"
       emptyColor="gray.200"
       color="#59bd5a"
+      thickness="4px"
       {...props}
     />
   );

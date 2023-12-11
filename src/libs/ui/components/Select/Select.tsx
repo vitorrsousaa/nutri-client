@@ -3,7 +3,8 @@ import {
   Select as ChakraSelect,
   SelectProps as ChakraSelectProps,
 } from '@chakra-ui/select';
-import { Spinner } from '@chakra-ui/spinner';
+
+import Spinner from '../Spinner';
 
 export type SelectOptionsType = { label: string; value: string };
 
@@ -18,7 +19,7 @@ export function Select(props: SelectProps) {
   return (
     <ChakraSelect
       {...selectProps}
-      icon={isLoading ? <Spinner /> : <ChevronDownIcon />}
+      icon={isLoading ? <Spinner thickness="2px" /> : <ChevronDownIcon />}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
