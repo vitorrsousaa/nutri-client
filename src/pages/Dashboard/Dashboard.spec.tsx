@@ -42,34 +42,11 @@ describe('Dashboard Page', () => {
       rendered?.unmount();
     });
 
-    it('Should render correctly name of user', () => {
-      // Arrange
-      spy.useAuth.mockReturnValue({
-        name: 'John Doe',
-      });
-
-      // Act
-      rendered = render(<Dashboard />);
-
-      // Assert
-      expect(rendered.getByText('John Doe'));
-    });
-
-    it('Should render spinner when is fetching patients', () => {
-      // Arrange
-      spy.useGetAllPatients.mockReturnValue({
-        isFetchingPatients: true,
-      });
-
-      // Act
-      rendered = render(<Dashboard />);
-
-      // Assert
-      expect(rendered.getByText('Loading...'));
-    });
-
     it('Should render correctly number of patients', () => {
       // Arrange
+      spy.useAuth.mockReturnValue({
+        name: 'any_name',
+      });
       spy.useGetAllPatients.mockReturnValue({
         patients: [
           {

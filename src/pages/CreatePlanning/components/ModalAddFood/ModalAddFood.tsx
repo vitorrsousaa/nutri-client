@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle } from 'react';
+
 import {
   FieldValues,
   UseFieldArrayAppend,
@@ -56,7 +57,12 @@ const ModalAddFood = forwardRef<IModalAddFoodRef, ModalAddFoodProps>(
         },
         setIndexFood: (index: number) => setIndexFood(index),
       }),
-      []
+      [
+        handleChangeFieldFood,
+        handleChangeOrigin,
+        setIndexFood,
+        setIsEditingFood,
+      ]
     );
 
     return (
@@ -67,49 +73,53 @@ const ModalAddFood = forwardRef<IModalAddFoodRef, ModalAddFoodProps>(
             <Modal.CloseButton />
           </Modal.Header>
 
-          <FormField
-            name="origin"
-            defaultValue={'TACO'}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleChangeOrigin(e.target.value)
-            }
-            isRequired
-            label="Tabela de origem"
-          >
-            <Radio
-              direction="row"
+          <Modal.Body>
+            <FormField
               name="origin"
-              options={[
-                { label: 'TACO', value: 'TACO' },
-                { label: 'USDA', value: 'CUSTOM' },
-              ]}
-            />
-          </FormField>
+              defaultValue={'TACO'}
+              // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              //   handleChangeOrigin(e.target.value)
+              // }
+              isRequired
+              label="Tabela de origem"
+            >
+              <Radio
+                direction="row"
+                name="origin"
+                options={[
+                  { label: 'TACO', value: 'TACO' },
+                  // { label: 'USDA', value: 'CUSTOM' },
+                ]}
+              />
+            </FormField>
 
-          <FormField label="Alimento">
-            <Select
-              options={foodOptions}
-              isLoading={isFetchingFoods}
-              value={selectedFood?.foodId}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleChangeFieldFood('selectedFood', e.target.value)
-              }
-            />
-          </FormField>
+            <FormField label="Alimento">
+              <Select
+                options={foodOptions}
+                isLoading={isFetchingFoods}
+                value={selectedFood?.foodId}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  handleChangeFieldFood('selectedFood', e.target.value)
+                }
+              />
+            </FormField>
 
-          <FormField label="Quantidade em gramas (g)">
-            <Input
-              type="number"
-              placeholder="Quantidade do alimento"
-              value={selectedFood?.quantity === 0 ? '' : selectedFood?.quantity}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleChangeFieldFood('quantity', Number(e.target.value))
-              }
-            />
-          </FormField>
+            <FormField label="Quantidade em gramas (g)">
+              <Input
+                type="number"
+                placeholder="Quantidade do alimento"
+                value={
+                  selectedFood?.quantity === 0 ? '' : selectedFood?.quantity
+                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleChangeFieldFood('quantity', Number(e.target.value))
+                }
+              />
+            </FormField>
+          </Modal.Body>
 
           <Modal.Footer>
-            <Button onClick={handleCloseModal} colorScheme="red">
+            <Button onClick={handleCloseModal} variant="danger">
               Cancelar
             </Button>
             <Button onClick={handleAddNewFood} isDisabled={!isValid}>

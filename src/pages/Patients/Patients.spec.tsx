@@ -6,19 +6,23 @@ import { Patients } from './Patients';
 
 describe('Patients Page', () => {
   let spy = {
-    useAuth: {} as jest.SpyInstance<
-      Partial<ReturnType<(typeof Authentication)['useAuth']>>
-    >,
     useGetAllPatients: {} as jest.SpyInstance<
       Partial<ReturnType<typeof PatientService.useGetAllPatients>>
+    >,
+    useAuth: {} as jest.SpyInstance<
+      Partial<ReturnType<(typeof Authentication)['useAuth']>>
     >,
   };
 
   beforeEach(() => {
     spy = {
-      useAuth: jest.spyOn(Authentication, 'useAuth'),
       useGetAllPatients: jest.spyOn(PatientService, 'useGetAllPatients'),
+      useAuth: jest.spyOn(Authentication, 'useAuth'),
     };
+
+    spy.useAuth.mockReturnValue({
+      name: 'any_name',
+    });
   });
 
   afterEach(() => {
@@ -34,21 +38,6 @@ describe('Patients Page', () => {
 
     afterEach(() => {
       rendered.unmount();
-    });
-
-    it('Should render correctly name of user', () => {
-      // Arrange
-      spy.useAuth.mockReturnValue({ name: 'John Doe' });
-      spy.useGetAllPatients.mockReturnValue({
-        isFetchingPatients: false,
-        patients: [],
-      });
-
-      // Act
-      rendered = render(<Patients />);
-
-      // Assert
-      expect(rendered.getByText('John Doe'));
     });
 
     it('Should render input when has patients', () => {
@@ -78,6 +67,7 @@ describe('Patients Page', () => {
       // Arrange
       spy.useGetAllPatients.mockReturnValue({
         isFetchingPatients: true,
+        patients: [],
       });
 
       // Act

@@ -1,29 +1,26 @@
 import { AttachmentIcon, InfoIcon } from '@chakra-ui/icons';
-import { Center, Flex, HStack, Text, VStack } from '@chakra-ui/layout';
+import { Center, Flex, HStack } from '@chakra-ui/layout';
 
-import HeaderPage from '../../components/HeaderPage';
-import Sidebar from '../../components/Sidebar';
-import Spinner from '../../libs/ui/components/Spinner';
+import AppProvider from '../../components/AppProvider';
+import HeaderPatient from '../../components/HeaderPatient';
+import Text from '../../libs/ui/components/Text';
 
-import Header from './components/Header';
-import ModalDeletePatient from './components/ModalDeletePatient';
+import ModalEditPatient from './ModalEditPatient';
 import { usePatientHook } from './Patient.hook';
+import * as styled from './Patient.styles';
 
 export function Patient() {
   const {
-    modalDeleteIsOpen,
-    toggleModalDeletePatient,
-    handleDeletePatient,
     isFetchingPatient,
     patient,
-    isDeletingPatient,
-    name,
+    modalEditPatientIsOpen,
     redirectToCreatePlanning,
+    toggleModalEditPatient,
   } = usePatientHook();
 
   // const isFetchingPatient = false;
 
-  // const name = 'Osborne David';
+  // const patient = null;
 
   // const patient: TPatient = {
   //   name: 'John Doe',
@@ -35,133 +32,66 @@ export function Patient() {
   //   weight: 80,
   // };
 
-  // console.log(
-  //   'Repetir o último texto várias vezes para verificar qual o comportamento da sidebar quando tiver um conteúdo com uma altura gradona'
-  // );
-
   return (
-    <>
-      <HStack width={'100%'} height={'100%'}>
-        <Sidebar />
-        <VStack padding={'24px 48px'} width={'100%'} height={'100vh'}>
-          <HeaderPage username={name} title="Paciente" />
+    <AppProvider
+      className="patient"
+      title="Paciente"
+      isLoading={isFetchingPatient}
+      hasError={!patient}
+      hasBackButton
+      errorMessage={
+        <>
+          <Text as="small" color="#333" align={'center'}>
+            Não foi possível encontrar esse paciente no nosso banco de dados
+          </Text>
+          <Text as="strong">Por favor, tente novamente!</Text>
+        </>
+      }
+    >
+      {patient && (
+        <>
+          <HeaderPatient patient={patient} />
 
-          <Flex background={'#999'} height={'2px'} width={'100%'} />
+          <Flex gap={'16px'} alignItems={'flex-start'} direction={'column'}>
+            <Text fontWeight={500}>Escolha uma opção:</Text>
+            <HStack>
+              <styled.ActionButton onClick={toggleModalEditPatient}>
+                <span>Avalição clínica</span>
+                <InfoIcon color={'#111'} />
+              </styled.ActionButton>
+              <styled.ActionButton onClick={redirectToCreatePlanning}>
+                <span>Planejamento alimentar</span>
+                <AttachmentIcon color={'#111'} />
+              </styled.ActionButton>
+            </HStack>
+          </Flex>
 
-          <VStack
-            width={'100%'}
-            height={'100%'}
-            flexDirection={'column'}
+          <Flex
             gap={'16px'}
             alignItems={'flex-start'}
+            direction={'column'}
+            width={'100%'}
           >
-            {isFetchingPatient ? (
-              <>
-                <Spinner />
-              </>
-            ) : (
-              <>
-                <Header patient={patient} />
+            <Text fontWeight={500}>Planejamento alimentar:</Text>
+            <Center>
+              <Text color="#333" align={'center'}>
+                O paciente {patient.name} ainda não possui planejamento
+                alimentar! Clique no botão{' '}
+                <Text fontWeight={700} color="##59BD5A" as="span">
+                  “Planejamento alimentar”
+                </Text>
+                acima para cadastrar o planejamento alimentar.
+              </Text>
+            </Center>
+          </Flex>
 
-                <Flex
-                  gap={'16px'}
-                  alignItems={'flex-start'}
-                  direction={'column'}
-                >
-                  <Text fontWeight={500}>Escolha uma opção:</Text>
-                  <HStack>
-                    <Flex
-                      as="button"
-                      padding={'42px 16px'}
-                      gap={'10px'}
-                      backgroundColor={'#F3F3F3'}
-                      alignItems={'center'}
-                    >
-                      <span>Avalição clínica</span>
-                      <InfoIcon color={'#111'} />
-                    </Flex>
-                    <Flex
-                      as="button"
-                      padding={'42px 16px'}
-                      gap={'10px'}
-                      backgroundColor={'#F3F3F3'}
-                      alignItems={'center'}
-                      onClick={redirectToCreatePlanning}
-                    >
-                      <span>Planejamento alimentar</span>
-                      <AttachmentIcon color={'#111'} />
-                    </Flex>
-                  </HStack>
-                </Flex>
-
-                <Flex
-                  gap={'16px'}
-                  alignItems={'flex-start'}
-                  direction={'column'}
-                  width={'100%'}
-                >
-                  <Text fontWeight={500}>Planejamento alimentar:</Text>
-                  <Center>
-                    <Text color="#333" align={'center'}>
-                      O paciente Theodory Western ainda não possui planejamento
-                      alimentar! Clique no botão{' '}
-                      <Text fontWeight={700} color="##59BD5A" as="span">
-                        “Planejamento alimentar”
-                      </Text>
-                      acima para cadastrar o planejamento alimentar.
-                    </Text>
-                  </Center>
-                </Flex>
-
-                <Flex
-                  gap={'16px'}
-                  alignItems={'flex-start'}
-                  direction={'column'}
-                  width={'100%'}
-                >
-                  <Text fontWeight={500}>Planejamento alimentar:</Text>
-                  <Center>
-                    <Text color="#333" align={'center'}>
-                      O paciente Theodory Western ainda não possui planejamento
-                      alimentar! Clique no botão{' '}
-                      <Text fontWeight={700} color="##59BD5A" as="span">
-                        “Planejamento alimentar”
-                      </Text>
-                      acima para cadastrar o planejamento alimentar.
-                    </Text>
-                  </Center>
-                </Flex>
-
-                <Flex
-                  gap={'16px'}
-                  alignItems={'flex-start'}
-                  direction={'column'}
-                  width={'100%'}
-                >
-                  <Text fontWeight={500}>Planejamento alimentar:</Text>
-                  <Center>
-                    <Text color="#333" align={'center'}>
-                      O paciente Theodory Western ainda não possui planejamento
-                      alimentar! Clique no botão{' '}
-                      <Text fontWeight={700} color="##59BD5A" as="span">
-                        “Planejamento alimentar”
-                      </Text>
-                      acima para cadastrar o planejamento alimentar.
-                    </Text>
-                  </Center>
-                </Flex>
-              </>
-            )}
-          </VStack>
-        </VStack>
-      </HStack>
-
-      <ModalDeletePatient
-        isOpen={modalDeleteIsOpen}
-        onClose={toggleModalDeletePatient}
-        onDelete={handleDeletePatient}
-        isDeleting={isDeletingPatient}
-      />
-    </>
+          <ModalEditPatient
+            isOpen={modalEditPatientIsOpen}
+            onClose={toggleModalEditPatient}
+            patient={patient}
+          />
+        </>
+      )}
+    </AppProvider>
   );
 }

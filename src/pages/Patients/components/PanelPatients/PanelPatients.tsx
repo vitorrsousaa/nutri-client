@@ -15,7 +15,13 @@ export function PanelPatients() {
       </TabList>
 
       <TabPanels>
-        <TabPanel>
+        <TabPanel
+          style={{
+            display: 'grid',
+            gap: '16px',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+          }}
+        >
           {patients.map((patient) => (
             <CardPatient key={patient.id} patient={patient} />
           ))}
