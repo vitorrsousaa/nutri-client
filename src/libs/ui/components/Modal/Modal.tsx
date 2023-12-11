@@ -1,15 +1,26 @@
 import { ReactNode } from 'react';
-import { Modal as ModalUI, ModalOverlay, ModalProps } from '@chakra-ui/react';
 
-interface IModalProps extends ModalProps {
+import {
+  Modal as ModalUI,
+  ModalOverlay,
+  ModalProps as ChakraModalProps,
+} from '@chakra-ui/react';
+
+interface ModalProps
+  extends Omit<ChakraModalProps, 'children' | 'closeOnOverlayClick'> {
   children: ReactNode;
+  isLoading?: boolean;
 }
 
-export default function Modal(props: IModalProps) {
-  const { children, ...modalProps } = props;
+export default function Modal(props: ModalProps) {
+  const { children, isLoading, ...modalProps } = props;
 
   return (
-    <ModalUI motionPreset="scale" {...modalProps}>
+    <ModalUI
+      motionPreset="scale"
+      {...modalProps}
+      closeOnOverlayClick={!isLoading}
+    >
       <ModalOverlay />
 
       {children}
