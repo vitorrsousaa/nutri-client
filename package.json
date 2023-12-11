@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "prettier": "prettier --write",
     "preview": "vite preview",
     "test": "jest",
+    "test:ci": "jest --all",
     "test:dev": "jest --coverage --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@chakra-ui/avatar": "^2.3.0",
@@ -33,6 +35,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@tanstack/react-query": "^4.35.7",
     "axios": "^1.5.1",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.5",
     "react": "^18.2.0",
@@ -47,9 +50,11 @@
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
     "@hookform/devtools": "^4.3.1",
+    "@tanstack/eslint-plugin-query": "^5.12.1",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.9",
+    "@types/node": "^20.10.4",
     "@types/react": "^18.2.38",
     "@types/react-dom": "^18.2.16",
     "@types/react-query": "^1.2.9",

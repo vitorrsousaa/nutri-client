@@ -7,7 +7,8 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -43,8 +44,12 @@
           "error",
           {
             "groups": [
-              // `react` first, `next` second, then packages starting with a character
-              ["^react$", "^@?\\w"],
+              // `react` first
+              ["^react$"],
+              // Packages starting with `@godiet`
+              ["^@godiet"],
+              // Packages starting with a character
+              ["^@?\\w"],
               // Packages starting with `@`
               ["^@"],
               // Packages starting with `~`

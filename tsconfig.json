@@ -19,7 +19,16 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@godiet-ui/*": ["./src/libs/ui/components/*"],
+      "@godiet-hooks/*": ["./src/hooks/*"],
+      "@godiet-entities/*": ["./src/entities/*"],
+      "@godiet-components/*": ["./src/components/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
