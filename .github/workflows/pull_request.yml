@@ -11,21 +11,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install
         uses: ./.github/composite-actions/install
 
-      - name: Run build package
-        run: yarn build
+      - name: Run Typechecking
+        run: yarn typecheck
 
       - name: Run the tests
-        run: yarn test
-
-      - name: Run lint
-        run: yarn eslint . --fix
-
-      - name: Push changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'fix: Run ESLint and fix linting issues across all files'
+        run: yarn test:ci

@@ -88,79 +88,6 @@ export function useModalAddFood(props: ModalAddFoodProps) {
   //   },
   // ];
 
-  const handleCloseModal = useCallback(() => {
-    onClose();
-    setNewFood(null);
-  }, [onClose, setNewFood]);
-
-  const handleAddNewFood = useCallback(() => {
-    const currentFood = foods.find((food) => food.id === newFood?.selectedFood);
-
-    if (!currentFood) {
-      return;
-    }
-
-    if (!newFood) {
-      return;
-    }
-
-    if (!isEditingFood) {
-      appendFood(selectedFood);
-    } else {
-      updateFood(indexFood!, selectedFood);
-    }
-
-    handleCloseModal();
-  }, [newFood, appendFood, onClose, foods]);
-
-  const handleChangeFieldFood = useCallback(
-    <Field extends keyof CreateFoodSchema>(
-      field: Field,
-      newValue: CreateFoodSchema[Field]
-    ) => {
-      setNewFood((prevFood) => {
-        if (prevFood === null) {
-          const createObject: CreateFoodSchema = {
-            selectedFood: '',
-            quantity: 0,
-          };
-          return { ...createObject, [field]: newValue };
-        }
-
-        return {
-          ...prevFood,
-
-          [field]: newValue,
-        };
-      });
-    },
-    [setNewFood, newFood]
-  );
-
-  const handleChangeOrigin = useCallback(
-    (origin: string) => {
-      const parsedOrigin = OriginFoodEnum.parse(origin);
-      setOrigin(parsedOrigin);
-    },
-    [setOrigin]
-  );
-
-  const foodOptions = useMemo<SelectOptionsType[]>(() => {
-    const mappedFoods = foods.map((food) => ({
-      label: food.name,
-      value: food.id,
-    }));
-    mappedFoods.unshift({ label: 'Selecione um alimento', value: '' });
-
-    return mappedFoods;
-  }, [foods]);
-
-  const isValid = useMemo(() => {
-    return Boolean(
-      newFood && newFood.quantity > 0 && newFood.selectedFood.length > 0
-    );
-  }, [newFood]);
-
   const selectedFood = useMemo(() => {
     const currentFood = foods.find((food) => food.id === newFood?.selectedFood);
 
@@ -188,6 +115,88 @@ export function useModalAddFood(props: ModalAddFoodProps) {
       lipid: getCalculateAttributes(newFood.quantity, currentFood, 'lipid'),
     };
   }, [newFood, foods, origin]);
+
+  const handleCloseModal = useCallback(() => {
+    onClose();
+    setNewFood(null);
+  }, [onClose, setNewFood]);
+
+  const handleAddNewFood = useCallback(() => {
+    const currentFood = foods.find((food) => food.id === newFood?.selectedFood);
+
+    if (!currentFood) {
+      return;
+    }
+
+    if (!newFood) {
+      return;
+    }
+
+    if (!isEditingFood) {
+      appendFood(selectedFood);
+    } else {
+      updateFood(indexFood!, selectedFood);
+    }
+
+    handleCloseModal();
+  }, [
+    foods,
+    newFood,
+    isEditingFood,
+    handleCloseModal,
+    appendFood,
+    selectedFood,
+    updateFood,
+    indexFood,
+  ]);
+
+  const handleChangeFieldFood = useCallback(
+    <Field extends keyof CreateFoodSchema>(
+      field: Field,
+      newValue: CreateFoodSchema[Field]
+    ) => {
+      setNewFood((prevFood) => {
+        if (prevFood === null) {
+          const createObject: CreateFoodSchema = {
+            selectedFood: '',
+            quantity: 0,
+          };
+          return { ...createObject, [field]: newValue };
+        }
+
+        return {
+          ...prevFood,
+
+          [field]: newValue,
+        };
+      });
+    },
+    [setNewFood]
+  );
+
+  const handleChangeOrigin = useCallback(
+    (origin: string) => {
+      const parsedOrigin = OriginFoodEnum.parse(origin);
+      setOrigin(parsedOrigin);
+    },
+    [setOrigin]
+  );
+
+  const foodOptions = useMemo<SelectOptionsType[]>(() => {
+    const mappedFoods = foods.map((food) => ({
+      label: food.name,
+      value: food.id,
+    }));
+    mappedFoods.unshift({ label: 'Selecione um alimento', value: '' });
+
+    return mappedFoods;
+  }, [foods]);
+
+  const isValid = useMemo(() => {
+    return Boolean(
+      newFood && newFood.quantity > 0 && newFood.selectedFood.length > 0
+    );
+  }, [newFood]);
 
   const dataChart = useMemo(() => {
     if (!selectedFood) {

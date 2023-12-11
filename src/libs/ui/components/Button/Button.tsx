@@ -3,8 +3,24 @@ import {
   ButtonProps as ChakraButtonProps,
 } from '@chakra-ui/react';
 
-interface ButtonProps extends ChakraButtonProps {}
+interface ButtonProps
+  extends Omit<
+    ChakraButtonProps,
+    'disabled' | '_disabled' | 'variant' | '_loading'
+  > {
+  variant?: 'solid' | 'danger' | 'ghost' | 'secondary';
+}
 
-export function Button(props: ButtonProps) {
+type DefaultProps = Pick<ButtonProps, 'variant'>;
+
+const defaultProps: DefaultProps = {
+  variant: 'solid',
+};
+
+type Props = ButtonProps & DefaultProps;
+
+export function Button(props: Props) {
   return <ChakraButton {...props} />;
 }
+
+Button.defaultProps = defaultProps;

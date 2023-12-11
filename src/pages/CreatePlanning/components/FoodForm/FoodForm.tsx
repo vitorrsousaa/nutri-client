@@ -1,9 +1,12 @@
-import { useRef } from 'react';
+import Button from '@godiet-ui/Button';
+import Text from '@godiet-ui/Text';
 
-import Button from '../../../../libs/ui/components/Button';
-import ModalAddFood, { IModalAddFoodRef } from '../ModalAddFood';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+
+import ModalAddFood from '../ModalAddFood';
 
 import { useFoodFormHook } from './FoodForm.hook';
+import * as styled from './FoodForm.styles';
 
 export interface FoodFormProps {
   mealIndex: number;
@@ -13,46 +16,43 @@ export function FoodForm(props: FoodFormProps) {
   const {
     foods,
     modalAddFoodIsOpen,
+    modalFormRef,
     toggleModalAddNewFood,
     removeFood,
     appendFood,
     updateFood,
   } = useFoodFormHook(props);
 
-  const modalFormRef = useRef<IModalAddFoodRef>(null);
-
   return (
     <>
       {foods.map((food, foodIndex) => {
         return (
-          <div
-            key={food.id}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: 8,
-              border: 'solid 1px blue',
-            }}
-          >
-            <div>
-              <h2>{food.name}</h2>
-              <h3>{food.quantity}</h3>
+          <styled.FoodFormContainerFood key={food.id}>
+            <div className="container-name-food">
+              <Text as="small" fontSize={'16px'}>
+                {food.name}
+              </Text>
+              <Text as="small" fontSize={'14px'}>
+                {food.quantity} (g)
+              </Text>
             </div>
-            <div>
+            <div className="container-edit-actions">
               <Button
                 onClick={() => {
                   toggleModalAddNewFood();
                   modalFormRef.current?.setFieldsValues(food);
                   modalFormRef.current?.setIndexFood(foodIndex);
                 }}
+                variant="ghost"
               >
-                Editar
+                <EditIcon />
               </Button>
-              <Button onClick={() => removeFood(foodIndex)}>
-                Remover alimento
+
+              <Button onClick={() => removeFood(foodIndex)} variant="ghost">
+                <DeleteIcon />
               </Button>
             </div>
-          </div>
+          </styled.FoodFormContainerFood>
         );
       })}
 

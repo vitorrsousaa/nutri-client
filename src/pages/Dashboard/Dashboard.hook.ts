@@ -1,6 +1,14 @@
 import { useCallback, useState } from 'react';
 
+import { useNavigate } from 'react-router';
+
+import { useGetAllPatients } from '../../hooks/patients';
+
 export function useDashboardHook() {
+  const navigate = useNavigate();
+
+  const { patients, isFetchingPatients } = useGetAllPatients();
+
   const [modalCreatePatientIsOpen, setModalCreatePatientIsOpen] =
     useState(false);
 
@@ -10,6 +18,9 @@ export function useDashboardHook() {
 
   return {
     modalCreatePatientIsOpen,
+    isFetchingPatients,
+    patients,
+    navigate,
     toggleModalCreatePatient,
   };
 }

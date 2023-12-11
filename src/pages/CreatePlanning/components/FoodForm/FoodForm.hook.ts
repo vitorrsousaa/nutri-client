@@ -1,5 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
+
 import { useFieldArray, useFormContext } from 'react-hook-form';
+
+import { IModalAddFoodRef } from '../ModalAddFood';
 
 import { FoodFormProps } from './FoodForm';
 
@@ -21,6 +24,8 @@ export function useFoodFormHook(props: FoodFormProps) {
 
   const [modalAddFoodIsOpen, setModalAddFoodIsOpen] = useState(false);
 
+  const modalFormRef = useRef<IModalAddFoodRef>(null);
+
   const { control } = useFormContext();
 
   const {
@@ -35,7 +40,7 @@ export function useFoodFormHook(props: FoodFormProps) {
 
   const toggleModalAddNewFood = useCallback(() => {
     setModalAddFoodIsOpen((prev) => !prev);
-  }, [modalAddFoodIsOpen]);
+  }, []);
 
   const foods = useMemo(() => {
     return fields;
@@ -44,6 +49,7 @@ export function useFoodFormHook(props: FoodFormProps) {
   return {
     foods,
     modalAddFoodIsOpen,
+    modalFormRef,
     toggleModalAddNewFood,
     removeFood,
     appendFood,

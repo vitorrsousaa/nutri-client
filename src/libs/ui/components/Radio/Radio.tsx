@@ -1,7 +1,9 @@
 import { forwardRef } from 'react';
+
+import Button from '@godiet-ui/Button';
+
 import {
   Box,
-  Button,
   RadioProps as ChakraRadioProps,
   Stack,
   useRadio,
@@ -30,7 +32,7 @@ const CustomRadio = forwardRef<HTMLInputElement, ChakraRadioProps>(
           as="div"
           {...checkbox}
           cursor="pointer"
-          colorScheme={state.isChecked ? 'red' : 'gray'}
+          variant={state.isChecked ? 'solid' : 'secondary'}
         >
           {children}
         </Button>

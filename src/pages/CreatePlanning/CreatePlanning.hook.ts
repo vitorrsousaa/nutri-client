@@ -1,6 +1,10 @@
 import { useCallback, useMemo } from 'react';
+
+import { useFindByIdPatient } from '@godiet-hooks/patients';
+import { useCreatePlanningMeal } from '@godiet-hooks/planningMeal';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -8,8 +12,6 @@ import {
   CreatePlanningMealDTO,
   CreatePlanningMealSchema,
 } from '../../entities/planning/dtos/create-planning-meal-dto';
-import { useFindByIdPatient } from '../../hooks/patients';
-import { useCreatePlanningMeal } from '../../hooks/planningMeal';
 
 export function useCreatePlanning() {
   const { id } = useParams<{ id: string }>();
@@ -30,13 +32,15 @@ export function useCreatePlanning() {
     control,
   } = methods;
 
-  const {
-    fields: meals,
-    append: appendMeals,
-    remove: removeMeal,
-  } = useFieldArray({
+  const { append: appendMeals, remove: removeMeal } = useFieldArray({
     control,
     name: 'meals',
+  });
+
+  const meals = useWatch({
+    control,
+    name: 'meals',
+    defaultValue: [],
   });
 
   const handleSubmit = hookFormSubmit(async (data) => {
@@ -79,12 +83,16 @@ export function useCreatePlanning() {
     });
   }, [appendMeals]);
 
-  const returnPage = useCallback(() => {
-    navigate(-1);
-  }, []);
-
   const isValid = useMemo(() => {
-    return Boolean(formIsValid);
+    return Boolean(
+      formIsValid &&
+        meals.every((meal) => {
+          return (
+            meal.foods.length > 0 &&
+            meal.foods.every((food) => food.quantity > 0)
+          );
+        })
+    );
   }, [formIsValid, meals]);
 
   return {
@@ -95,7 +103,6 @@ export function useCreatePlanning() {
     isValid,
     errors,
     control,
-    returnPage,
     handleSubmit,
     handleRemoveMeal,
     handleAddNewMeal,

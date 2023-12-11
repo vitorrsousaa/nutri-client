@@ -1,4 +1,6 @@
-import { createPatientDTO } from '../../entities/patient/dtos/create-patient-dto';
+import { TUpdatePatientDTO } from '@godiet-entities/patient/dtos/update-patient-dto';
+
+import { TCreatePatientDTO } from '../../entities/patient/dtos/create-patient-dto';
 import { TPatient } from '../../entities/patient/TPatient';
 import { TPatientPersistance } from '../../entities/patient/TPatientPersistance';
 import HttpClient from '../HttpClient';
@@ -19,10 +21,10 @@ export class Service {
     return patients;
   }
 
-  create = async (createPatient: createPatientDTO) => {
+  create = async (createPatient: TCreatePatientDTO) => {
     const patientPersistance = await this.httpClient.post<
       TPatientPersistance,
-      createPatientDTO
+      TCreatePatientDTO
     >('/create', createPatient);
 
     const patientDomain = PatientMapper.toDomain(patientPersistance);
@@ -44,13 +46,14 @@ export class Service {
     return patientDomain;
   }
 
-  async update() {}
+  update = async (updatePatientDTO: TUpdatePatientDTO) => {
+    await this.httpClient.put(
+      `/update/${updatePatientDTO.id}`,
+      updatePatientDTO
+    );
+  };
 
-  delete = async (id: string | undefined) => {
-    if (!id) {
-      return null;
-    }
-
+  delete = async (id: string) => {
     await this.httpClient.delete(`/${id}`);
   };
 }
