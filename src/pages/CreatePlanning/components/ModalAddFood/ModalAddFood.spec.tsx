@@ -11,6 +11,67 @@ import {
 import ModalAddFood, { ModalAddFoodProps } from './ModalAddFood';
 import { useModalAddFood } from './ModalAddFood.hook';
 
+const foodsMock = [
+  {
+    id: 'any_id_1',
+    name: 'any_name_1',
+    categoryName: 'any_category',
+    baseUnit: 'any_base',
+    baseQty: 100,
+    attributes: [
+      {
+        name: 'carbohydrate',
+        unit: 'any_unit',
+        qty: 100,
+      },
+      {
+        name: 'energy',
+        unit: 'any_unit',
+        qty: 100,
+      },
+      {
+        name: 'protein',
+        unit: 'any_unit',
+        qty: 100,
+      },
+      {
+        name: 'lipid',
+        unit: 'any_unit',
+        qty: 100,
+      },
+    ],
+  },
+  {
+    id: 'any_id',
+    name: 'any_name',
+    categoryName: 'any_category',
+    baseUnit: 'any_base',
+    baseQty: 100,
+    attributes: [
+      {
+        name: 'carbohydrate',
+        unit: 'any_unit',
+        qty: 100,
+      },
+      {
+        name: 'energy',
+        unit: 'any_unit',
+        qty: 100,
+      },
+      {
+        name: 'protein',
+        unit: 'any_unit',
+        qty: 100,
+      },
+      {
+        name: 'lipid',
+        unit: 'any_unit',
+        qty: 100,
+      },
+    ],
+  },
+];
+
 describe('Modal add food', () => {
   let spy = {
     useGetAllFoods: {} as jest.SpyInstance<
@@ -22,6 +83,10 @@ describe('Modal add food', () => {
     spy = {
       useGetAllFoods: jest.spyOn(FoodService, 'useGetAllFoods'),
     };
+
+    spy.useGetAllFoods.mockReturnValue({
+      foods: foodsMock,
+    });
   });
 
   afterEach(() => {

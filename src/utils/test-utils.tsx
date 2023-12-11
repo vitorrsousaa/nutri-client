@@ -1,4 +1,5 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useState } from 'react';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   render,
@@ -15,7 +16,7 @@ type ProvidersProps = {
 
 function AllTheProviders(props: ProvidersProps) {
   const { children } = props;
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
     <BrowserRouter>
