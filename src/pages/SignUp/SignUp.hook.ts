@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -63,7 +64,7 @@ export function useSignUpHook() {
     if (signedIn) {
       navigate('/dashboard');
     }
-  }, [signedIn]);
+  }, [navigate, signedIn]);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {

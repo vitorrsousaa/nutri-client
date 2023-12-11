@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+
 import {
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -12,10 +13,11 @@ export interface InputNumberProps extends ChakraInputNumberProps {}
 
 const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
   (props, ref) => {
+    const { placeholder, ...inputNumberProps } = props;
     return (
       <>
-        <NumberInput {...props} ref={ref}>
-          <NumberInputField />
+        <NumberInput {...inputNumberProps} ref={ref}>
+          <NumberInputField placeholder={placeholder} />
 
           <NumberInputStepper>
             <NumberIncrementStepper />
