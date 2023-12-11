@@ -13,9 +13,6 @@ runs:
         node-version: 18
         cache: 'yarn'
 
-    - run: npx pkg delete scripts.prepare
-      shell: bash
-
     - name: Cache dependencies
       uses: actions/cache@v2
       with:
