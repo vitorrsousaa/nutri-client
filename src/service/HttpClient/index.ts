@@ -1,7 +1,6 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import APIError from '../../errors/APIErrors';
-import delay from '../../utils/delay';
 
 import api from './../api';
 
@@ -40,6 +39,14 @@ class HttpClient {
     });
   }
 
+  put<T, K>(path: string, data: K) {
+    return this.makeRequest<T>({
+      method: 'put',
+      url: `${this.baseURL}${path}`,
+      data,
+    });
+  }
+
   patch<T, K>(path: string, data: K) {
     return this.makeRequest<T>({
       method: 'patch',
@@ -49,7 +56,7 @@ class HttpClient {
   }
 
   private async makeRequest<T>(options: AxiosRequestConfig): Promise<T> {
-    await delay(1500);
+    // await delay(3000);
 
     const response: AxiosResponse = await api({
       ...options,
