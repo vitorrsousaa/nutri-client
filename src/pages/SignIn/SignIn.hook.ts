@@ -43,7 +43,7 @@ export function useSignInHook() {
     if (signedIn) {
       navigate('/dashboard');
     }
-  }, [signedIn]);
+  }, [navigate, signedIn]);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {

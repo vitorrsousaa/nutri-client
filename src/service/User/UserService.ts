@@ -10,8 +10,6 @@ export class Service {
       '/recover'
     );
 
-    console.log('recover', user);
-
     return user;
   }
 }
