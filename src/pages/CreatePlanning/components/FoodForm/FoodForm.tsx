@@ -2,7 +2,10 @@ import Button from '@godiet-ui/Button';
 import Text from '@godiet-ui/Text';
 
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { Cell, Pie, PieChart } from 'recharts';
 
+import COLORS from '../../../../constants/colors';
+import { DataChartType } from '../../types/dataChartType';
 import ModalAddFood from '../ModalAddFood';
 
 import { useFoodFormHook } from './FoodForm.hook';
@@ -21,11 +24,14 @@ export function FoodForm(props: FoodFormProps) {
     removeFood,
     appendFood,
     updateFood,
+    getFoodChart,
   } = useFoodFormHook(props);
 
   return (
     <>
       {foods.map((food, foodIndex) => {
+        const foodChart = getFoodChart(food);
+
         return (
           <styled.FoodFormContainerFood key={food.id}>
             <div className="container-name-food">
@@ -37,6 +43,23 @@ export function FoodForm(props: FoodFormProps) {
               </Text>
             </div>
             <div className="container-edit-actions">
+              <PieChart width={50} height={50} className="pie-chart">
+                <Pie
+                  dataKey={'value'}
+                  data={foodChart}
+                  cx={20}
+                  cy={20}
+                  innerRadius={8}
+                  outerRadius={20}
+                >
+                  {foodChart.map((entry) => (
+                    <Cell
+                      key={`cell-${entry.name}`}
+                      fill={COLORS[entry.name as DataChartType['name']]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
               <Button
                 onClick={() => {
                   toggleModalAddNewFood();

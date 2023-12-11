@@ -19,4 +19,8 @@ export const FoodFormContainerFood = styled.div`
     flex-direction: column;
     gap: 4px;
   }
+
+  .pie-chart {
+    margin-right: 8px;
+  }
 `;

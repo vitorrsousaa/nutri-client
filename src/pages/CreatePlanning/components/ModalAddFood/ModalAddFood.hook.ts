@@ -6,6 +6,7 @@ import {
 } from '../../../../entities/food/origin/TOrigin';
 import { useGetAllFoods } from '../../../../hooks/food';
 import { SelectOptionsType } from '../../../../libs/ui/components/Select';
+import { DataChartType } from '../../types/dataChartType';
 
 import { getCalculateAttributes } from './funcs/calculateAttributes';
 import { ModalAddFoodProps } from './ModalAddFood';
@@ -198,27 +199,31 @@ export function useModalAddFood(props: ModalAddFoodProps) {
     );
   }, [newFood]);
 
-  const dataChart = useMemo(() => {
+  const dataChart = useMemo<DataChartType[]>(() => {
     if (!selectedFood) {
       return [];
     }
 
     return [
       {
-        x: 'Carboidratos (g)',
-        y: selectedFood.carbohydrate,
+        name: 'Carboidratos',
+        value: Math.round(selectedFood.carbohydrate),
+        unit: 'g',
       },
       {
-        x: 'Proteínas (g)',
-        y: selectedFood.protein,
+        name: 'Proteínas',
+        value: Math.round(selectedFood.protein),
+        unit: 'g',
       },
       {
-        x: 'Lipídios (g)',
-        y: selectedFood.lipid,
+        name: 'Lipídios',
+        value: Math.round(selectedFood.lipid),
+        unit: 'g',
       },
       {
-        x: 'Calorias (kcal)',
-        y: selectedFood.energy,
+        name: 'Calorias',
+        value: Math.round(selectedFood.energy),
+        unit: 'kcal',
       },
     ];
   }, [selectedFood]);
