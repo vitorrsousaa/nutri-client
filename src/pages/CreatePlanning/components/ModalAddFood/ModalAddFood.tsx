@@ -157,7 +157,7 @@ const ModalAddFood = forwardRef<IModalAddFoodRef, ModalAddFoodProps>(
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value, name, item, index) => {
+                  formatter={(value, _, __, index) => {
                     return (
                       <>
                         {value} {dataChart[index].unit}
