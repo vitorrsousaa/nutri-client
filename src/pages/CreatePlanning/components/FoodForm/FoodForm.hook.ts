@@ -1,7 +1,9 @@
+/* eslint-disable indent */
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
+import { DataChartType } from '../../types/dataChartType';
 import { IModalAddFoodRef } from '../ModalAddFood';
 
 import { FoodFormProps } from './FoodForm';
@@ -46,6 +48,28 @@ export function useFoodFormHook(props: FoodFormProps) {
     return fields;
   }, [fields]) as unknown as FoodDataForm[];
 
+  const getFoodChart = useCallback<(food: FoodDataForm) => DataChartType[]>(
+    (food: FoodDataForm) =>
+      [
+        {
+          name: 'Carboidratos',
+          value: Math.round(food.carbohydrate),
+          unit: 'g',
+        },
+        {
+          name: 'Proteínas',
+          value: Math.round(food.protein),
+          unit: 'g',
+        },
+        {
+          name: 'Lipídios',
+          value: Math.round(food.lipid),
+          unit: 'g',
+        },
+      ] as DataChartType[],
+    []
+  );
+
   return {
     foods,
     modalAddFoodIsOpen,
@@ -54,5 +78,6 @@ export function useFoodFormHook(props: FoodFormProps) {
     removeFood,
     appendFood,
     updateFood,
+    getFoodChart,
   };
 }
