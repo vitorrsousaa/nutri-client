@@ -24,10 +24,7 @@ runs:
 
     - name: Set CRLF line endings
       run: |
-        git config --global core.autocrlf false
-        git config --global core.eol crlf
-        git ls-files -z | xargs -0 git add --renormalize
-        git reset --hard
+        git config --global core.autocrlf true
       shell: bash
 
     - name: Install dependencies
