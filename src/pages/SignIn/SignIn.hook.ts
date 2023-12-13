@@ -23,13 +23,9 @@ const signInFormSchema = z.object({
 type SignInFormSchema = z.infer<typeof signInFormSchema>;
 
 export function useSignInHook() {
-  const {
-    handleSubmit: hookFormSubmit,
-    register,
-    resetField,
-    setFocus,
-    formState: { errors },
-  } = useForm<SignInFormSchema>({ resolver: zodResolver(signInFormSchema) });
+  const methods = useForm<SignInFormSchema>({
+    resolver: zodResolver(signInFormSchema),
+  });
 
   const { signIn, signedIn } = useAuth();
 
@@ -38,6 +34,13 @@ export function useSignInHook() {
   const { isLoading, mutateAsync } = useMutation({
     mutationFn: AuthService.signIn,
   });
+
+  const {
+    handleSubmit: hookFormSubmit,
+    resetField,
+    setFocus,
+    formState: { errors, isValid },
+  } = methods;
 
   useEffect(() => {
     if (signedIn) {
@@ -59,8 +62,9 @@ export function useSignInHook() {
 
   return {
     errors,
-    handleSubmit,
+    methods,
     isLoading,
-    register,
+    isValid,
+    handleSubmit,
   };
 }
