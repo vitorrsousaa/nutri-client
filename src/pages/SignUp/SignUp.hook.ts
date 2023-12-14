@@ -44,11 +44,7 @@ const registerFormSchema = z
 type RegisterFormSchema = z.infer<typeof registerFormSchema>;
 
 export function useSignUpHook() {
-  const {
-    handleSubmit: hookFormSubmit,
-    register,
-    formState: { errors },
-  } = useForm<RegisterFormSchema>({
+  const methods = useForm<RegisterFormSchema>({
     resolver: zodResolver(registerFormSchema),
   });
 
@@ -59,6 +55,11 @@ export function useSignUpHook() {
   const { isLoading, mutateAsync } = useMutation({
     mutationFn: AuthService.signUp,
   });
+
+  const {
+    handleSubmit: hookFormSubmit,
+    formState: { errors, isValid },
+  } = methods;
 
   useEffect(() => {
     if (signedIn) {
@@ -81,8 +82,9 @@ export function useSignUpHook() {
 
   return {
     errors,
-    register,
-    handleSubmit,
+    methods,
     isLoading,
+    isValid,
+    handleSubmit,
   };
 }

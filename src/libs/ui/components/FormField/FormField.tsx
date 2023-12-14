@@ -21,8 +21,15 @@ export interface IFormFieldProps extends FormControlProps {
 }
 
 export default function FormField(props: IFormFieldProps) {
-  const { name, label, children, errorMessage, defaultValue, ...formProps } =
-    props;
+  const {
+    name,
+    label,
+    children,
+    errorMessage,
+    defaultValue,
+    className,
+    ...formProps
+  } = props;
 
   const { control } = useFormContext();
 
@@ -33,7 +40,10 @@ export default function FormField(props: IFormFieldProps) {
   }
 
   return (
-    <ChakraFormControl {...formProps}>
+    <ChakraFormControl
+      {...formProps}
+      className={`form-field ${className || ''}`.trim()}
+    >
       {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
 
       {name ? (
