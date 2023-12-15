@@ -32,12 +32,16 @@ export function useCreatePlanning() {
     control,
   } = methods;
 
-  const { append: appendMeals, remove: removeMeal } = useFieldArray({
+  const {
+    append: appendMeals,
+    remove: removeMeal,
+    fields: fieldMeals,
+  } = useFieldArray({
     control,
     name: 'meals',
   });
 
-  const meals = useWatch({
+  const watchMeals = useWatch({
     control,
     name: 'meals',
     defaultValue: [],
@@ -86,23 +90,26 @@ export function useCreatePlanning() {
   const isValid = useMemo(() => {
     return Boolean(
       formIsValid &&
-        meals.every((meal) => {
+        watchMeals.every((meal) => {
           return (
             meal.foods.length > 0 &&
             meal.foods.every((food) => food.quantity > 0)
           );
         })
     );
-  }, [formIsValid, meals]);
+  }, [formIsValid, watchMeals]);
+
+  const hasMeals = useMemo(() => fieldMeals.length > 0, [fieldMeals]);
 
   return {
     isFetchingPatient,
     patient,
     methods,
-    meals,
+    meals: fieldMeals,
     isValid,
     errors,
     control,
+    hasMeals,
     handleSubmit,
     handleRemoveMeal,
     handleAddNewMeal,

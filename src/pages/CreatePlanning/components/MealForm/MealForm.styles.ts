@@ -14,6 +14,13 @@ export const MealFormContainer = styled.div`
     padding-top: 16px;
     border-top: solid 1px #ccc;
   }
+
+  .container-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 export const MealFormContent = styled.div`

@@ -17,14 +17,7 @@ export function MealForm(props: MealFormProps) {
 
   return (
     <styled.MealFormContainer>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+      <div className="container-title">
         <h1>Refeição {mealIndex + 1}</h1>
         <Button variant={'danger'} onClick={() => onRemoveMeal(mealIndex)}>
           <DeleteIcon />

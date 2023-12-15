@@ -5,7 +5,21 @@ export const CreatePlanningContainerMeals = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+
+  .container-meals {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .container-cta-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-direction: center;
+  }
 `;
 
 export const CreatePlanningContainerForm = styled.form`
