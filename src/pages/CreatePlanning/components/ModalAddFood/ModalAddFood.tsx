@@ -151,7 +151,7 @@ const ModalAddFood = forwardRef<IModalAddFoodRef, ModalAddFoodProps>(
                 >
                   {dataChart.map((entry) => (
                     <Cell
-                      key={`cell-${entry.name}`}
+                      key={`cell-${entry.name}-${entry.value}`}
                       fill={COLORS[entry.name]}
                     />
                   ))}
