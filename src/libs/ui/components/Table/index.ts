@@ -1,5 +1,5 @@
 import {
-  Table as Root,
+  Table as TableContent,
   TableCaption,
   TableContainer,
   Tbody,
@@ -11,15 +11,15 @@ import {
 } from '@chakra-ui/table';
 
 const Table = {
-  Root: Root,
-  Thead: Thead,
-  Tbody: Tbody,
+  Content: TableContent,
+  Header: Thead,
+  Body: Tbody,
   Tfoot: Tfoot,
-  Tr: Tr,
+  Row: Tr,
   Th: Th,
   Td: Td,
   TableCaption: TableCaption,
-  TableContainer: TableContainer,
+  Root: TableContainer,
 };
 
 export default Table;
