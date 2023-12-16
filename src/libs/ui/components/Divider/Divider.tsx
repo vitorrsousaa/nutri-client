@@ -6,5 +6,5 @@ import {
 interface DividerProps extends ChakraDividerProps {}
 
 export function Divider(props: DividerProps) {
-  return <ChakraDivider {...props} height={'2px'} backgroundColor={'#999'} />;
+  return <ChakraDivider height={'2px'} {...props} backgroundColor={'#999'} />;
 }

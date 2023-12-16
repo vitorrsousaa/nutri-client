@@ -51,7 +51,7 @@ describe('Sign In', () => {
       rendered = render(<SignIn />);
 
       // Assert
-      expect(rendered.getByText('sign in'));
+      expect(rendered.getByText('Acessar sua conta'));
     });
   });
 
