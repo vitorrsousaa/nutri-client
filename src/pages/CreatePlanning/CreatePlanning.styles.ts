@@ -10,6 +10,7 @@ export const CreatePlanningContainerMeals = styled.div`
     display: flex;
     gap: 24px;
     margin-bottom: 24px;
+    width: 100%;
   }
 
   .container-cta-actions {

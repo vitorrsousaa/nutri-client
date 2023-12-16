@@ -8,6 +8,7 @@ export const MealFormContainer = styled.div`
   border: solid 1px #ccc;
   border-radius: 8px;
   padding: 16px;
+  min-width: 520px;
 
   & + & {
     margin-top: 16px;
