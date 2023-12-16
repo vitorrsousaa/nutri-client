@@ -1,10 +1,13 @@
-import { TFood } from '../../../entities/food/TFood';
-import { TFoodTaco } from '../../../entities/food/TFoodPrisma';
+import { TFood } from '@godiet-entities/food/TFood';
+import {
+  TFoodAttribute,
+  TFoodPersistance,
+} from '@godiet-entities/food/TFoodPrisma';
 
 export type FormatFood = 'COMPLETE' | 'PARTIAL';
 
 class FoodDatabaseMapper {
-  toDomain(food: TFoodTaco, format?: FormatFood): TFood {
+  toDomain(food: TFoodPersistance, format?: FormatFood): TFood {
     const { attributes, ...restFood } = food;
 
     return {
@@ -14,18 +17,50 @@ class FoodDatabaseMapper {
   }
 
   private getFilteredAttributes(
-    attributes: TFoodTaco['attributes'],
+    attributes: TFoodPersistance['attributes'],
     format?: FormatFood
   ) {
     const attributesPartial = ['protein', 'carbohydrate', 'energy', 'lipid'];
 
+    let newAttributes = [];
+
     if (format === 'COMPLETE') {
-      return attributes;
+      newAttributes = attributes;
+    } else {
+      newAttributes = attributes.filter((attribute) =>
+        attributesPartial.includes(attribute.name)
+      );
     }
 
-    return attributes.filter((attribute) =>
-      attributesPartial.includes(attribute.name)
-    );
+    return newAttributes.map(this.verifyAttributes);
+  }
+
+  private verifyAttributes(attribute: TFoodAttribute): TFoodAttribute {
+    const { name, qty, unit } = attribute;
+
+    if (typeof qty === 'string') {
+      const qtyIsNumber = Number(qty);
+
+      if (qtyIsNumber) {
+        return {
+          name,
+          qty: qtyIsNumber,
+          unit,
+        };
+      }
+
+      return {
+        name,
+        qty: 0,
+        unit,
+      };
+    }
+
+    return {
+      name,
+      qty,
+      unit,
+    };
   }
 }
 
