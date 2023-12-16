@@ -1045,6 +1045,14 @@
     "@chakra-ui/react-context" "2.1.0"
     "@chakra-ui/shared-utils" "2.0.5"
 
+"@chakra-ui/table@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/table/-/table-2.1.0.tgz#20dce14c5e4d70dc7c6c0e87cce9b05907ff8c50"
+  integrity sha512-o5OrjoHCh5uCLdiUb0Oc0vq9rIAeHSIRScc2ExTC9Qg/uVZl2ygLrjToCaKfaaKl1oQexIeAcZDKvPG8tVkHyQ==
+  dependencies:
+    "@chakra-ui/react-context" "2.1.0"
+    "@chakra-ui/shared-utils" "2.0.5"
+
 "@chakra-ui/tabs@3.0.0", "@chakra-ui/tabs@^3.0.0":
   version "3.0.0"
   resolved "https://registry.npmjs.org/@chakra-ui/tabs/-/tabs-3.0.0.tgz"

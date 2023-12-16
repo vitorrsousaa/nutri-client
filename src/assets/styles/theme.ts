@@ -12,6 +12,18 @@ const componentsTheme: Record<string, StyleConfig> = {
       color: '#111',
     },
   },
+  Table: {
+    variants: {
+      simple: {
+        th: {
+          borderColor: '#ccc',
+        },
+        td: {
+          borderColor: '#ccc',
+        },
+      },
+    },
+  },
 };
 
 export const theme = extendTheme({

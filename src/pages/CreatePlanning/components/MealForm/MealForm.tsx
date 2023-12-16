@@ -1,3 +1,5 @@
+import Text from '@godiet-ui/Text';
+
 import { DeleteIcon } from '@chakra-ui/icons';
 
 import Button from '../../../../libs/ui/components/Button';
@@ -17,15 +19,10 @@ export function MealForm(props: MealFormProps) {
 
   return (
     <styled.MealFormContainer>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <h1>Refeição {mealIndex + 1}</h1>
+      <div className="container-title">
+        <Text as="h1" fontWeight={500}>
+          Refeição {mealIndex + 1}
+        </Text>
         <Button variant={'danger'} onClick={() => onRemoveMeal(mealIndex)}>
           <DeleteIcon />
         </Button>

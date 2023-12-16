@@ -11,6 +11,7 @@ import { DevTool } from '@hookform/devtools';
 import { FormProvider } from 'react-hook-form';
 
 import MealForm from './components/MealForm';
+import SummaryPlanning from './components/SummaryPlanning';
 import { useCreatePlanning } from './CreatePlanning.hook';
 import * as styled from './CreatePlanning.styles';
 
@@ -23,6 +24,7 @@ export function CreatePlanning() {
     errors,
     control,
     patient,
+    hasMeals,
     handleSubmit,
     handleRemoveMeal,
     handleAddNewMeal,
@@ -60,39 +62,36 @@ export function CreatePlanning() {
                   Refeições
                 </Text>
 
-                <styled.CreatePlanningContainerMeals
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    gap: '24px',
-                  }}
-                >
-                  <div className="componente field-array">
-                    {meals.map((field, index) => (
-                      <MealForm
-                        key={`${field.name}-${index}`}
-                        onRemoveMeal={handleRemoveMeal}
-                        mealIndex={index}
-                      />
-                    ))}
+                <styled.CreatePlanningContainerMeals>
+                  <div className="container-meals">
+                    <div className="container-field-meals">
+                      {meals.map((field, index) => (
+                        <MealForm
+                          key={`${field.name}-${index}`}
+                          onRemoveMeal={handleRemoveMeal}
+                          mealIndex={index}
+                        />
+                      ))}
+                    </div>
+                    {hasMeals && <SummaryPlanning control={control} />}
                   </div>
 
-                  {meals.length <= 0 && (
-                    <Text as="small" color="#444" fontSize={'16px'}>
-                      Este planejamento alimentar ainda não possui refeições.
-                    </Text>
-                  )}
+                  <div className="container-cta-actions">
+                    {!hasMeals && (
+                      <Text as="small" color="#444" fontSize={'16px'}>
+                        Este planejamento alimentar ainda não possui refeições.
+                      </Text>
+                    )}
 
-                  <Button
-                    type="button"
-                    onClick={handleAddNewMeal}
-                    colorScheme="blue"
-                    leftIcon={<AddIcon />}
-                  >
-                    Adicionar refeição
-                  </Button>
+                    <Button
+                      type="button"
+                      onClick={handleAddNewMeal}
+                      colorScheme="blue"
+                      leftIcon={<AddIcon />}
+                    >
+                      Adicionar refeição
+                    </Button>
+                  </div>
                 </styled.CreatePlanningContainerMeals>
 
                 <Divider />

@@ -13,10 +13,8 @@ import {
   UseFieldArrayAppend,
   UseFieldArrayUpdate,
 } from 'react-hook-form';
-import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
 
-import COLORS from '../../../../constants/colors';
-import { DataChartType } from '../../types/dataChartType';
+import ChartSummaryFoods from '../ChartSummaryFoods';
 import { FoodDataForm } from '../FoodForm/FoodForm.hook';
 
 import { useModalAddFood } from './ModalAddFood.hook';
@@ -126,47 +124,12 @@ const ModalAddFood = forwardRef<IModalAddFoodRef, ModalAddFoodProps>(
 
           {dataChart.length > 0 && (
             <styled.ModalAddFoodContainerChart>
-              <PieChart width={600} height={300}>
-                <Pie
-                  dataKey="value"
-                  data={dataChart.filter(
-                    (chartType) => chartType.name !== 'Calorias'
-                  )}
-                  cx={300}
-                  cy={150}
-                  innerRadius={40}
-                  outerRadius={80}
-                  label={({ x, y, value, unit, name }) => {
-                    return (
-                      <text
-                        x={x}
-                        y={y}
-                        fill={COLORS[name as DataChartType['name']]}
-                        textAnchor="middle"
-                      >
-                        {value} {unit}
-                      </text>
-                    );
-                  }}
-                >
-                  {dataChart.map((entry) => (
-                    <Cell
-                      key={`cell-${entry.name}`}
-                      fill={COLORS[entry.name]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value, _, __, index) => {
-                    return (
-                      <>
-                        {value} {dataChart[index].unit}
-                      </>
-                    );
-                  }}
-                />
-                <Legend />
-              </PieChart>
+              <ChartSummaryFoods
+                dataChart={dataChart.filter(
+                  (chartType) => chartType.name !== 'Calorias'
+                )}
+              />
+
               <div className="container-extra-legend">
                 <div className="extra-legend" />
                 <Text as={'small'} marginRight={'8px'} className="legend">

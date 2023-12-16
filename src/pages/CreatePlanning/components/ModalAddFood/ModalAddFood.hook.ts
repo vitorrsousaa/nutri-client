@@ -26,69 +26,6 @@ export function useModalAddFood(props: ModalAddFoodProps) {
 
   const { foods, isFetchingFoods } = useGetAllFoods(origin);
 
-  // const isFetchingFoods = false;
-
-  // const foods = [
-  //   {
-  //     id: 'any_id_1',
-  //     name: 'any_name_1',
-  //     categoryName: 'any_category',
-  //     baseUnit: 'any_base',
-  //     baseQty: 100,
-  //     attributes: [
-  //       {
-  //         name: 'carbohydrate',
-  //         unit: 'any_unit',
-  //         qty: 100,
-  //       },
-  //       {
-  //         name: 'energy',
-  //         unit: 'any_unit',
-  //         qty: 100,
-  //       },
-  //       {
-  //         name: 'protein',
-  //         unit: 'any_unit',
-  //         qty: 100,
-  //       },
-  //       {
-  //         name: 'lipid',
-  //         unit: 'any_unit',
-  //         qty: 100,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 'any_id',
-  //     name: 'any_name',
-  //     categoryName: 'any_category',
-  //     baseUnit: 'any_base',
-  //     baseQty: 100,
-  //     attributes: [
-  //       {
-  //         name: 'carbohydrate',
-  //         unit: 'any_unit',
-  //         qty: 100,
-  //       },
-  //       {
-  //         name: 'energy',
-  //         unit: 'any_unit',
-  //         qty: 100,
-  //       },
-  //       {
-  //         name: 'protein',
-  //         unit: 'any_unit',
-  //         qty: 100,
-  //       },
-  //       {
-  //         name: 'lipid',
-  //         unit: 'any_unit',
-  //         qty: 100,
-  //       },
-  //     ],
-  //   },
-  // ];
-
   const selectedFood = useMemo(() => {
     const currentFood = foods.find((food) => food.id === newFood?.selectedFood);
 
