@@ -1,145 +1,72 @@
-import { useCallback, useMemo } from 'react';
-
-import {
-  CreateFoodDTO,
-  CreatePlanningMealDTO,
-} from '@godiet-entities/planning/dtos/create-planning-meal-dto';
+import { CreatePlanningMealDTO } from '@godiet-entities/planning/dtos/create-planning-meal-dto';
+import Table from '@godiet-ui/Table';
 import Text from '@godiet-ui/Text';
 
-import { Control, useWatch } from 'react-hook-form';
-import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
+import { Control } from 'react-hook-form';
 
-import COLORS from '../../../../constants/colors';
-import { DataChartType } from '../../types/dataChartType';
+import ChartSummaryFoods from '../ChartSummaryFoods';
 
-interface SummaryPlanningProps {
+import { useSummaryPlanningHook } from './SummaryPlanning.hook';
+import * as styled from './SummaryPlanning.styles';
+export interface SummaryPlanningProps {
   control: Control<CreatePlanningMealDTO, unknown>;
 }
 
 export function SummaryPlanning(props: SummaryPlanningProps) {
-  const { control } = props;
-
-  const meals = useWatch({
-    control,
-    name: 'meals',
-  });
-
-  const hasFoods = useMemo(
-    () =>
-      meals.some(
-        (meal) =>
-          meal.foods.length > 0 && meal.foods.every((food) => food.name !== '')
-      ),
-    [meals]
-  );
-
-  const dataMeals = useMemo<CreateFoodDTO[]>(
-    () => meals.map((meal) => meal.foods).flat(),
-    [meals]
-  );
-
-  const calculateAttributes = useCallback(
-    (
-      attribute: 'carbohydrate' | 'energy' | 'lipid' | 'protein' | 'quantity',
-      data: CreateFoodDTO[]
-    ) => {
-      const total = data.reduce((acc, food) => {
-        return acc + food[attribute];
-      }, 0);
-
-      return total;
-    },
-    []
-  );
-
-  const dataChart = useMemo<DataChartType[]>(() => {
-    const totalCarbohydrate = calculateAttributes('carbohydrate', dataMeals);
-    const totalProtein = calculateAttributes('protein', dataMeals);
-    const totalLipid = calculateAttributes('lipid', dataMeals);
-    const totalEnergy = calculateAttributes('energy', dataMeals);
-
-    return [
-      {
-        name: 'Carboidratos',
-        value: Math.round(totalCarbohydrate),
-        unit: 'g',
-      },
-      {
-        name: 'Proteínas',
-        value: Math.round(totalProtein),
-        unit: 'g',
-      },
-      {
-        name: 'Lipídios',
-        value: Math.round(totalLipid),
-        unit: 'g',
-      },
-      {
-        name: 'Calorias',
-        value: Math.round(totalEnergy),
-        unit: 'kcal',
-      },
-    ];
-  }, [calculateAttributes, dataMeals]);
+  const { hasFoods, dataTable, dataChart } = useSummaryPlanningHook(props);
 
   return (
-    <div
-      style={{
-        padding: '16px',
-        borderRadius: '8px',
-        border: 'solid 1px #ccc',
-      }}
-    >
-      <h1>Resumo do plano alimentar</h1>
+    <styled.SummaryPlanningContainer>
+      <Text as="h1" fontWeight={500}>
+        Resumo do plano alimentar
+      </Text>
       {hasFoods ? (
-        <>
-          <PieChart width={400} height={300}>
-            <Pie
-              dataKey="value"
-              data={dataChart.filter(
-                (chartType) => chartType.name !== 'Calorias'
-              )}
-              cx={200}
-              cy={150}
-              innerRadius={40}
-              outerRadius={80}
-              label={({ x, y, value, unit, name }) => {
-                return (
-                  <text
-                    x={x}
-                    y={y}
-                    fill={COLORS[name as DataChartType['name']]}
-                    textAnchor="middle"
-                  >
-                    {value} {unit}
-                  </text>
-                );
-              }}
-            >
-              {dataChart.map((entry) => (
-                <Cell
-                  key={`cell-${entry.name}-${entry.value}`}
-                  fill={COLORS[entry.name as DataChartType['name']]}
-                />
-              ))}
-            </Pie>
-            <Tooltip
-              formatter={(value, _, __, index) => {
-                return (
-                  <>
-                    {value} {dataChart[index].unit}
-                  </>
-                );
-              }}
-            />
-            <Legend />
-          </PieChart>
-        </>
+        <div className="container-chart-table">
+          <ChartSummaryFoods
+            dataChart={dataChart.filter(
+              (chartType) => chartType.name !== 'Calorias'
+            )}
+          />
+
+          <Table.Root>
+            <Table.Content variant={'simple'} size="md">
+              <Table.Header>
+                <Table.Row>
+                  <Table.Th width={'250px'}>Refeição</Table.Th>
+                  <Table.Th isNumeric>Carboidratos</Table.Th>
+                  <Table.Th isNumeric>Proteína</Table.Th>
+                  <Table.Th isNumeric>Gordura</Table.Th>
+                  <Table.Th isNumeric>Calorias</Table.Th>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {dataTable.map((data) => (
+                  <Table.Row key={`meal-${data.name}`}>
+                    <Table.Td
+                      maxWidth={'220px'}
+                      style={{
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {data.name}
+                    </Table.Td>
+                    <Table.Td isNumeric>{data.carbohydrate}</Table.Td>
+                    <Table.Td isNumeric>{data.protein}</Table.Td>
+                    <Table.Td isNumeric>{data.lipid}</Table.Td>
+                    <Table.Td isNumeric>{data.energy}</Table.Td>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Content>
+          </Table.Root>
+        </div>
       ) : (
-        <div>
+        <div className="container-empty-planning">
           <Text>Adicione alimentos no planejamento alimentar</Text>
         </div>
       )}
-    </div>
+    </styled.SummaryPlanningContainer>
   );
 }
