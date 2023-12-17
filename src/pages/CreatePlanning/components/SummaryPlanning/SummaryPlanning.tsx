@@ -1,4 +1,5 @@
 import { CreatePlanningMealDTO } from '@godiet-entities/planning/dtos/create-planning-meal-dto';
+import { DataTotalType } from '@godiet-types/dataTotalType';
 import Table from '@godiet-ui/Table';
 import Text from '@godiet-ui/Text';
 
@@ -6,7 +7,7 @@ import { Control } from 'react-hook-form';
 
 import ChartSummaryFoods from '../ChartSummaryFoods';
 
-import { DataTableType, useSummaryPlanningHook } from './SummaryPlanning.hook';
+import { useSummaryPlanningHook } from './SummaryPlanning.hook';
 import * as styled from './SummaryPlanning.styles';
 export interface SummaryPlanningProps {
   control: Control<CreatePlanningMealDTO, unknown>;
@@ -58,19 +59,19 @@ export function SummaryPlanning(props: SummaryPlanningProps) {
                     <Table.Td
                       key={`meal-total-${key}`}
                       className={`${
-                        typeof dataTableTotal[key as keyof DataTableType] ===
+                        typeof dataTableTotal[key as keyof DataTotalType] ===
                         'string'
                           ? 'container-table-title-value'
                           : ''
                       }`}
                       isNumeric={
-                        typeof dataTableTotal[key as keyof DataTableType] ===
+                        typeof dataTableTotal[key as keyof DataTotalType] ===
                         'string'
                           ? false
                           : true
                       }
                     >
-                      {dataTableTotal[key as keyof DataTableType]}
+                      {dataTableTotal[key as keyof DataTotalType]}
                     </Table.Td>
                   ))}
                 </Table.Row>
