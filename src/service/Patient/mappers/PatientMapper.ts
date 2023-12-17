@@ -11,6 +11,7 @@ class PatientMapper {
       id: patient.id,
       name: patient.name,
       weight: patient.weight,
+      planningMeal: patient.planningMeal || [],
     };
   }
 }

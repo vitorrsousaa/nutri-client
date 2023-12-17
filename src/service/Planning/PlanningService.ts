@@ -24,8 +24,19 @@ export class Service {
     return null;
   };
 
-  findByPatientId = async (patientId: string) => {
-    return this.httpClient.get(`/${patientId}`);
+  findByPatientId = async (patientId: string | undefined) => {
+    if (!patientId) {
+      return null;
+    }
+
+    try {
+      const result = await this.httpClient.get(`/${patientId}`);
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   };
 
   update = async () => {

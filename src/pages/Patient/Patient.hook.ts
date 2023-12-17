@@ -1,4 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+
+import { useFindPlanningByPatientId } from '@godiet-hooks/planningMeal';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -10,6 +12,14 @@ export function usePatientHook() {
   const navigate = useNavigate();
 
   const { patient, isFetchingPatient } = useFindPatientById(id);
+
+  const hasPlanning = useMemo(() => !!patient?.planningMeal?.length, [patient]);
+
+  const { planningByPatientId } = useFindPlanningByPatientId(id, {
+    enabled: hasPlanning,
+  });
+
+  console.log(planningByPatientId);
 
   const [modalEditPatientIsOpen, setModalEditPatientIsOpen] = useState(false);
 
@@ -25,6 +35,7 @@ export function usePatientHook() {
     isFetchingPatient,
     patient,
     modalEditPatientIsOpen,
+    hasPlanning,
     redirectToCreatePlanning,
     toggleModalEditPatient,
   };
