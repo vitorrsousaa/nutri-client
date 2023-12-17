@@ -37,6 +37,7 @@ describe('Card Patient Component', () => {
             id: 'any_id',
             name: 'any_name',
             weight: 80,
+            planningMeal: [],
           }}
         />
       );
@@ -75,6 +76,7 @@ describe('Card Patient Component', () => {
             id: 'any_id',
             name: 'any_name',
             weight: 80,
+            planningMeal: [],
           },
         })
       );
