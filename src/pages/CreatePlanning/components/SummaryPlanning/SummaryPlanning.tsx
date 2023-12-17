@@ -6,14 +6,15 @@ import { Control } from 'react-hook-form';
 
 import ChartSummaryFoods from '../ChartSummaryFoods';
 
-import { useSummaryPlanningHook } from './SummaryPlanning.hook';
+import { DataTableType, useSummaryPlanningHook } from './SummaryPlanning.hook';
 import * as styled from './SummaryPlanning.styles';
 export interface SummaryPlanningProps {
   control: Control<CreatePlanningMealDTO, unknown>;
 }
 
 export function SummaryPlanning(props: SummaryPlanningProps) {
-  const { hasFoods, dataTable, dataChart } = useSummaryPlanningHook(props);
+  const { hasFoods, dataTable, dataChart, dataTableTotal } =
+    useSummaryPlanningHook(props);
 
   return (
     <styled.SummaryPlanningContainer>
@@ -42,14 +43,7 @@ export function SummaryPlanning(props: SummaryPlanningProps) {
               <Table.Body>
                 {dataTable.map((data) => (
                   <Table.Row key={`meal-${data.name}`}>
-                    <Table.Td
-                      maxWidth={'220px'}
-                      style={{
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
+                    <Table.Td className="container-table-title-value">
                       {data.name}
                     </Table.Td>
                     <Table.Td isNumeric>{data.carbohydrate}</Table.Td>
@@ -58,6 +52,28 @@ export function SummaryPlanning(props: SummaryPlanningProps) {
                     <Table.Td isNumeric>{data.energy}</Table.Td>
                   </Table.Row>
                 ))}
+
+                <Table.Row key={'meal-total'}>
+                  {Object.keys(dataTableTotal).map((key) => (
+                    <Table.Td
+                      key={`meal-total-${key}`}
+                      className={`${
+                        typeof dataTableTotal[key as keyof DataTableType] ===
+                        'string'
+                          ? 'container-table-title-value'
+                          : ''
+                      }`}
+                      isNumeric={
+                        typeof dataTableTotal[key as keyof DataTableType] ===
+                        'string'
+                          ? false
+                          : true
+                      }
+                    >
+                      {dataTableTotal[key as keyof DataTableType]}
+                    </Table.Td>
+                  ))}
+                </Table.Row>
               </Table.Body>
             </Table.Content>
           </Table.Root>

@@ -23,4 +23,11 @@ export const SummaryPlanningContainer = styled.div`
     width: 100%;
     margin-top: 24px;
   }
+
+  .container-table-title-value {
+    max-width: 220px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 `;

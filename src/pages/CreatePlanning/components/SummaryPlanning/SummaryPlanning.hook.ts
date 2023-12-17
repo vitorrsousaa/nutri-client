@@ -64,6 +64,29 @@ export function useSummaryPlanningHook(props: SummaryPlanningProps) {
     });
   }, [calculateAttributes, meals]);
 
+  const dataTableTotal = useMemo<DataTableType>(
+    () =>
+      dataTable.reduce<DataTableType>(
+        (acc, dataTable) => {
+          return {
+            name: 'Total',
+            carbohydrate: acc.carbohydrate + dataTable.carbohydrate,
+            protein: acc.protein + dataTable.protein,
+            lipid: acc.lipid + dataTable.lipid,
+            energy: acc.energy + dataTable.energy,
+          };
+        },
+        {
+          name: 'Total',
+          carbohydrate: 0,
+          energy: 0,
+          lipid: 0,
+          protein: 0,
+        } as DataTableType
+      ),
+    [dataTable]
+  );
+
   const dataChart = useMemo<DataChartType[]>(() => {
     const totalCarbohydrate = calculateAttributes('carbohydrate', dataFoods);
     const totalProtein = calculateAttributes('protein', dataFoods);
@@ -98,5 +121,6 @@ export function useSummaryPlanningHook(props: SummaryPlanningProps) {
     hasFoods,
     dataTable,
     dataChart,
+    dataTableTotal,
   };
 }
