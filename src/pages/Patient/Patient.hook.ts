@@ -2,14 +2,14 @@ import { useCallback, useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useFindByIdPatient } from '../../hooks/patients';
+import { useFindPatientById } from '../../hooks/patients';
 
 export function usePatientHook() {
   const { id } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
 
-  const { patient, isFetchingPatient } = useFindByIdPatient(id);
+  const { patient, isFetchingPatient } = useFindPatientById(id);
 
   const [modalEditPatientIsOpen, setModalEditPatientIsOpen] = useState(false);
 

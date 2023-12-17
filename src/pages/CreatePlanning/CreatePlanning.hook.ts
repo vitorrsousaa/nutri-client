@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
-import { useFindByIdPatient } from '@godiet-hooks/patients';
+import { useFindPatientById } from '@godiet-hooks/patients';
 import { useCreatePlanningMeal } from '@godiet-hooks/planningMeal';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,7 +18,7 @@ export function useCreatePlanning() {
 
   const navigate = useNavigate();
 
-  const { patient, isFetchingPatient } = useFindByIdPatient(id);
+  const { patient, isFetchingPatient } = useFindPatientById(id);
 
   const { createPlanningMeal } = useCreatePlanningMeal();
 

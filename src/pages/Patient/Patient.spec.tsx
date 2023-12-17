@@ -16,8 +16,8 @@ import { usePatientHook } from './Patient.hook';
 
 describe('Patient Page', () => {
   let spy = {
-    useFindByIdPatient: {} as jest.SpyInstance<
-      Partial<ReturnType<typeof PatientService.useFindByIdPatient>>
+    useFindPatientById: {} as jest.SpyInstance<
+      Partial<ReturnType<typeof PatientService.useFindPatientById>>
     >,
     useAuth: {} as jest.SpyInstance<
       Partial<ReturnType<(typeof Authentication)['useAuth']>>
@@ -32,7 +32,7 @@ describe('Patient Page', () => {
 
   beforeEach(() => {
     spy = {
-      useFindByIdPatient: jest.spyOn(PatientService, 'useFindByIdPatient'),
+      useFindPatientById: jest.spyOn(PatientService, 'useFindPatientById'),
       useNavigate: jest.spyOn(ReactRouter, 'useNavigate'),
       useParams: jest.spyOn(ReactRouter, 'useParams'),
       useAuth: jest.spyOn(Authentication, 'useAuth'),
@@ -62,7 +62,7 @@ describe('Patient Page', () => {
 
     it('Should render loading when isFetchingPatient is true', () => {
       // Arrange
-      spy.useFindByIdPatient.mockReturnValue({
+      spy.useFindPatientById.mockReturnValue({
         isFetchingPatient: true,
       });
 
@@ -75,7 +75,7 @@ describe('Patient Page', () => {
 
     it('Should render alert when patient is not found', () => {
       // Arrange
-      spy.useFindByIdPatient.mockReturnValue({
+      spy.useFindPatientById.mockReturnValue({
         patient: null,
       });
       spy.useParams.mockReturnValue({ id: 'any_id' });
