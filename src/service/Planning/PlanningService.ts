@@ -1,4 +1,7 @@
-import { CreatePlanningMealDTO } from '../../entities/planning/dtos/create-planning-meal-dto';
+import { CreatePlanningMealDTO } from '@godiet-entities/planning/dtos/create-planning-meal-dto';
+import { TPlanningMeal } from '@godiet-entities/planning/TPlanningMeal';
+import { TPlanningMealPersistance } from '@godiet-entities/planning/TPlanningMealPersistance';
+
 import HttpClient from '../HttpClient';
 
 import PlanningMealMapper from './mappers/PlanningMealMapper';
@@ -24,19 +27,17 @@ export class Service {
     return null;
   };
 
-  findByPatientId = async (patientId: string | undefined) => {
+  findByPatientId = async (
+    patientId: string | undefined
+  ): Promise<TPlanningMeal | null> => {
     if (!patientId) {
       return null;
     }
 
-    try {
-      const result = await this.httpClient.get(`/${patientId}`);
+    const planningMealPersistance =
+      await this.httpClient.get<TPlanningMealPersistance>(`/${patientId}`);
 
-      return result;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
+    return PlanningMealMapper.toDomain(planningMealPersistance);
   };
 
   update = async () => {
