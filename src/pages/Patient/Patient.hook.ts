@@ -3,11 +3,11 @@ import { useCallback, useMemo, useState } from 'react';
 import { TMealFood } from '@godiet-entities/planning/TPlanningMeal';
 import { useFindPlanningByPatientId } from '@godiet-hooks/planningMeal';
 import { DataTotalType } from '@godiet-types/dataTotalType';
-import calculateAttributes from '@godiet-utils/funcs/calculateAttributes';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useFindPatientById } from '../../hooks/patients';
+import calculateAttributes from '../../utils/funcs/calculateAttributes';
 
 export type DataChartType = Omit<DataTotalType, 'energy' | 'name'>;
 

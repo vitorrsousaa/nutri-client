@@ -1,7 +1,9 @@
+import * as PatientService from '@godiet-hooks/patients';
+import * as PlanningMealService from '@godiet-hooks/planningMeal';
+import * as Authentication from '@godiet-hooks/useAuth';
+
 import { useNavigate, useParams } from 'react-router-dom';
 
-import * as PatientService from '../../hooks/patients';
-import * as Authentication from '../../hooks/useAuth';
 import {
   act,
   render,
@@ -28,6 +30,9 @@ describe('Patient Page', () => {
     useNavigate: {} as jest.SpyInstance<
       ReturnType<(typeof ReactRouter)['useNavigate']>
     >,
+    useFindPlanningByPatientId: {} as jest.SpyInstance<
+      Partial<ReturnType<typeof PlanningMealService.useFindPlanningByPatientId>>
+    >,
   };
 
   beforeEach(() => {
@@ -36,6 +41,10 @@ describe('Patient Page', () => {
       useNavigate: jest.spyOn(ReactRouter, 'useNavigate'),
       useParams: jest.spyOn(ReactRouter, 'useParams'),
       useAuth: jest.spyOn(Authentication, 'useAuth'),
+      useFindPlanningByPatientId: jest.spyOn(
+        PlanningMealService,
+        'useFindPlanningByPatientId'
+      ),
     };
 
     spy.useAuth.mockReturnValue({
