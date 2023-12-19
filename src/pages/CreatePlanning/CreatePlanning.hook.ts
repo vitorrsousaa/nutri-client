@@ -20,7 +20,9 @@ export function useCreatePlanning() {
 
   const { patient, isFetchingPatient } = useFindPatientById(id);
 
-  const { createPlanningMeal } = useCreatePlanningMeal();
+  const { createPlanningMeal } = useCreatePlanningMeal(patient?.id || '');
+
+  const { removePatient } = useFindPatientById(patient?.id);
 
   const methods = useForm<CreatePlanningMealDTO>({
     resolver: zodResolver(CreatePlanningMealSchema),
@@ -63,6 +65,8 @@ export function useCreatePlanning() {
         createPlanningMeal: data,
         patientId: patient?.id as string,
       });
+
+      removePatient();
 
       toast.success('Planejamento criado com sucesso');
     } catch {
