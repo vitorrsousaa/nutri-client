@@ -18,8 +18,6 @@ export function useSummaryPlanningHook(props: SummaryPlanningProps) {
     name: 'meals',
   });
 
-  console.log(meals);
-
   const hasFoods = useMemo(
     () =>
       meals.some(
