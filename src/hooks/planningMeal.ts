@@ -2,14 +2,18 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import PlanningMealService from '../service/Planning';
 
-export function useCreatePlanningMeal() {
+export function useCreatePlanningMeal(patientId: string) {
   const queryClient = useQueryClient();
 
   const { isLoading: isCreatingPlanningMeal, mutateAsync: createPlanningMeal } =
     useMutation({
       mutationFn: PlanningMealService.create,
       onSuccess: () => {
-        queryClient.invalidateQueries(['@planningMeal']);
+        queryClient.invalidateQueries([
+          '@planningMeal',
+          `@patients-${patientId}`,
+          patientId,
+        ]);
       },
     });
 
@@ -32,6 +36,7 @@ export function useFindPlanningByPatientId(
   const {
     isLoading: isFetchingPlanningByPatientId,
     data: planningByPatientId,
+    refetch: refetchPlanningByPatientId,
   } = useQuery(
     [`@planningMeal-${id}`, id],
     () => PlanningMealService.findByPatientId(id),
@@ -43,5 +48,6 @@ export function useFindPlanningByPatientId(
   return {
     isFetchingPlanningByPatientId,
     planningByPatientId,
+    refetchPlanningByPatientId,
   };
 }
