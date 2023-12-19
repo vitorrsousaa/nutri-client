@@ -20,7 +20,8 @@ export function useCreatePlanning() {
 
   const { patient, isFetchingPatient } = useFindPatientById(id);
 
-  const { createPlanningMeal } = useCreatePlanningMeal();
+  const { createPlanningMeal, isCreatingPlanningMeal } =
+    useCreatePlanningMeal();
 
   const methods = useForm<CreatePlanningMealDTO>({
     resolver: zodResolver(CreatePlanningMealSchema),
@@ -110,6 +111,7 @@ export function useCreatePlanning() {
     errors,
     control,
     hasMeals,
+    isCreatingPlanningMeal,
     handleSubmit,
     handleRemoveMeal,
     handleAddNewMeal,
