@@ -52,6 +52,7 @@ describe('Patients Page', () => {
             name: 'string',
             height: 1,
             weight: 1,
+            planningMeal: [],
           },
         ],
       });
@@ -90,6 +91,7 @@ describe('Patients Page', () => {
             id: 'string',
             name: 'string',
             weight: 1,
+            planningMeal: [],
           },
         ],
       });

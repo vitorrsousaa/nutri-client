@@ -16,6 +16,16 @@ export const PatientSchema = z.object({
     }),
   gender: GenderEnum,
   userId: z.string(),
+  planningMeal: z
+    .array(
+      z.object({
+        id: z.string(),
+        userId: z.string(),
+        patientId: z.string(),
+        description: z.string().or(z.null()),
+      })
+    )
+    .optional(),
 });
 
 export type TPatientPersistance = z.infer<typeof PatientSchema>;

@@ -26,6 +26,7 @@ describe('Header - Patient page sub component', () => {
         height: 1.8,
         id: 'any_id',
         weight: 80,
+        planningMeal: [],
       };
 
       // Act
@@ -45,6 +46,7 @@ describe('Header - Patient page sub component', () => {
         height: 1.8,
         id: 'any_id',
         weight: 80,
+        planningMeal: [],
       };
 
       // Act
@@ -79,6 +81,7 @@ describe('Header - Patient page sub component', () => {
         height: 1.8,
         id: 'any_id',
         weight: 80,
+        planningMeal: [],
       };
 
       const props: HeaderPatientProps = {

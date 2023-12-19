@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 import UserService from '../../service/User';
@@ -32,6 +32,8 @@ export function AuthProvider(props: { children: React.ReactNode }) {
     return !!storagedAccessToken;
   });
 
+  const queryClient = useQueryClient();
+
   const { data, isError, isFetching, isSuccess, remove } = useQuery({
     queryKey: ['users', 'me'],
     queryFn: UserService.recover,
@@ -54,8 +56,10 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
     remove();
 
+    queryClient.invalidateQueries(['@patients']);
+
     setSignedIn(false);
-  }, [remove]);
+  }, [queryClient, remove]);
 
   useEffect(() => {
     if (isError) {

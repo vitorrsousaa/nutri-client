@@ -36,7 +36,7 @@ export function useCreatePatients() {
   };
 }
 
-export function useFindByIdPatient(id: string | undefined) {
+export function useFindPatientById(id: string | undefined) {
   const {
     data: patientRequested,
     isFetching: isFetchingPatient,

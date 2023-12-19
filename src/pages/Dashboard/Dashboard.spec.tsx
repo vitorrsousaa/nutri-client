@@ -57,6 +57,7 @@ describe('Dashboard Page', () => {
             id: 'any_id',
             name: 'any_name',
             weight: 80,
+            planningMeal: [],
           },
         ],
       });

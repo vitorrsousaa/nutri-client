@@ -1,20 +1,14 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { CreateFoodDTO } from '@godiet-entities/planning/dtos/create-planning-meal-dto';
+import { DataTotalType } from '@godiet-types/dataTotalType';
+import calculateAttributes from '@godiet-utils/funcs/calculateAttributes';
 
 import { useWatch } from 'react-hook-form';
 
 import { DataChartType } from '../../types/dataChartType';
 
 import { SummaryPlanningProps } from './SummaryPlanning';
-
-export interface DataTableType {
-  name: string;
-  carbohydrate: number;
-  protein: number;
-  lipid: number;
-  energy: number;
-}
 
 export function useSummaryPlanningHook(props: SummaryPlanningProps) {
   const { control } = props;
@@ -24,19 +18,7 @@ export function useSummaryPlanningHook(props: SummaryPlanningProps) {
     name: 'meals',
   });
 
-  const calculateAttributes = useCallback(
-    (
-      attribute: 'carbohydrate' | 'energy' | 'lipid' | 'protein' | 'quantity',
-      data: CreateFoodDTO[]
-    ) => {
-      const total = data.reduce((acc, food) => {
-        return acc + food[attribute];
-      }, 0);
-
-      return Math.round(total);
-    },
-    []
-  );
+  console.log(meals);
 
   const hasFoods = useMemo(
     () =>
@@ -52,17 +34,43 @@ export function useSummaryPlanningHook(props: SummaryPlanningProps) {
     [meals]
   );
 
-  const dataTable = useMemo<DataTableType[]>(() => {
+  const dataTable = useMemo<DataTotalType[]>(() => {
     return meals.map((meal, index) => {
       return {
         name: meal.name || `Refeição ${index + 1}`,
-        carbohydrate: calculateAttributes('carbohydrate', meal.foods),
+        carbohydrate: calculateAttributes<CreateFoodDTO>(
+          'carbohydrate',
+          meal.foods
+        ),
         protein: calculateAttributes('protein', meal.foods),
         lipid: calculateAttributes('lipid', meal.foods),
         energy: calculateAttributes('energy', meal.foods),
       };
     });
-  }, [calculateAttributes, meals]);
+  }, [meals]);
+
+  const dataTableTotal = useMemo<DataTotalType>(
+    () =>
+      dataTable.reduce<DataTotalType>(
+        (acc, dataTable) => {
+          return {
+            name: 'Total',
+            carbohydrate: acc.carbohydrate + dataTable.carbohydrate,
+            protein: acc.protein + dataTable.protein,
+            lipid: acc.lipid + dataTable.lipid,
+            energy: acc.energy + dataTable.energy,
+          };
+        },
+        {
+          name: 'Total',
+          carbohydrate: 0,
+          energy: 0,
+          lipid: 0,
+          protein: 0,
+        } as DataTotalType
+      ),
+    [dataTable]
+  );
 
   const dataChart = useMemo<DataChartType[]>(() => {
     const totalCarbohydrate = calculateAttributes('carbohydrate', dataFoods);
@@ -92,11 +100,12 @@ export function useSummaryPlanningHook(props: SummaryPlanningProps) {
         unit: 'kcal',
       },
     ];
-  }, [calculateAttributes, dataFoods]);
+  }, [dataFoods]);
 
   return {
     hasFoods,
     dataTable,
     dataChart,
+    dataTableTotal,
   };
 }

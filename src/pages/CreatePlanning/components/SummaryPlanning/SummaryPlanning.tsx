@@ -1,4 +1,5 @@
 import { CreatePlanningMealDTO } from '@godiet-entities/planning/dtos/create-planning-meal-dto';
+import { DataTotalType } from '@godiet-types/dataTotalType';
 import Table from '@godiet-ui/Table';
 import Text from '@godiet-ui/Text';
 
@@ -13,7 +14,8 @@ export interface SummaryPlanningProps {
 }
 
 export function SummaryPlanning(props: SummaryPlanningProps) {
-  const { hasFoods, dataTable, dataChart } = useSummaryPlanningHook(props);
+  const { hasFoods, dataTable, dataChart, dataTableTotal } =
+    useSummaryPlanningHook(props);
 
   return (
     <styled.SummaryPlanningContainer>
@@ -42,14 +44,7 @@ export function SummaryPlanning(props: SummaryPlanningProps) {
               <Table.Body>
                 {dataTable.map((data) => (
                   <Table.Row key={`meal-${data.name}`}>
-                    <Table.Td
-                      maxWidth={'220px'}
-                      style={{
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
+                    <Table.Td className="container-table-title-value">
                       {data.name}
                     </Table.Td>
                     <Table.Td isNumeric>{data.carbohydrate}</Table.Td>
@@ -58,6 +53,28 @@ export function SummaryPlanning(props: SummaryPlanningProps) {
                     <Table.Td isNumeric>{data.energy}</Table.Td>
                   </Table.Row>
                 ))}
+
+                <Table.Row key={'meal-total'}>
+                  {Object.keys(dataTableTotal).map((key) => (
+                    <Table.Td
+                      key={`meal-total-${key}`}
+                      className={`${
+                        typeof dataTableTotal[key as keyof DataTotalType] ===
+                        'string'
+                          ? 'container-table-title-value'
+                          : ''
+                      }`}
+                      isNumeric={
+                        typeof dataTableTotal[key as keyof DataTotalType] ===
+                        'string'
+                          ? false
+                          : true
+                      }
+                    >
+                      {dataTableTotal[key as keyof DataTotalType]}
+                    </Table.Td>
+                  ))}
+                </Table.Row>
               </Table.Body>
             </Table.Content>
           </Table.Root>

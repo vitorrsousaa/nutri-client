@@ -1,7 +1,9 @@
+import * as PatientService from '@godiet-hooks/patients';
+import * as PlanningMealService from '@godiet-hooks/planningMeal';
+import * as Authentication from '@godiet-hooks/useAuth';
+
 import { useNavigate, useParams } from 'react-router-dom';
 
-import * as PatientService from '../../hooks/patients';
-import * as Authentication from '../../hooks/useAuth';
 import {
   act,
   render,
@@ -16,8 +18,8 @@ import { usePatientHook } from './Patient.hook';
 
 describe('Patient Page', () => {
   let spy = {
-    useFindByIdPatient: {} as jest.SpyInstance<
-      Partial<ReturnType<typeof PatientService.useFindByIdPatient>>
+    useFindPatientById: {} as jest.SpyInstance<
+      Partial<ReturnType<typeof PatientService.useFindPatientById>>
     >,
     useAuth: {} as jest.SpyInstance<
       Partial<ReturnType<(typeof Authentication)['useAuth']>>
@@ -28,14 +30,21 @@ describe('Patient Page', () => {
     useNavigate: {} as jest.SpyInstance<
       ReturnType<(typeof ReactRouter)['useNavigate']>
     >,
+    useFindPlanningByPatientId: {} as jest.SpyInstance<
+      Partial<ReturnType<typeof PlanningMealService.useFindPlanningByPatientId>>
+    >,
   };
 
   beforeEach(() => {
     spy = {
-      useFindByIdPatient: jest.spyOn(PatientService, 'useFindByIdPatient'),
+      useFindPatientById: jest.spyOn(PatientService, 'useFindPatientById'),
       useNavigate: jest.spyOn(ReactRouter, 'useNavigate'),
       useParams: jest.spyOn(ReactRouter, 'useParams'),
       useAuth: jest.spyOn(Authentication, 'useAuth'),
+      useFindPlanningByPatientId: jest.spyOn(
+        PlanningMealService,
+        'useFindPlanningByPatientId'
+      ),
     };
 
     spy.useAuth.mockReturnValue({
@@ -62,7 +71,7 @@ describe('Patient Page', () => {
 
     it('Should render loading when isFetchingPatient is true', () => {
       // Arrange
-      spy.useFindByIdPatient.mockReturnValue({
+      spy.useFindPatientById.mockReturnValue({
         isFetchingPatient: true,
       });
 
@@ -75,7 +84,7 @@ describe('Patient Page', () => {
 
     it('Should render alert when patient is not found', () => {
       // Arrange
-      spy.useFindByIdPatient.mockReturnValue({
+      spy.useFindPatientById.mockReturnValue({
         patient: null,
       });
       spy.useParams.mockReturnValue({ id: 'any_id' });
