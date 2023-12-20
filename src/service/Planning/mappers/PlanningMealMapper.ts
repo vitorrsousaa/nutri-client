@@ -14,11 +14,12 @@ class PlanningMealMapper {
   }
 
   toDomain(planningMeal: TPlanningMealPersistance): TPlanningMeal {
-    const { id, description, meals } = planningMeal;
+    const { id, description, meals, createdAt } = planningMeal;
 
     return {
       id,
       description,
+      createdAt: createdAt,
       meals: meals.map((meal) => {
         return {
           id: meal.id,
