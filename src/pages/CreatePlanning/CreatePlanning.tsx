@@ -25,6 +25,7 @@ export function CreatePlanning() {
     control,
     patient,
     hasMeals,
+    isCreatingPlanningMeal,
     handleSubmit,
     handleRemoveMeal,
     handleAddNewMeal,
@@ -96,7 +97,11 @@ export function CreatePlanning() {
 
                 <Divider />
 
-                <Button type="submit" isDisabled={!isValid}>
+                <Button
+                  type="submit"
+                  isDisabled={!isValid}
+                  isLoading={isCreatingPlanningMeal}
+                >
                   Cadastrar
                 </Button>
               </styled.CreatePlanningContainerForm>
