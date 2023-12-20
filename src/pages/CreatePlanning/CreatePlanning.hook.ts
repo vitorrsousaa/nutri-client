@@ -20,7 +20,9 @@ export function useCreatePlanning() {
 
   const { patient, isFetchingPatient } = useFindPatientById(id);
 
-  const { createPlanningMeal } = useCreatePlanningMeal(patient?.id || '');
+  const { createPlanningMeal, isCreatingPlanningMeal } = useCreatePlanningMeal(
+    patient?.id || ''
+  );
 
   const { removePatient } = useFindPatientById(patient?.id);
 
@@ -114,6 +116,7 @@ export function useCreatePlanning() {
     errors,
     control,
     hasMeals,
+    isCreatingPlanningMeal,
     handleSubmit,
     handleRemoveMeal,
     handleAddNewMeal,
