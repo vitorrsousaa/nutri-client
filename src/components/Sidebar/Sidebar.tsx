@@ -48,7 +48,7 @@ export function Sidebar() {
               sua conta
             </Text>
           </styled.SidebarContentHeader>
-          <SideItem href="/configuracoes">Configurações</SideItem>
+          <SideItem disabled>Configurações</SideItem>
           <Box
             onClick={(e) => {
               signOut();
