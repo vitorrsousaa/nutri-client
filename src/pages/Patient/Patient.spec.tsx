@@ -11,8 +11,8 @@ import {
   RenderHookResult,
 } from '../../utils/test-utils';
 
+import * as Generate from './hooks/generatePDF';
 const ReactRouter = { useParams, useNavigate };
-
 import { Patient } from './Patient';
 import { usePatientHook } from './Patient.hook';
 
@@ -28,10 +28,13 @@ describe('Patient Page', () => {
       Partial<ReturnType<(typeof ReactRouter)['useParams']>>
     >,
     useNavigate: {} as jest.SpyInstance<
-      ReturnType<(typeof ReactRouter)['useNavigate']>
+      Partial<ReturnType<(typeof ReactRouter)['useNavigate']>>
     >,
     useFindPlanningByPatientId: {} as jest.SpyInstance<
       Partial<ReturnType<typeof PlanningMealService.useFindPlanningByPatientId>>
+    >,
+    useGeneratePDF: {} as jest.SpyInstance<
+      Partial<ReturnType<typeof Generate.useGeneratePDF>>
     >,
   };
 
@@ -45,6 +48,7 @@ describe('Patient Page', () => {
         PlanningMealService,
         'useFindPlanningByPatientId'
       ),
+      useGeneratePDF: jest.spyOn(Generate, 'useGeneratePDF'),
     };
 
     spy.useAuth.mockReturnValue({
@@ -73,6 +77,11 @@ describe('Patient Page', () => {
       // Arrange
       spy.useFindPatientById.mockReturnValue({
         isFetchingPatient: true,
+        patient: null,
+      });
+      spy.useFindPlanningByPatientId.mockReturnValue({
+        isFetchingPlanningByPatientId: false,
+        planningByPatientId: null,
       });
 
       // Act
@@ -95,6 +104,87 @@ describe('Patient Page', () => {
       // Assert
       expect(rendered.getByText(/Por favor, tente novamente!/));
     });
+
+    it('Should render header patient when patient is found', () => {
+      // arrange
+      spy.useFindPatientById.mockReturnValue({
+        patient: {
+          email: 'any_email@mail.com',
+          id: 'any_id',
+          name: 'any_patient_name',
+          planningMeal: [],
+        },
+      });
+
+      // act
+      rendered = render(<Patient />);
+
+      // assert
+      expect(rendered.getByText(/any_patient_name/, { selector: 'span' }));
+    });
+
+    // it('Should render text to create planning when patient no has planning', () => {
+    //   // arrange
+    //   spy.useFindPatientById.mockReturnValue({
+    //     patient: {
+    //       email: 'any_email@mail.com',
+    //       id: 'any_id',
+    //       name: 'any_name',
+    //       planningMeal: [],
+    //     },
+    //   });
+
+    //   // act
+    //   rendered = render(<Patient />);
+
+    //   // assert
+    //   expect(rendered.getByText(/ainda não possui planejamento alimentar!/));
+    // });
+
+    // it('Should not render text to create planning when patient has planning', () => {
+    //   // arrange
+    //   spy.useFindPatientById.mockReturnValue({
+    //     patient: {
+    //       email: 'any_email@mail.com',
+    //       id: 'any_id',
+    //       name: 'any_name',
+    //       planningMeal: [
+    //         {
+    //           id: 'any_id_planning',
+    //           patientId: 'any_id_patient',
+    //           userId: 'any_id_user',
+    //           description: 'any_description',
+    //         },
+    //       ],
+    //     },
+    //   });
+
+    //   spy.useFindPlanningByPatientId.mockReturnValue({
+    //     planningByPatientId: {
+    //       createdAt: new Date(),
+    //       id: 'any_id',
+    //       description: 'any_description',
+    //       meals: [
+    //         {
+    //           id: 'any_id_meal',
+    //           name: 'any_name_meal',
+    //           time: new Date().toISOString(),
+    //           mealFoods: [],
+    //         },
+    //       ],
+    //     },
+    //   });
+
+    //   // act
+    //   rendered = render(<Patient />);
+
+    //   rendered.debug();
+
+    //   // assert
+    //   expect(
+    //     rendered.queryByText(/ainda não possui planejamento alimentar!/)
+    //   ).toBeNull();
+    // });
   });
 
   describe('Hook', () => {
@@ -123,6 +213,18 @@ describe('Patient Page', () => {
       // expect(navigate).toHaveBeenCalledWith('/pacientes/any_id/plano/criar');
       expect(true).toBeTruthy();
     });
+
+    // it('Should call useFindPatientById with correct params', () => {
+    //   // Arrange
+    //   const id = 'any_id';
+    //   spy.useParams.mockReturnValue({ id });
+
+    //   // Act
+    //   rendered = renderHook(() => usePatientHook());
+
+    //   // Assert
+    //   expect(spy.useFindPatientById).toHaveBeenCalledWith(id);
+    // });
 
     // it('Should redirect user when call deletePatient', () => {
     //   // Arrange
