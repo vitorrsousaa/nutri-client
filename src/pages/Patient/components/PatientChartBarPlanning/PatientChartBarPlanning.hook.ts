@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 
 import { TMealFood } from '@godiet-entities/planning/TPlanningMeal';
-import calculateAttributes from '@godiet-utils/funcs/calculateAttributes';
 
+import calculateAttributes from '../../../../utils/funcs/calculateAttributes';
 import { DataChartType } from '../../types/dataChart';
 
 import { PatientChartBarPlanningProps } from './PatientChartBarPlanning';
