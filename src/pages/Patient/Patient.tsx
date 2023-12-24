@@ -1,7 +1,6 @@
 import AppProvider from '@godiet-components/AppProvider';
 import HeaderPatient from '@godiet-components/HeaderPatient';
 import Button from '@godiet-ui/Button';
-import Divider from '@godiet-ui/Divider';
 import Spinner from '@godiet-ui/Spinner';
 import Text from '@godiet-ui/Text';
 
@@ -9,8 +8,11 @@ import { DeleteIcon, DownloadIcon } from '@chakra-ui/icons';
 import { AttachmentIcon, InfoIcon } from '@chakra-ui/icons';
 import { Center, Flex, HStack } from '@chakra-ui/layout';
 
-import ModalEditPatient from './ModalEditPatient';
-import { DataChartType, usePatientHook } from './Patient.hook';
+import ModalEditPatient from './components/ModalEditPatient';
+import PatientChartBarPlanning from './components/PatientChartBarPlanning';
+import PatientContentPlanning from './components/PatientContentPlanning';
+import PlanningExported from './components/PlanningExported';
+import { usePatientHook } from './Patient.hook';
 import * as styled from './Patient.styles';
 
 export function Patient() {
@@ -19,11 +21,13 @@ export function Patient() {
     patient,
     modalEditPatientIsOpen,
     hasPlanning,
-    dataChart,
     isFetchingPlanningMeal,
     planningMeal,
+    exportElementRef,
+    isGeneratingPDF,
     redirectToCreatePlanning,
     toggleModalEditPatient,
+    handleExportPDF,
   } = usePatientHook();
 
   return (
@@ -73,16 +77,20 @@ export function Patient() {
               </Text>
               {hasPlanning && (
                 <div style={{ display: 'flex', gap: 16 }}>
-                  <Button variant="danger">
+                  <Button variant="danger" isDisabled={isGeneratingPDF}>
                     <DeleteIcon />
                   </Button>
-                  <Button variant="ghost">
+                  <Button
+                    variant="ghost"
+                    onClick={handleExportPDF}
+                    isLoading={isGeneratingPDF}
+                  >
                     <DownloadIcon />
                   </Button>
                 </div>
               )}
             </div>
-            <Flex flexDirection={'column'} width={'100%'}>
+            <Flex flexDirection={'column'} width={'100%'} id="planning">
               {!hasPlanning ? (
                 <Center width={'100%'}>
                   <Text color="#333" align={'center'}>
@@ -96,53 +104,15 @@ export function Patient() {
                 </Center>
               ) : !isFetchingPlanningMeal ? (
                 <>
-                  <styled.PatientChartBarPlanning chart={dataChart}>
-                    {Object.keys(dataChart).map((key) => {
-                      const value = dataChart[key as keyof DataChartType];
+                  <PatientChartBarPlanning planningMeal={planningMeal} />
 
-                      return (
-                        <div key={key} className={`cell-chart ${key}`}>
-                          {value > 1 && `${value}%`}
-                        </div>
-                      );
-                    })}
-                  </styled.PatientChartBarPlanning>
+                  <PatientContentPlanning planningMeal={planningMeal} />
 
-                  <Text fontSize={'18px'} fontWeight={500}>
-                    Descrição:
-                  </Text>
-                  <Text fontSize={'16px'} as="small">
-                    {planningMeal.description || 'Esse plano não tem descrição'}
-                  </Text>
-
-                  <Divider marginY={'16px'} />
-
-                  {planningMeal.meals.map((meal, index) => {
-                    return (
-                      <styled.PatientContainerMeal key={`meal-${meal.id}`}>
-                        <Text fontSize={'18px'} fontWeight={500}>
-                          Refeição {index + 1}
-                        </Text>
-                        <Text as="small" className="small-text">
-                          Nome: {meal.name}
-                        </Text>
-                        <Text as="small" className="small-text">
-                          Horário: {meal.time}
-                        </Text>
-                        <Divider height={'1px'} />
-                        {meal.mealFoods.map((mealFood) => {
-                          return (
-                            <div key={`meal-food-${mealFood.id}`}>
-                              <Text>{mealFood.name}</Text>
-                              <Text>
-                                {mealFood.quantity} ({mealFood.baseUnit})
-                              </Text>
-                            </div>
-                          );
-                        })}
-                      </styled.PatientContainerMeal>
-                    );
-                  })}
+                  <PlanningExported
+                    planningMeal={planningMeal}
+                    ref={exportElementRef}
+                    patientName={patient.name}
+                  />
                 </>
               ) : (
                 <styled.PatientContainerLoadingPlanning>

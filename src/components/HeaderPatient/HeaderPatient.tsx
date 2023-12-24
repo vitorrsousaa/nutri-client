@@ -27,7 +27,7 @@ function Header(props: HeaderPatientProps) {
       <VStack gap={'4px'} alignItems={'flex-start'}>
         <HStack gap="8px">
           <InfoOutlineIcon color={'#444'} />
-          <Text fontWeight={500} color={'#444'}>
+          <Text fontWeight={500} color={'#444'} as="span">
             {patient.name}
           </Text>
         </HStack>

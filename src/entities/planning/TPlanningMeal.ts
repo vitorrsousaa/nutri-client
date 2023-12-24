@@ -28,6 +28,7 @@ export const PlanningMealSchema = z.object({
   description: z.string().or(z.null()),
   meals: z.array(MealSchema).min(1, 'É necessário pelo menos uma refeição'),
   id: z.string().uuid(),
+  createdAt: z.date(),
 });
 
 export type TPlanningMeal = z.infer<typeof PlanningMealSchema>;

@@ -34,6 +34,7 @@ export const PlanningMealPersistanceSchema = z.object({
   id: z.string().uuid(),
   patientId: z.string().uuid(),
   userId: z.string().uuid(),
+  createdAt: z.date(),
 });
 
 export type TPlanningMealPersistance = z.infer<
