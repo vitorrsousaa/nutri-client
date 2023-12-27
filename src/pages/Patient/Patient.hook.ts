@@ -1,59 +1,54 @@
-import { useCallback, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useCallback, useMemo, useState } from 'react';
 
-import { useDeletePatient, useFindByIdPatient } from '../../hooks/patients';
+import { useFindPlanningByPatientId } from '@godiet-hooks/planningMeal';
+
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { useFindPatientById } from '../../hooks/patients';
+
+import { useGeneratePDF } from './hooks/generatePDF';
 
 export function usePatientHook() {
-  const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
-
   const { id } = useParams<{ id: string }>();
-
-  const { patient, isFetchingPatient } = useFindByIdPatient(id);
-
-  const { deletePatient, isDeletingPatient } = useDeletePatient();
 
   const navigate = useNavigate();
 
-  const handleCloseModalDelete = useCallback(() => {
-    setModalDeleteIsOpen(false);
-  }, []);
+  const { patient, isFetchingPatient } = useFindPatientById(id);
 
-  const handleOpenModalDelete = useCallback(() => {
-    setModalDeleteIsOpen(true);
-  }, []);
+  const { exportElementRef, isGeneratingPDF, generatePDF } = useGeneratePDF();
 
-  const returnPage = useCallback(() => {
-    navigate('/dashboard');
-  }, []);
+  const hasPlanning = useMemo(() => !!patient?.planningMeal?.length, [patient]);
 
-  const handleDeletePatient = useCallback(async () => {
-    try {
-      await deletePatient(id);
+  const { planningByPatientId, isFetchingPlanningByPatientId } =
+    useFindPlanningByPatientId(id, {
+      enabled: hasPlanning,
+    });
 
-      toast.success('Paciente deletado com sucesso');
-    } catch {
-      toast.error('Tivemos um erro para deletar o paciente');
-    } finally {
-      handleCloseModalDelete();
-
-      returnPage();
-    }
-  }, [id]);
+  const [modalEditPatientIsOpen, setModalEditPatientIsOpen] = useState(false);
 
   const redirectToCreatePlanning = useCallback(() => {
-    navigate(`/patient/${id}/plano`);
-  }, [id]);
+    navigate(`/pacientes/${id}/plano/criar`);
+  }, [id, navigate]);
+
+  const toggleModalEditPatient = useCallback(() => {
+    setModalEditPatientIsOpen((state) => !state);
+  }, [setModalEditPatientIsOpen]);
+
+  const handleExportPDF = useCallback(async () => {
+    await generatePDF(`Plano alimentar - ${patient?.name}`);
+  }, [generatePDF, patient?.name]);
 
   return {
-    modalDeleteIsOpen,
-    handleCloseModalDelete,
-    handleOpenModalDelete,
-    handleDeletePatient,
-    returnPage,
     isFetchingPatient,
     patient,
-    isDeletingPatient,
+    modalEditPatientIsOpen,
+    hasPlanning,
+    exportElementRef,
+    planningMeal: planningByPatientId!,
+    isFetchingPlanningMeal: isFetchingPlanningByPatientId,
+    isGeneratingPDF,
     redirectToCreatePlanning,
+    toggleModalEditPatient,
+    handleExportPDF,
   };
 }

@@ -53,7 +53,7 @@ If you are developing a production application, we recommend updating the config
 5. **Hotfix:** Se um bug crítico é descoberto em produção e requer uma correção imediata, uma branch "hotfix" é criada a partir da branch "main"
 
 RESPOSTA 1
-Aqui estão as etapas de como isso pode ser configurado no GitHub e algumas sugestões para workflows em relação às branchs develop e main:
+Aqui estão as etapas de como isso pode ser configurado no GitHub e algumas sugestões para workflows em relação às branchs develop e main::
 
 Configuração no GitHub:
 

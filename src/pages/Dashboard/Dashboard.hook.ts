@@ -1,20 +1,26 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+
+import { useNavigate } from 'react-router';
+
+import { useGetAllPatients } from '../../hooks/patients';
 
 export function useDashboardHook() {
+  const navigate = useNavigate();
+
+  const { patients, isFetchingPatients } = useGetAllPatients();
+
   const [modalCreatePatientIsOpen, setModalCreatePatientIsOpen] =
     useState(false);
 
-  function handleCloseModalCreatePatient() {
-    setModalCreatePatientIsOpen(false);
-  }
-
-  function handleOpenModalCreatePatient() {
-    setModalCreatePatientIsOpen(true);
-  }
+  const toggleModalCreatePatient = useCallback(() => {
+    setModalCreatePatientIsOpen((prevState) => !prevState);
+  }, [setModalCreatePatientIsOpen]);
 
   return {
     modalCreatePatientIsOpen,
-    handleCloseModalCreatePatient,
-    handleOpenModalCreatePatient,
+    isFetchingPatients,
+    patients,
+    navigate,
+    toggleModalCreatePatient,
   };
 }

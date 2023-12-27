@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -22,11 +23,9 @@ const signInFormSchema = z.object({
 type SignInFormSchema = z.infer<typeof signInFormSchema>;
 
 export function useSignInHook() {
-  const {
-    handleSubmit: hookFormSubmit,
-    register,
-    formState: { errors },
-  } = useForm<SignInFormSchema>({ resolver: zodResolver(signInFormSchema) });
+  const methods = useForm<SignInFormSchema>({
+    resolver: zodResolver(signInFormSchema),
+  });
 
   const { signIn, signedIn } = useAuth();
 
@@ -36,11 +35,18 @@ export function useSignInHook() {
     mutationFn: AuthService.signIn,
   });
 
+  const {
+    handleSubmit: hookFormSubmit,
+    resetField,
+    setFocus,
+    formState: { errors, isValid },
+  } = methods;
+
   useEffect(() => {
     if (signedIn) {
       navigate('/dashboard');
     }
-  }, [signedIn]);
+  }, [navigate, signedIn]);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
@@ -48,14 +54,17 @@ export function useSignInHook() {
 
       signIn(token);
     } catch {
+      resetField('password');
+      setFocus('password');
       toast.error('Email ou senha incorretos');
     }
   });
 
   return {
     errors,
-    handleSubmit,
+    methods,
     isLoading,
-    register,
+    isValid,
+    handleSubmit,
   };
 }

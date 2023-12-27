@@ -1,46 +1,134 @@
-import Button from '../../libs/ui/components/Button';
+import AppProvider from '@godiet-components/AppProvider';
+import HeaderPatient from '@godiet-components/HeaderPatient';
+import Button from '@godiet-ui/Button';
+import Spinner from '@godiet-ui/Spinner';
+import Text from '@godiet-ui/Text';
 
-import ModalDeletePatient from './components/ModalDeletePatient';
+import { DeleteIcon, DownloadIcon } from '@chakra-ui/icons';
+import { AttachmentIcon, InfoIcon } from '@chakra-ui/icons';
+import { Center, Flex, HStack } from '@chakra-ui/layout';
+
+import ModalEditPatient from './components/ModalEditPatient';
+import PatientChartBarPlanning from './components/PatientChartBarPlanning';
+import PatientContentPlanning from './components/PatientContentPlanning';
+import PlanningExported from './components/PlanningExported';
 import { usePatientHook } from './Patient.hook';
+import * as styled from './Patient.styles';
 
 export function Patient() {
   const {
-    modalDeleteIsOpen,
-    handleCloseModalDelete,
-    handleOpenModalDelete,
-    handleDeletePatient,
-    returnPage,
     isFetchingPatient,
     patient,
-    isDeletingPatient,
+    modalEditPatientIsOpen,
+    hasPlanning,
+    isFetchingPlanningMeal,
+    planningMeal,
+    exportElementRef,
+    isGeneratingPDF,
     redirectToCreatePlanning,
+    toggleModalEditPatient,
+    handleExportPDF,
   } = usePatientHook();
 
   return (
-    <div>
-      {isFetchingPatient ? (
+    <AppProvider
+      className="patient"
+      title="Paciente"
+      isLoading={isFetchingPatient}
+      hasError={!patient}
+      hasBackButton
+      errorMessage={
         <>
-          <strong>isLoading</strong>
+          <Text as="small" color="#333" align={'center'}>
+            Não foi possível encontrar esse paciente no nosso banco de dados
+          </Text>
+          <Text as="strong">Por favor, tente novamente!</Text>
         </>
-      ) : (
+      }
+    >
+      {patient && (
         <>
-          <Button onClick={returnPage}>Voltar</Button>
-          <Button onClick={handleOpenModalDelete}>Deletar</Button>
-          <strong>patient</strong>
-          <h1>{patient?.name}</h1>
+          <HeaderPatient patient={patient} />
 
-          <Button onClick={redirectToCreatePlanning}>
-            Criar planejamento alimentar
-          </Button>
+          <Flex gap={'16px'} alignItems={'flex-start'} direction={'column'}>
+            <Text fontWeight={500} fontSize={'20px'}>
+              Escolha uma opção:
+            </Text>
+            <HStack>
+              <styled.ActionButton onClick={toggleModalEditPatient}>
+                <span>Avalição clínica</span>
+                <InfoIcon color={'#111'} />
+              </styled.ActionButton>
+              {!hasPlanning && (
+                <styled.ActionButton onClick={redirectToCreatePlanning}>
+                  <span>Planejamento alimentar</span>
+                  <AttachmentIcon color={'#111'} />
+                </styled.ActionButton>
+              )}
+            </HStack>
+          </Flex>
+
+          <styled.PatientContainer>
+            <div
+              className={`header-planning ${hasPlanning ? 'has-planning' : ''}`}
+            >
+              <Text fontWeight={500} fontSize={'20px'}>
+                Planejamento alimentar:
+              </Text>
+              {hasPlanning && (
+                <div style={{ display: 'flex', gap: 16 }}>
+                  <Button variant="danger" isDisabled={isGeneratingPDF}>
+                    <DeleteIcon />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={handleExportPDF}
+                    isLoading={isGeneratingPDF}
+                  >
+                    <DownloadIcon />
+                  </Button>
+                </div>
+              )}
+            </div>
+            <Flex flexDirection={'column'} width={'100%'} id="planning">
+              {!hasPlanning ? (
+                <Center width={'100%'}>
+                  <Text color="#333" align={'center'}>
+                    O paciente {patient.name} ainda não possui planejamento
+                    alimentar! Clique no botão{' '}
+                    <Text fontWeight={700} color="##59BD5A" as="span">
+                      “Planejamento alimentar”
+                    </Text>
+                    acima para cadastrar o planejamento alimentar.
+                  </Text>
+                </Center>
+              ) : !isFetchingPlanningMeal ? (
+                <>
+                  <PatientChartBarPlanning planningMeal={planningMeal} />
+
+                  <PatientContentPlanning planningMeal={planningMeal} />
+
+                  <PlanningExported
+                    planningMeal={planningMeal}
+                    ref={exportElementRef}
+                    patientName={patient.name}
+                  />
+                </>
+              ) : (
+                <styled.PatientContainerLoadingPlanning>
+                  <Spinner />
+                </styled.PatientContainerLoadingPlanning>
+              )}
+            </Flex>
+          </styled.PatientContainer>
+
+          <ModalEditPatient
+            isOpen={modalEditPatientIsOpen}
+            onClose={toggleModalEditPatient}
+            patient={patient}
+          />
         </>
       )}
-
-      <ModalDeletePatient
-        isOpen={modalDeleteIsOpen}
-        onClose={handleCloseModalDelete}
-        onDelete={handleDeletePatient}
-        isDeleting={isDeletingPatient}
-      />
-    </div>
+    </AppProvider>
   );
 }

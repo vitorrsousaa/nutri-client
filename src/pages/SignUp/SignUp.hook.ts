@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -43,11 +44,7 @@ const registerFormSchema = z
 type RegisterFormSchema = z.infer<typeof registerFormSchema>;
 
 export function useSignUpHook() {
-  const {
-    handleSubmit: hookFormSubmit,
-    register,
-    formState: { errors },
-  } = useForm<RegisterFormSchema>({
+  const methods = useForm<RegisterFormSchema>({
     resolver: zodResolver(registerFormSchema),
   });
 
@@ -59,18 +56,22 @@ export function useSignUpHook() {
     mutationFn: AuthService.signUp,
   });
 
+  const {
+    handleSubmit: hookFormSubmit,
+    formState: { errors, isValid },
+  } = methods;
+
   useEffect(() => {
     if (signedIn) {
       navigate('/dashboard');
     }
-  }, [signedIn]);
+  }, [navigate, signedIn]);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
       const { email, name, password } = data;
       const newUser = { email, name, password };
 
-      console.log(newUser);
       const { token } = await mutateAsync(newUser);
 
       signIn(token);
@@ -81,8 +82,9 @@ export function useSignUpHook() {
 
   return {
     errors,
-    register,
-    handleSubmit,
+    methods,
     isLoading,
+    isValid,
+    handleSubmit,
   };
 }

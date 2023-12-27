@@ -36,18 +36,18 @@ export function useCreatePatients() {
   };
 }
 
-export function useFindByIdPatient(id: string | undefined) {
+export function useFindPatientById(id: string | undefined) {
   const {
-    data: patient,
+    data: patientRequested,
     isFetching: isFetchingPatient,
     remove: removePatient,
   } = useQuery({
-    queryKey: ['@patients', id],
+    queryKey: [`@patients-${id && id}`, id],
     queryFn: () => PatientService.findById(id),
   });
 
   return {
-    patient,
+    patient: patientRequested,
     isFetchingPatient,
     removePatient,
   };
@@ -67,5 +67,21 @@ export function useDeletePatient() {
   return {
     isDeletingPatient,
     deletePatient,
+  };
+}
+
+export function useUpdatePatient(id: string) {
+  const queryClient = useQueryClient();
+
+  const { isLoading, mutateAsync } = useMutation({
+    mutationFn: PatientService.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries([`@patients-${id}`, id]);
+    },
+  });
+
+  return {
+    isUpdatingPatient: isLoading,
+    updatePatient: mutateAsync,
   };
 }
