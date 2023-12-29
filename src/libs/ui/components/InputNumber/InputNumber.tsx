@@ -9,7 +9,9 @@ import {
   NumberInputStepper,
 } from '@chakra-ui/react';
 
-export interface InputNumberProps extends ChakraInputNumberProps {}
+export interface InputNumberProps extends ChakraInputNumberProps {
+  placeholder?: string;
+}
 
 const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
   (props, ref) => {
