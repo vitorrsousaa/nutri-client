@@ -2,13 +2,15 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import APIError from '../../errors/APIErrors';
 
+const { VITE_API_BASE_URL } = import.meta.env;
+
 import api from './../api';
 
 class HttpClient {
   private baseURL: string;
 
   constructor(baseURL: string) {
-    this.baseURL = 'http://localhost:3001/api' + baseURL;
+    this.baseURL = VITE_API_BASE_URL + baseURL;
   }
 
   get<T>(path: string) {
