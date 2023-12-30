@@ -95,6 +95,7 @@ const config: Config = {
     '^@godiet-hooks/(.*)$': '<rootDir>/src/hooks/$1',
     '^@godiet-entities/(.*)$': '<rootDir>/src/entities/$1',
     '^@godiet-components/(.*)$': '<rootDir>/src/components/$1',
+    '^@godiet-utils/(.*)$': '<rootDir>/src/utils/$1',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
