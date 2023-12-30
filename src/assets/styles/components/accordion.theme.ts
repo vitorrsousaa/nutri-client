@@ -11,6 +11,7 @@ export const accordionTheme: StyleConfig = {
       justifyContent: 'space-between',
       fontSize: '18px',
       fontWeight: 500,
+      textAlign: 'left',
       _hover: {
         color: '#59BD5A',
         backgroundColor: '#fff',

@@ -2,7 +2,9 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import APIError from '../../errors/APIErrors';
 
-const { VITE_API_BASE_URL } = import.meta.env;
+const { VITE_API_BASE_URL, DEV: IS_DEVELOPMENT } = import.meta.env;
+
+import delay from '@godiet-utils/delay';
 
 import api from './../api';
 
@@ -58,7 +60,9 @@ class HttpClient {
   }
 
   private async makeRequest<T>(options: AxiosRequestConfig): Promise<T> {
-    // await delay(3000);
+    if (IS_DEVELOPMENT) {
+      await delay(3000);
+    }
 
     const response: AxiosResponse = await api({
       ...options,
