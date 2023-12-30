@@ -5,7 +5,7 @@ export const LandingPageContainer = styled.main`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 56px;
+    padding: 36px 128px;
     border-bottom: 1px solid #ccc;
 
     div {
@@ -17,7 +17,7 @@ export const LandingPageContainer = styled.main`
 
   .container-hero {
     background-color: #eee;
-    margin: 24px 56px;
+    margin: 48px 128px;
     padding: 48px;
   }
 `;
