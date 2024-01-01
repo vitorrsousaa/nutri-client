@@ -30,7 +30,10 @@
       "@godiet-components/*": ["./src/components/*"],
       "@godiet-utils/*": ["./src/utils/*"],
       "@godiet-types/*": ["./src/types/*"],
-    }
+    },
+
+    /* Testing */
+    "types": ["vitest/globals"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
