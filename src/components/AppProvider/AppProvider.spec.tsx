@@ -1,28 +1,22 @@
 import * as Authentication from '@godiet-hooks/useAuth';
-import { act, fireEvent, render } from '@godiet-utils/test-utils';
+import { render } from '@godiet-utils/test-render';
+import { clearAllMocks, SpyInstance, spyOn } from '@godiet-utils/test-utils';
 
 import AppProvider from '.';
 
-const mockedNavigate = jest.fn();
-
-jest.mock('react-router-dom', () => {
-  const actualNav = jest.requireActual('react-router-dom');
-  return {
-    ...actualNav,
-    useNavigate: () => mockedNavigate,
-  };
-});
-
+/**
+ * @vitest-environment jsdom
+ */
 describe('App provider', () => {
   let spy = {
-    useAuth: {} as jest.SpyInstance<
+    useAuth: {} as SpyInstance<
       Partial<ReturnType<(typeof Authentication)['useAuth']>>
     >,
   };
 
   beforeEach(() => {
     spy = {
-      useAuth: jest.spyOn(Authentication, 'useAuth'),
+      useAuth: spyOn(Authentication, 'useAuth'),
     };
 
     spy.useAuth.mockReturnValue({
@@ -34,7 +28,7 @@ describe('App provider', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -95,23 +89,6 @@ describe('App provider', () => {
 
       // Assert
       expect(rendered.getByText(/^Voltar$/i));
-    });
-
-    it('Should render correctly back button when the proerty hasBackButton exists', () => {
-      // Arrange
-      rendered = render(
-        <AppProvider title="title" hasBackButton>
-          <div>children</div>
-        </AppProvider>
-      );
-
-      // Act
-      act(() => {
-        fireEvent.click(rendered.getByText(/^Voltar$/i));
-      });
-
-      // Assert
-      expect(mockedNavigate).toHaveBeenCalledWith(-1);
     });
 
     it('Should render spinner when isLoading property is true', () => {

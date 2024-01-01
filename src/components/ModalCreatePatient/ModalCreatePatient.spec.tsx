@@ -1,13 +1,16 @@
-import { render } from '@godiet-utils/test-utils';
+import { render } from '@godiet-utils/test-render';
+import { clearAllMocks, fn } from '@godiet-utils/test-utils';
 
 import ModalCreatePatient from '.';
-
+/**
+ * @vitest-environment jsdom
+ */
 describe('Modal Create Patient', () => {
   describe('Component', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -18,7 +21,7 @@ describe('Modal Create Patient', () => {
       // Arrange
 
       // Act
-      rendered = render(<ModalCreatePatient isOpen onClose={jest.fn()} />);
+      rendered = render(<ModalCreatePatient isOpen onClose={fn()} />);
 
       // Assert
       expect(rendered.getByText('Insira o nome do paciente'));
