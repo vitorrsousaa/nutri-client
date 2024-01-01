@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@chakra-ui/accordion": "^2.3.1",
     "@chakra-ui/avatar": "^2.3.0",
     "@chakra-ui/button": "^2.1.0",
     "@chakra-ui/form-control": "^2.2.0",
