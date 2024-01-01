@@ -1,41 +1,46 @@
-import * as PatientService from '../../hooks/patients';
-import * as Authentication from '../../hooks/useAuth';
+import * as PatientService from '@godiet-hooks/patients';
+import * as Authentication from '@godiet-hooks/useAuth';
 import {
   act,
   render,
   renderHook,
   RenderHookResult,
-} from '../../utils/test-utils';
+} from '@godiet-utils/test-render';
+import { clearAllMocks, SpyInstance, spyOn } from '@godiet-utils/test-utils';
 
 import { Dashboard } from './Dashboard';
 import { useDashboardHook } from './Dashboard.hook';
 
+/**
+ * @vitest-environment jsdom
+ */
+
 describe('Dashboard Page', () => {
   let spy = {
-    useAuth: {} as jest.SpyInstance<
+    useAuth: {} as SpyInstance<
       Partial<ReturnType<(typeof Authentication)['useAuth']>>
     >,
-    useGetAllPatients: {} as jest.SpyInstance<
+    useGetAllPatients: {} as SpyInstance<
       Partial<ReturnType<typeof PatientService.useGetAllPatients>>
     >,
   };
 
   beforeEach(() => {
     spy = {
-      useAuth: jest.spyOn(Authentication, 'useAuth'),
-      useGetAllPatients: jest.spyOn(PatientService, 'useGetAllPatients'),
+      useAuth: spyOn(Authentication, 'useAuth'),
+      useGetAllPatients: spyOn(PatientService, 'useGetAllPatients'),
     };
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Page', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -78,7 +83,7 @@ describe('Dashboard Page', () => {
     >;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {

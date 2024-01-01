@@ -1,17 +1,20 @@
-import { render } from '../../../../utils/test-utils';
+import { render } from '@godiet-utils/test-render';
+import { clearAllMocks } from '@godiet-utils/test-utils';
 
+/**
+ * @vitest-environment jsdom
+ */
 import { PanelPatients } from './PanelPatients';
-
 describe('PanelPatients Component', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Component', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
