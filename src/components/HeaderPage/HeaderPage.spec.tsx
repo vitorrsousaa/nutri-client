@@ -1,17 +1,22 @@
-import { render } from '../../utils/test-utils';
+import { render } from '@godiet-utils/test-render';
+import { clearAllMocks } from '@godiet-utils/test-utils';
 
 import HeaderPage from './HeaderPage';
 
+/**
+ * @vitest-environment jsdom
+ */
+
 describe('HeaderPage Component', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Component', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {

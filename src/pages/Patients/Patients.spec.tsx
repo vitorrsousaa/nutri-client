@@ -1,23 +1,27 @@
-import * as PatientService from '../../hooks/patients';
-import * as Authentication from '../../hooks/useAuth';
-import { render } from '../../utils/test-utils';
+import * as PatientService from '@godiet-hooks/patients';
+import * as Authentication from '@godiet-hooks/useAuth';
+import { render } from '@godiet-utils/test-render';
+import { clearAllMocks, SpyInstance, spyOn } from '@godiet-utils/test-utils';
 
 import { Patients } from './Patients';
 
+/**
+ * @vitest-environment jsdom
+ */
 describe('Patients Page', () => {
   let spy = {
-    useGetAllPatients: {} as jest.SpyInstance<
+    useGetAllPatients: {} as SpyInstance<
       Partial<ReturnType<typeof PatientService.useGetAllPatients>>
     >,
-    useAuth: {} as jest.SpyInstance<
+    useAuth: {} as SpyInstance<
       Partial<ReturnType<(typeof Authentication)['useAuth']>>
     >,
   };
 
   beforeEach(() => {
     spy = {
-      useGetAllPatients: jest.spyOn(PatientService, 'useGetAllPatients'),
-      useAuth: jest.spyOn(Authentication, 'useAuth'),
+      useGetAllPatients: spyOn(PatientService, 'useGetAllPatients'),
+      useAuth: spyOn(Authentication, 'useAuth'),
     };
 
     spy.useAuth.mockReturnValue({
@@ -26,14 +30,14 @@ describe('Patients Page', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Page', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
