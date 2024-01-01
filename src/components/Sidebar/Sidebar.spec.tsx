@@ -1,28 +1,40 @@
-import * as Authentication from '../../hooks/useAuth';
-import { act, fireEvent, render } from '../../utils/test-utils';
+import * as Authentication from '@godiet-hooks/useAuth';
+import { act, fireEvent, render } from '@godiet-utils/test-render';
+import {
+  clearAllMocks,
+  fn,
+  SpyInstance,
+  spyOn,
+} from '@godiet-utils/test-utils';
 
 import { Sidebar } from './Sidebar';
 
+/**
+ * @vitest-environment jsdom
+ */
+
 describe('Sidebar', () => {
   let spy = {
-    useAuth: {} as jest.SpyInstance,
+    useAuth: {} as SpyInstance<
+      Partial<ReturnType<(typeof Authentication)['useAuth']>>
+    >,
   };
 
   beforeEach(() => {
     spy = {
-      useAuth: jest.spyOn(Authentication, 'useAuth'),
+      useAuth: spyOn(Authentication, 'useAuth'),
     };
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Component', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -31,7 +43,7 @@ describe('Sidebar', () => {
 
     it('Should call signOut when clicks on Log out', () => {
       // Arrange
-      const signOut = jest.fn();
+      const signOut = fn();
       spy.useAuth.mockReturnValue({ signOut });
       rendered = render(<Sidebar />);
 

@@ -1,4 +1,4 @@
-import * as FoodService from '../../../../hooks/food';
+import * as FoodService from '@godiet-hooks/food';
 import {
   act,
   fireEvent,
@@ -6,7 +6,13 @@ import {
   renderHook,
   RenderHookResult,
   renderWithHookForm,
-} from '../../../../utils/test-utils';
+} from '@godiet-utils/test-render';
+import {
+  clearAllMocks,
+  fn,
+  SpyInstance,
+  spyOn,
+} from '@godiet-utils/test-utils';
 
 import ModalAddFood, { ModalAddFoodProps } from './ModalAddFood';
 import { useModalAddFood } from './ModalAddFood.hook';
@@ -72,16 +78,19 @@ const foodsMock = [
   },
 ];
 
+/**
+ * @vitest-environment jsdom
+ */
 describe('Modal add food', () => {
   let spy = {
-    useGetAllFoods: {} as jest.SpyInstance<
+    useGetAllFoods: {} as SpyInstance<
       Partial<ReturnType<(typeof FoodService)['useGetAllFoods']>>
     >,
   };
 
   beforeEach(() => {
     spy = {
-      useGetAllFoods: jest.spyOn(FoodService, 'useGetAllFoods'),
+      useGetAllFoods: spyOn(FoodService, 'useGetAllFoods'),
     };
 
     spy.useGetAllFoods.mockReturnValue({
@@ -90,14 +99,14 @@ describe('Modal add food', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Component', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -106,12 +115,12 @@ describe('Modal add food', () => {
 
     it('Should render correctly', () => {
       // Arrange
-      const onClose = jest.fn();
+      const onClose = fn();
       const props: ModalAddFoodProps = {
         isOpen: true,
         onClose,
-        appendFood: jest.fn(),
-        updateFood: jest.fn(),
+        appendFood: fn(),
+        updateFood: fn(),
       };
 
       rendered = renderWithHookForm(<ModalAddFood {...props} />);
@@ -130,7 +139,7 @@ describe('Modal add food', () => {
     let rendered: RenderHookResult<ReturnType<typeof useModalAddFood>, unknown>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -141,9 +150,9 @@ describe('Modal add food', () => {
       // Arrange
       const props: ModalAddFoodProps = {
         isOpen: false,
-        onClose: jest.fn(),
-        appendFood: jest.fn(),
-        updateFood: jest.fn(),
+        onClose: fn(),
+        appendFood: fn(),
+        updateFood: fn(),
       };
       const foodMock = [
         {
@@ -176,9 +185,9 @@ describe('Modal add food', () => {
       // Arrange
       const props: ModalAddFoodProps = {
         isOpen: false,
-        onClose: jest.fn(),
-        appendFood: jest.fn(),
-        updateFood: jest.fn(),
+        onClose: fn(),
+        appendFood: fn(),
+        updateFood: fn(),
       };
       const foodMock = [
         {
@@ -212,12 +221,12 @@ describe('Modal add food', () => {
 
     it('Should call onClose when call handleCloseModal', () => {
       // Arrange
-      const onClose = jest.fn();
+      const onClose = fn();
       const props: ModalAddFoodProps = {
         isOpen: false,
         onClose,
-        appendFood: jest.fn(),
-        updateFood: jest.fn(),
+        appendFood: fn(),
+        updateFood: fn(),
       };
       rendered = renderHook(() => useModalAddFood(props));
 

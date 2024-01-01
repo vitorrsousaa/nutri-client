@@ -1,29 +1,20 @@
 import { extendTheme } from '@chakra-ui/react';
 import { StyleConfig } from '@chakra-ui/theme-tools';
 
-import { buttonTheme } from './components/button.theme';
-import { tabsTheme } from './components/tabs.theme';
+import {
+  accordionTheme,
+  buttonTheme,
+  tableTheme,
+  tabsTheme,
+  textTheme,
+} from './components';
 
 const componentsTheme: Record<string, StyleConfig> = {
   Button: buttonTheme,
   Tabs: tabsTheme,
-  Text: {
-    baseStyle: {
-      color: '#111',
-    },
-  },
-  Table: {
-    variants: {
-      simple: {
-        th: {
-          borderColor: '#ccc',
-        },
-        td: {
-          borderColor: '#ccc',
-        },
-      },
-    },
-  },
+  Text: textTheme,
+  Table: tableTheme,
+  Accordion: accordionTheme,
 };
 
 export const theme = extendTheme({
