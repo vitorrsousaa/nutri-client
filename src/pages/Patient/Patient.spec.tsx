@@ -1,54 +1,62 @@
 import * as PatientService from '@godiet-hooks/patients';
 import * as PlanningMealService from '@godiet-hooks/planningMeal';
 import * as Authentication from '@godiet-hooks/useAuth';
-
-import { useNavigate, useParams } from 'react-router-dom';
-
 import {
   act,
   render,
   renderHook,
   RenderHookResult,
-} from '../../utils/test-utils';
+} from '@godiet-utils/test-render';
+import {
+  clearAllMocks,
+  fn,
+  SpyInstance,
+  spyOn,
+} from '@godiet-utils/test-utils';
+
+import { useNavigate, useParams } from 'react-router-dom';
 
 import * as Generate from './hooks/generatePDF';
 const ReactRouter = { useParams, useNavigate };
 import { Patient } from './Patient';
 import { usePatientHook } from './Patient.hook';
 
+/**
+ * @vitest-environment jsdom
+ */
 describe('Patient Page', () => {
   let spy = {
-    useFindPatientById: {} as jest.SpyInstance<
+    useFindPatientById: {} as SpyInstance<
       Partial<ReturnType<typeof PatientService.useFindPatientById>>
     >,
-    useAuth: {} as jest.SpyInstance<
+    useAuth: {} as SpyInstance<
       Partial<ReturnType<(typeof Authentication)['useAuth']>>
     >,
-    useParams: {} as jest.SpyInstance<
+    useParams: {} as SpyInstance<
       Partial<ReturnType<(typeof ReactRouter)['useParams']>>
     >,
-    useNavigate: {} as jest.SpyInstance<
+    useNavigate: {} as SpyInstance<
       Partial<ReturnType<(typeof ReactRouter)['useNavigate']>>
     >,
-    useFindPlanningByPatientId: {} as jest.SpyInstance<
+    useFindPlanningByPatientId: {} as SpyInstance<
       Partial<ReturnType<typeof PlanningMealService.useFindPlanningByPatientId>>
     >,
-    useGeneratePDF: {} as jest.SpyInstance<
+    useGeneratePDF: {} as SpyInstance<
       Partial<ReturnType<typeof Generate.useGeneratePDF>>
     >,
   };
 
   beforeEach(() => {
     spy = {
-      useFindPatientById: jest.spyOn(PatientService, 'useFindPatientById'),
-      useNavigate: jest.spyOn(ReactRouter, 'useNavigate'),
-      useParams: jest.spyOn(ReactRouter, 'useParams'),
-      useAuth: jest.spyOn(Authentication, 'useAuth'),
-      useFindPlanningByPatientId: jest.spyOn(
+      useFindPatientById: spyOn(PatientService, 'useFindPatientById'),
+      useNavigate: spyOn(ReactRouter, 'useNavigate'),
+      useParams: spyOn(ReactRouter, 'useParams'),
+      useAuth: spyOn(Authentication, 'useAuth'),
+      useFindPlanningByPatientId: spyOn(
         PlanningMealService,
         'useFindPlanningByPatientId'
       ),
-      useGeneratePDF: jest.spyOn(Generate, 'useGeneratePDF'),
+      useGeneratePDF: spyOn(Generate, 'useGeneratePDF'),
     };
 
     spy.useAuth.mockReturnValue({
@@ -59,14 +67,14 @@ describe('Patient Page', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Page', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -191,7 +199,7 @@ describe('Patient Page', () => {
     let rendered: RenderHookResult<ReturnType<typeof usePatientHook>, unknown>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -200,7 +208,7 @@ describe('Patient Page', () => {
 
     it('Should call redirectToCreatePlanning with correct params', () => {
       // Arrange
-      const navigate = jest.fn();
+      const navigate = fn();
       spy.useNavigate.mockReturnValue(navigate);
       rendered = renderHook(() => usePatientHook());
 
@@ -228,7 +236,7 @@ describe('Patient Page', () => {
 
     // it('Should redirect user when call deletePatient', () => {
     //   // Arrange
-    //   const navigate = jest.fn();
+    //   const navigate = fn();
     //   spy.useNavigate.mockReturnValue(navigate);
 
     //   rendered = renderHook(() => usePatientHook());

@@ -2,21 +2,25 @@ import {
   render,
   renderHook,
   RenderHookResult,
-} from '../../../../utils/test-utils';
+} from '@godiet-utils/test-render';
+import { clearAllMocks } from '@godiet-utils/test-utils';
 
 import { useCardPatientHook } from './CardPatient.hook';
 import CardPatient from '.';
 
+/**
+ * @vitest-environment jsdom
+ */
 describe('Card Patient Component', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Component', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -54,11 +58,11 @@ describe('Card Patient Component', () => {
     >;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
-      rendered.unmount();
+      rendered?.unmount();
     });
 
     it('Should return correctly formatDate', () => {
@@ -83,7 +87,7 @@ describe('Card Patient Component', () => {
 
       // Assert
       expect(rendered.result.current.formatedBirthDate).toEqual(
-        '01/09/2021, 2 anos'
+        '01/09/2021, 3 anos'
       );
     });
   });

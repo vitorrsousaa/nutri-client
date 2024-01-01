@@ -1,34 +1,41 @@
-import * as ReactRouter from 'react-router';
-
 import {
   render,
   renderHook,
   RenderHookResult,
-} from '../../../../utils/test-utils';
+} from '@godiet-utils/test-render';
+import { clearAllMocks, SpyInstance, spyOn } from '@godiet-utils/test-utils';
+
+import * as ReactRouter from 'react-router';
 
 import { SideItem } from './SideItem';
 import { useSideItemHook } from './SideItem.hook';
 
+/**
+ * @vitest-environment jsdom
+ */
+
 describe('Side Item', () => {
   let spy = {
-    useLocation: {} as jest.SpyInstance,
+    useLocation: {} as SpyInstance<
+      Partial<ReturnType<(typeof ReactRouter)['useLocation']>>
+    >,
   };
 
   beforeEach(() => {
     spy = {
-      useLocation: jest.spyOn(ReactRouter, 'useLocation'),
+      useLocation: spyOn(ReactRouter, 'useLocation'),
     };
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Component', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -50,7 +57,7 @@ describe('Side Item', () => {
     let rendered: RenderHookResult<ReturnType<typeof useSideItemHook>, unknown>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {

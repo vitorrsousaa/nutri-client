@@ -1,15 +1,24 @@
-import { TPatient } from '../../entities/patient/TPatient';
-import { render, renderHook, RenderHookResult } from '../../utils/test-utils';
+import { TPatient } from '@godiet-entities/patient/TPatient';
+import {
+  render,
+  renderHook,
+  RenderHookResult,
+} from '@godiet-utils/test-render';
+import { clearAllMocks } from '@godiet-utils/test-utils';
 
 import HeaderPatient, { HeaderPatientProps } from './HeaderPatient';
 import { useHeaderPatientHook } from './HeaderPatient.hook';
+
+/**
+ * @vitest-environment jsdom
+ */
 
 describe('Header - Patient page sub component', () => {
   describe('Component', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {
@@ -64,7 +73,7 @@ describe('Header - Patient page sub component', () => {
     >;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
     });
 
     afterEach(() => {

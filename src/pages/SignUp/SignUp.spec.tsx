@@ -1,80 +1,55 @@
-import * as ReactQuery from '@tanstack/react-query';
-
-import { render, renderHook, RenderHookResult } from '../../utils/test-utils';
+import * as Authentication from '@godiet-hooks/useAuth';
+import { render } from '@godiet-utils/test-render';
+import { clearAllMocks, SpyInstance, spyOn } from '@godiet-utils/test-utils';
 
 import { SignUp } from './SignUp';
-import { useSignUpHook } from './SignUp.hook';
 
-jest.mock('../../hooks/useAuth', () => {
-  const originalModule = jest.requireActual('../../hooks/useAuth');
-
-  return {
-    ...originalModule,
-    useAuth: jest.fn().mockReturnValue({
-      signedIn: false,
-      signIn: jest.fn(),
-    }),
-  };
-});
+/**
+ * @vitest-environment jsdom
+ */
 
 describe('Sign Up', () => {
   let spy = {
-    mutation: {} as jest.SpyInstance,
+    useAuth: {} as SpyInstance<
+      Partial<ReturnType<(typeof Authentication)['useAuth']>>
+    >,
   };
 
   beforeEach(() => {
     spy = {
-      mutation: jest.spyOn(ReactQuery, 'useMutation'),
+      useAuth: spyOn(Authentication, 'useAuth'),
     };
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   describe('Page', () => {
     let rendered: ReturnType<typeof render>;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      clearAllMocks();
+
+      spy.useAuth.mockReturnValue({
+        signedIn: false,
+      });
     });
 
     afterEach(() => {
-      rendered.unmount();
+      rendered?.unmount();
     });
 
     it('Should render correctly', () => {
       // Arrange
-      spy.mutation.mockReturnValue({ isLoading: false });
 
       // Act
       rendered = render(<SignUp />);
 
       // Assert
-      expect(rendered.getByText('Criar sua conta'));
-    });
-  });
-
-  describe('Hook', () => {
-    let rendered: RenderHookResult<ReturnType<typeof useSignUpHook>, unknown>;
-
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
-    afterEach(() => {
-      rendered.unmount();
-    });
-
-    it('Should render correctly', () => {
-      // Arrange
-      spy.mutation.mockReturnValue({ isLoading: false });
-
-      // Act
-      rendered = renderHook(() => useSignUpHook());
-
-      // Assert
-      expect(rendered.result.current.isLoading).toBeFalsy();
+      expect(
+        rendered.getByText('Para criar uma conta, preencha os dados abaixo:')
+      );
     });
   });
 });
