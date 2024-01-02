@@ -1,15 +1,19 @@
-import { renderWithHookForm } from '../../../../utils/test-utils';
+import { renderWithHookForm } from '@godiet-utils/test-render';
+import { clearAllMocks, fn } from '@godiet-utils/test-utils';
 
 import MealForm from '.';
 
+/**
+ * @vitest-environment jsdom
+ */
 describe('Meal Form', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    clearAllMocks();
   });
 
   it('Should render correctly input to set name of meal', () => {
     const rendered = renderWithHookForm(
-      <MealForm mealIndex={0} onRemoveMeal={jest.fn()} />
+      <MealForm mealIndex={0} onRemoveMeal={fn()} />
     );
 
     expect(rendered.getByText('Nome da refeição'));
@@ -17,7 +21,7 @@ describe('Meal Form', () => {
 
   it('Should render correctly input to set time of meal', () => {
     const rendered = renderWithHookForm(
-      <MealForm mealIndex={0} onRemoveMeal={jest.fn()} />
+      <MealForm mealIndex={0} onRemoveMeal={fn()} />
     );
 
     expect(rendered.getByText('Horário da refeição'));
