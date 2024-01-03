@@ -1,4 +1,4 @@
-import { TPatient } from '@godiet-entities/patient/TPatient';
+import patient from '@godiet-utils/mocks/patientDomain';
 import {
   render,
   renderHook,
@@ -27,16 +27,6 @@ describe('Header - Patient page sub component', () => {
 
     it('Should render avatar correctly', () => {
       // Arrange
-      const patient: TPatient = {
-        name: 'John Doe',
-        birthDate: new Date('1999-01-01'),
-        email: 'any_email@email.com',
-        gender: 'MASC',
-        height: 1.8,
-        id: 'any_id',
-        weight: 80,
-        planningMeal: [],
-      };
 
       // Act
       rendered = render(<HeaderPatient patient={patient} />);
@@ -47,16 +37,6 @@ describe('Header - Patient page sub component', () => {
 
     it('Should render correctly username', () => {
       // Arrange
-      const patient: TPatient = {
-        name: 'John Doe',
-        birthDate: new Date('1999-01-01'),
-        email: 'any_email@email.com',
-        gender: 'MASC',
-        height: 1.8,
-        id: 'any_id',
-        weight: 80,
-        planningMeal: [],
-      };
 
       // Act
       rendered = render(<HeaderPatient patient={patient} />);
@@ -82,17 +62,6 @@ describe('Header - Patient page sub component', () => {
 
     it('Should formatted correctly date', () => {
       // Arrange
-      const patient: TPatient = {
-        name: 'John Doe',
-        birthDate: new Date('2021-09-01T06:06:00.000Z'),
-        email: 'any_email@email.com',
-        gender: 'MASC',
-        height: 1.8,
-        id: 'any_id',
-        weight: 80,
-        planningMeal: [],
-      };
-
       const props: HeaderPatientProps = {
         patient,
       };

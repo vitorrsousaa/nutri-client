@@ -1,5 +1,6 @@
 import * as PatientService from '@godiet-hooks/patients';
 import * as Authentication from '@godiet-hooks/useAuth';
+import patient from '@godiet-utils/mocks/patientDomain';
 import {
   act,
   render,
@@ -53,18 +54,7 @@ describe('Dashboard Page', () => {
         name: 'any_name',
       });
       spy.useGetAllPatients.mockReturnValue({
-        patients: [
-          {
-            birthDate: new Date(),
-            email: 'any_email',
-            gender: 'MASC',
-            height: 1.8,
-            id: 'any_id',
-            name: 'any_name',
-            weight: 80,
-            planningMeal: [],
-          },
-        ],
+        patients: [patient],
       });
 
       // Act
