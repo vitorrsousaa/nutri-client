@@ -1,7 +1,6 @@
 import AppProvider from '@godiet-components/AppProvider';
 import HeaderPatient from '@godiet-components/HeaderPatient';
 import Button from '@godiet-ui/Button';
-import Spinner from '@godiet-ui/Spinner';
 import Text from '@godiet-ui/Text';
 
 import { DeleteIcon, DownloadIcon } from '@chakra-ui/icons';
@@ -21,7 +20,6 @@ export function Patient() {
     patient,
     modalEditPatientIsOpen,
     hasPlanning,
-    isFetchingPlanningMeal,
     planningMeal,
     exportElementRef,
     isGeneratingPDF,
@@ -102,22 +100,18 @@ export function Patient() {
                     acima para cadastrar o planejamento alimentar.
                   </Text>
                 </Center>
-              ) : !isFetchingPlanningMeal ? (
+              ) : (
                 <>
-                  <PatientChartBarPlanning planningMeal={planningMeal} />
+                  <PatientChartBarPlanning planningMeal={planningMeal!} />
 
-                  <PatientContentPlanning planningMeal={planningMeal} />
+                  <PatientContentPlanning planningMeal={planningMeal!} />
 
                   <PlanningExported
-                    planningMeal={planningMeal}
+                    planningMeal={planningMeal!}
                     ref={exportElementRef}
                     patientName={patient.name}
                   />
                 </>
-              ) : (
-                <styled.PatientContainerLoadingPlanning>
-                  <Spinner />
-                </styled.PatientContainerLoadingPlanning>
               )}
             </Flex>
           </styled.PatientContainer>
