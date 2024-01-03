@@ -32,7 +32,9 @@ describe('Card Patient Component', () => {
       // Arrange
 
       // Act
-      rendered = render(<CardPatient patient={patient} />);
+      rendered = render(
+        <CardPatient patient={{ ...patient, name: 'any_name' }} />
+      );
 
       // Assert
       expect(rendered.getByText('any_name'));

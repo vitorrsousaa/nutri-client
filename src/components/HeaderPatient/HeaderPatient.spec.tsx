@@ -71,7 +71,7 @@ describe('Header - Patient page sub component', () => {
 
       // Assert
       expect(rendered.result.current.formatedBirthDate).toBe(
-        '1 de setembro de 2021 (2 anos)'
+        '1 de janeiro de 1990 (34 anos)'
       );
     });
   });
