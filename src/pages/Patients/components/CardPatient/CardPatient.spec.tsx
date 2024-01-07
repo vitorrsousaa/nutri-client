@@ -1,3 +1,4 @@
+import patient from '@godiet-utils/mocks/patientDomain';
 import {
   render,
   renderHook,
@@ -32,18 +33,7 @@ describe('Card Patient Component', () => {
 
       // Act
       rendered = render(
-        <CardPatient
-          patient={{
-            birthDate: new Date(),
-            email: 'any_email',
-            gender: 'MASC',
-            height: 1.8,
-            id: 'any_id',
-            name: 'any_name',
-            weight: 80,
-            planningMeal: [],
-          }}
-        />
+        <CardPatient patient={{ ...patient, name: 'any_name' }} />
       );
 
       // Assert
@@ -73,14 +63,8 @@ describe('Card Patient Component', () => {
       rendered = renderHook(() =>
         useCardPatientHook({
           patient: {
+            ...patient,
             birthDate: date,
-            email: 'any_email',
-            gender: 'MASC',
-            height: 1.8,
-            id: 'any_id',
-            name: 'any_name',
-            weight: 80,
-            planningMeal: [],
           },
         })
       );

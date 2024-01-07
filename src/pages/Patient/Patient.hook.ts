@@ -1,7 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { useFindPlanningByPatientId } from '@godiet-hooks/planningMeal';
-
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useFindPatientById } from '../../hooks/patients';
@@ -17,12 +15,7 @@ export function usePatientHook() {
 
   const { exportElementRef, isGeneratingPDF, generatePDF } = useGeneratePDF();
 
-  const hasPlanning = useMemo(() => !!patient?.planningMeal?.length, [patient]);
-
-  const { planningByPatientId, isFetchingPlanningByPatientId } =
-    useFindPlanningByPatientId(id, {
-      enabled: hasPlanning,
-    });
+  const hasPlanning = useMemo(() => !!patient?.planningMeal, [patient]);
 
   const [modalEditPatientIsOpen, setModalEditPatientIsOpen] = useState(false);
 
@@ -44,8 +37,7 @@ export function usePatientHook() {
     modalEditPatientIsOpen,
     hasPlanning,
     exportElementRef,
-    planningMeal: planningByPatientId!,
-    isFetchingPlanningMeal: isFetchingPlanningByPatientId,
+    planningMeal: patient?.planningMeal,
     isGeneratingPDF,
     redirectToCreatePlanning,
     toggleModalEditPatient,
