@@ -1,6 +1,7 @@
 import FormField from '@godiet-ui/FormField';
 import Input from '@godiet-ui/Input';
 import Modal from '@godiet-ui/Modal';
+import Text from '@godiet-ui/Text';
 
 import { Button } from '@chakra-ui/react';
 import { FormProvider } from 'react-hook-form';
@@ -36,30 +37,37 @@ export default function ModalCreatePatient(props: ModalCreatePatientProps) {
           Criando um novo paciente
           <Modal.CloseButton isDisabled={isCreatingPatient} />
         </Modal.Header>
-        <styled.ModalCreatePatientFormContainer
-          onSubmit={handleSubmit}
-          id="create-patient-form"
-        >
-          <FormProvider {...methods}>
-            <FormField
-              isInvalid={Boolean(errors.name)}
-              name="name"
-              errorMessage={errors.name?.message}
-              label="Insira o nome do paciente"
-            >
-              <Input placeholder="Nome do paciente" />
-            </FormField>
+        <Modal.Body>
+          <Text color={'#666'} fontSize={'14px'} marginTop={'4px'}>
+            Preencha as informações abaixo. Os demais dados podem ser
+            completados na ficha do paciente.
+          </Text>
 
-            <FormField
-              isInvalid={Boolean(errors.email)}
-              name="email"
-              errorMessage={errors.email?.message}
-              label="Insira o e-mail do paciente"
-            >
-              <Input placeholder="E-mail do paciente" type="email" />
-            </FormField>
-          </FormProvider>
-        </styled.ModalCreatePatientFormContainer>
+          <styled.ModalCreatePatientFormContainer
+            onSubmit={handleSubmit}
+            id="create-patient-form"
+          >
+            <FormProvider {...methods}>
+              <FormField
+                isInvalid={Boolean(errors.name)}
+                name="name"
+                errorMessage={errors.name?.message}
+                label="Insira o nome do paciente"
+              >
+                <Input placeholder="Nome do paciente" />
+              </FormField>
+
+              <FormField
+                isInvalid={Boolean(errors.email)}
+                name="email"
+                errorMessage={errors.email?.message}
+                label="Insira o e-mail do paciente"
+              >
+                <Input placeholder="E-mail do paciente" type="email" />
+              </FormField>
+            </FormProvider>
+          </styled.ModalCreatePatientFormContainer>
+        </Modal.Body>
         <Modal.Footer>
           <Button
             variant={'ghost'}
