@@ -71,7 +71,13 @@ export function useModalEditPatient(props: ModalEditPatientProps) {
       await updatePatient(newPatient);
 
       toast.success('Paciente atualizado com sucesso');
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.message.includes('Patient already exists')) {
+        toast.error('E-mail já cadastrado');
+        return;
+      }
+
       toast.error('Erro ao atualizar paciente');
     } finally {
       handleCloseModal();
