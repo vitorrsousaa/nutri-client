@@ -21,9 +21,12 @@ export const PatientContainer = styled.div`
 export const ActionButton = styled.button`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background-color: #f3f3f3;
-  padding: 42px 16px;
+  padding: 0 16px;
+
+  max-width: 180px;
+  height: 72px;
 `;
 
 export const PatientContainerLoadingPlanning = styled.div.withConfig({
