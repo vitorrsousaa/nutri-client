@@ -13,7 +13,11 @@ describe('Meal Form', () => {
 
   it('Should render correctly input to set name of meal', () => {
     const rendered = renderWithHookForm(
-      <MealForm mealIndex={0} onRemoveMeal={fn()} />
+      <MealForm
+        mealIndex={0}
+        onRemoveMeal={fn()}
+        isCreatingPlanningMeal={false}
+      />
     );
 
     expect(rendered.getByText('Nome da refeição'));
@@ -21,7 +25,11 @@ describe('Meal Form', () => {
 
   it('Should render correctly input to set time of meal', () => {
     const rendered = renderWithHookForm(
-      <MealForm mealIndex={0} onRemoveMeal={fn()} />
+      <MealForm
+        mealIndex={0}
+        onRemoveMeal={fn()}
+        isCreatingPlanningMeal={false}
+      />
     );
 
     expect(rendered.getByText('Horário da refeição'));

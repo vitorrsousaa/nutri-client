@@ -8,7 +8,9 @@ import FoodForm from '.';
 describe('Food Form Component', () => {
   describe('Food form view', () => {
     it('Should render correctly with props', () => {
-      const rendered = renderWithHookForm(<FoodForm mealIndex={0} />);
+      const rendered = renderWithHookForm(
+        <FoodForm mealIndex={0} isCreatingPlanningMeal={false} />
+      );
 
       expect(rendered.getByText('Adicionar alimento'));
     });
