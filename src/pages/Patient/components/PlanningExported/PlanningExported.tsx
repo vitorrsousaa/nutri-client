@@ -56,27 +56,29 @@ const PlanningExported = forwardRef<HTMLDivElement, PlanningExportedProps>(
             )}
           </p>
         </header>
-        <PatientChartBarPlanning planningMeal={planningMeal} />
-        <PatientContentPlanning planningMeal={planningMeal} />
 
-        <footer>
+        <PatientChartBarPlanning planningMeal={planningMeal} />
+        <section>
           <p style={{ marginBottom: 16 }}>Legenda:</p>
-          {Object.keys(COLORS).map((color) => (
-            <div
-              key={`legend-${color}`}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-            >
+          {Object.keys(COLORS)
+            .filter((color) => color !== 'Calorias')
+            .map((color) => (
               <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  backgroundColor: COLORS[color as keyof typeof COLORS],
-                }}
-              />
-              <p>{color}</p>
-            </div>
-          ))}
-        </footer>
+                key={`legend-${color}`}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
+                <div
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    backgroundColor: COLORS[color as keyof typeof COLORS],
+                  }}
+                />
+                <p>{color}</p>
+              </div>
+            ))}
+        </section>
+        <PatientContentPlanning planningMeal={planningMeal} />
       </PlanningExportedContainer>
     );
   }
