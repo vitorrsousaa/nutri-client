@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import AppProvider from '@godiet-components/AppProvider';
 import HeaderPatient from '@godiet-components/HeaderPatient';
 import Button from '@godiet-ui/Button';
@@ -25,11 +27,15 @@ export function CreatePlanning() {
     control,
     patient,
     hasMeals,
-    isCreatingPlanningMeal,
+    // isCreatingPlanningMeal,
     handleSubmit,
     handleRemoveMeal,
     handleAddNewMeal,
   } = useCreatePlanning();
+
+  // const isCreatingPlanningMeal = true;
+
+  const [isCreatingPlanningMeal, setisCreatingPlanningMeal] = useState(false);
 
   return (
     <>
@@ -49,6 +55,13 @@ export function CreatePlanning() {
             <Divider />
             <FormProvider {...methods}>
               <styled.CreatePlanningContainerForm onSubmit={handleSubmit}>
+                <button
+                  onClick={() =>
+                    setisCreatingPlanningMeal((prevState) => !prevState)
+                  }
+                >
+                  click
+                </button>
                 <FormField
                   label="Descrição"
                   isInvalid={Boolean(errors.description)}
@@ -71,6 +84,7 @@ export function CreatePlanning() {
                           key={`${field.name}-${index}`}
                           onRemoveMeal={handleRemoveMeal}
                           mealIndex={index}
+                          isCreatingPlanningMeal={isCreatingPlanningMeal}
                         />
                       ))}
                     </div>
@@ -89,6 +103,7 @@ export function CreatePlanning() {
                       onClick={handleAddNewMeal}
                       colorScheme="blue"
                       leftIcon={<AddIcon />}
+                      isDisabled={isCreatingPlanningMeal}
                     >
                       Adicionar refeição
                     </Button>

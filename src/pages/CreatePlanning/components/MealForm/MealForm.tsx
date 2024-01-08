@@ -12,10 +12,11 @@ import * as styled from './MealForm.styles';
 interface MealFormProps {
   onRemoveMeal: (index: number) => void;
   mealIndex: number;
+  isCreatingPlanningMeal: boolean;
 }
 
 export function MealForm(props: MealFormProps) {
-  const { mealIndex, onRemoveMeal } = props;
+  const { mealIndex, isCreatingPlanningMeal, onRemoveMeal } = props;
 
   return (
     <styled.MealFormContainer>
@@ -23,7 +24,11 @@ export function MealForm(props: MealFormProps) {
         <Text as="h1" fontWeight={500}>
           Refeição {mealIndex + 1}
         </Text>
-        <Button variant={'danger'} onClick={() => onRemoveMeal(mealIndex)}>
+        <Button
+          variant={'danger'}
+          onClick={() => onRemoveMeal(mealIndex)}
+          isDisabled={isCreatingPlanningMeal}
+        >
           <DeleteIcon />
         </Button>
       </div>
@@ -46,7 +51,10 @@ export function MealForm(props: MealFormProps) {
         </FormField>
       </styled.MealFormContent>
 
-      <FoodForm mealIndex={mealIndex} />
+      <FoodForm
+        mealIndex={mealIndex}
+        isCreatingPlanningMeal={isCreatingPlanningMeal}
+      />
     </styled.MealFormContainer>
   );
 }
