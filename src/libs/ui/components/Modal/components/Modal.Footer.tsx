@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import {
   ModalFooter as ChakraModalFooter,
   ModalFooterProps as ChakraModalFooterProps,
-} from '@chakra-ui/react';
+} from '@chakra-ui/modal';
 
 export interface ModalProps extends ChakraModalFooterProps {
   children: ReactNode;
