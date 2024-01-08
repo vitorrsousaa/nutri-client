@@ -33,7 +33,14 @@ export class Service {
   delete = async (deletePlanningMealInput: IDeletePlanningMealInput) => {
     const { planningMealId, patientId } = deletePlanningMealInput;
 
-    return this.httpClient.delete(`/delete/${patientId}/${planningMealId}`);
+    const deletePlanningMealBody = {
+      planningMealId,
+    };
+
+    return this.httpClient.delete(
+      `/delete/${patientId}`,
+      deletePlanningMealBody
+    );
   };
 
   update = async () => {
