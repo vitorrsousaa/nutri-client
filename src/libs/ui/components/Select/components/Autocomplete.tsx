@@ -5,7 +5,7 @@ import { SelectOptionsType } from '@godiet-ui/Select';
 import Spinner from '@godiet-ui/Spinner';
 
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import Select, { ActionMeta, SingleValue } from 'react-select';
+import Select, { SingleValue } from 'react-select';
 
 interface AutocompleteSelectProps {
   isLoading?: boolean;
@@ -38,11 +38,7 @@ export function Autocomplete(props: AutocompleteSelectProps) {
   );
 
   const handleInputChange = useCallback(
-    (
-      newValue: SingleValue<SelectOptionsType>,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      action: ActionMeta<SelectOptionsType>
-    ) => {
+    (newValue: SingleValue<SelectOptionsType>) => {
       const newEvent = {
         target: {
           value: newValue ? newValue.value : null,
