@@ -2,13 +2,12 @@ import { forwardRef } from 'react';
 
 import Button from '@godiet-ui/Button';
 
+import { Box, Stack } from '@chakra-ui/layout';
 import {
-  Box,
   RadioProps as ChakraRadioProps,
-  Stack,
   useRadio,
   useRadioGroup,
-} from '@chakra-ui/react';
+} from '@chakra-ui/radio';
 import { useController } from 'react-hook-form';
 
 interface RadioProps extends Omit<ChakraRadioProps, 'children'> {

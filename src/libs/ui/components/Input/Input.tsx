@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import {
   Input as ChakraInput,
   InputProps as ChakraInputProps,
-} from '@chakra-ui/react';
+} from '@chakra-ui/input';
 
 export interface InputProps extends ChakraInputProps {}
 

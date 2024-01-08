@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import {
   ModalHeader as ChakraModalHeader,
   ModalHeaderProps as ChakraModalHeaderProps,
-} from '@chakra-ui/react';
+} from '@chakra-ui/modal';
 
 export interface ModalHeaderProps extends ChakraModalHeaderProps {
   children: ReactNode;

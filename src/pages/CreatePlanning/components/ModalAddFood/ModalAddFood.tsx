@@ -105,6 +105,11 @@ const ModalAddFood = forwardRef<IModalAddFoodRef, ModalAddFoodProps>(
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                   handleChangeFieldFood('selectedFood', e.target.value)
                 }
+                autoComplete
+                autoCompleteOptions={{
+                  placeholder: 'Selecione um alimento',
+                  noOptionsMessage: 'Nenhum alimento encontrado',
+                }}
               />
             </FormField>
 

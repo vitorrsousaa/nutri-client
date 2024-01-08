@@ -1,7 +1,7 @@
 import {
   ModalCloseButton as ChakraModalCloseButton,
   ModalCloseButtonProps as ChakraModalCloseButtonProps,
-} from '@chakra-ui/react';
+} from '@chakra-ui/modal';
 
 export interface ModalCloseButtonProps
   extends Omit<ChakraModalCloseButtonProps, 'disabled' | 'onClick'> {

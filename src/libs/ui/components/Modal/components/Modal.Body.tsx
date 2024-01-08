@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import {
   ModalBody as ChakraModalBody,
   ModalBodyProps as ChakraModalBodyProps,
-} from '@chakra-ui/react';
+} from '@chakra-ui/modal';
 
 export interface ModalBodyProps extends ChakraModalBodyProps {
   children: ReactNode;

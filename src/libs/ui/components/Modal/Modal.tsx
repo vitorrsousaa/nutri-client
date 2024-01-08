@@ -4,7 +4,7 @@ import {
   Modal as ModalUI,
   ModalOverlay,
   ModalProps as ChakraModalProps,
-} from '@chakra-ui/react';
+} from '@chakra-ui/modal';
 
 interface ModalProps
   extends Omit<ChakraModalProps, 'children' | 'closeOnOverlayClick'> {

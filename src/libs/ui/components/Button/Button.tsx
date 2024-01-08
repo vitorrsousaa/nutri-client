@@ -1,7 +1,7 @@
 import {
   Button as ChakraButton,
   ButtonProps as ChakraButtonProps,
-} from '@chakra-ui/react';
+} from '@chakra-ui/button';
 
 interface ButtonProps
   extends Omit<
