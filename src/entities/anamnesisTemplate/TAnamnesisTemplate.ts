@@ -9,6 +9,7 @@ export const AnamnesisTemplateSchema = z.object({
   id: z.string(),
   createdAt: z.date(),
   text: z.string(),
+  title: z.string(),
 });
 
 export type TAnamnesisTemplate = z.infer<typeof AnamnesisTemplateSchema>;

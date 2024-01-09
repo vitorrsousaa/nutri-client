@@ -10,6 +10,7 @@ export const AnamnesisTemplatePersistanceSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   text: z.string(),
+  title: z.string(),
 });
 
 export type TAnamnesisTemplatePersistance = z.infer<

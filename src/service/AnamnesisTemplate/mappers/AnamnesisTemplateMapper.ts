@@ -8,6 +8,7 @@ class AnamnesisTemplateMapper {
       text: template.text,
       createdAt: template.createdAt,
       userId: template.userId,
+      title: template.title,
     };
   }
 }
