@@ -13,6 +13,7 @@ export default defineConfig({
       '@godiet-components': path.resolve(__dirname, './src/components'),
       '@godiet-utils': path.resolve(__dirname, './src/utils'),
       '@godiet-types': path.resolve(__dirname, './src/types'),
+      '@godiet-services': path.resolve(__dirname, './src/service'),
     },
   },
 });
