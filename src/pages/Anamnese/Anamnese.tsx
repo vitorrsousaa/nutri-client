@@ -4,9 +4,15 @@ import Button from '@godiet-ui/Button';
 import Text from '@godiet-ui/Text';
 
 import { useAnamneseHook } from './Anamnese.hook';
+import ModalSelecteCreateAnamnesis from './ModalSelectCreateAnamnesis';
 
 export function AnamnesePage() {
-  const { patient, isFetchingPatient } = useAnamneseHook();
+  const {
+    patient,
+    isFetchingPatient,
+    modalSelecteAnamnesisIsOpen,
+    toggleModalSelectAnamnesis,
+  } = useAnamneseHook();
 
   return (
     <AppProvider
@@ -50,8 +56,14 @@ export function AnamnesePage() {
                 de elaborar a conduta nutricional.
               </Text>
             </div>
-            <Button>Criar anamnese</Button>
+            <Button onClick={toggleModalSelectAnamnesis}>Criar anamnese</Button>
           </div>
+
+          <ModalSelecteCreateAnamnesis
+            patientId={patient.id}
+            isOpen={modalSelecteAnamnesisIsOpen}
+            onClose={toggleModalSelectAnamnesis}
+          />
         </>
       )}
     </AppProvider>

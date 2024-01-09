@@ -4,23 +4,23 @@ import { useQuery } from '@tanstack/react-query';
 
 export function useGetAllAnamneseTemplate(
   id: string = '',
-  options: {
+  options?: {
     enabled?: boolean;
   }
 ) {
   const {
-    data: anamneseTemplate,
-    isFetching: isFetchingAnamneseTemplate,
+    data: anamnesisTemplate,
+    isFetching: isFetchingAnamnesisTemplate,
     refetch: refetchAnamneseTemplate,
   } = useQuery({
     queryKey: [`@anamneseTemplate-${id && id}`, id],
     queryFn: AnamnesisTemplateService.getAll,
-    enabled: options.enabled,
+    enabled: options?.enabled,
   });
 
   return {
-    anamneseTemplate: anamneseTemplate ?? [],
-    isFetchingAnamneseTemplate,
+    anamnesisTemplate: anamnesisTemplate ?? [],
+    isFetchingAnamnesisTemplate,
     refetchAnamneseTemplate,
   };
 }
