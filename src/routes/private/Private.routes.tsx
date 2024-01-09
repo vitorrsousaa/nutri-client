@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
+import AnamnesePage from '../../pages/Anamnese';
 import CreatePlanning from '../../pages/CreatePlanning';
 import Dashboard from '../../pages/Dashboard';
 import Patient from '../../pages/Patient';
@@ -12,6 +13,7 @@ const routes: TRoute[] = [
   { path: '/pacientes', element: <Patients /> },
   { path: '/pacientes/:id', element: <Patient /> },
   { path: '/pacientes/:id/plano/criar', element: <CreatePlanning /> },
+  { path: '/pacientes/:id/anamnese', element: <AnamnesePage /> },
 ];
 
 export default function PrivateRoutes() {

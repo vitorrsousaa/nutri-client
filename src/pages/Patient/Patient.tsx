@@ -26,6 +26,7 @@ export function Patient() {
     redirectToCreatePlanning,
     toggleModalEditPatient,
     handleExportPDF,
+    navigate,
   } = usePatientHook();
 
   return (
@@ -58,7 +59,9 @@ export function Patient() {
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
               {!hasPlanning && (
-                <styled.ActionButton>
+                <styled.ActionButton
+                  onClick={() => navigate(`/pacientes/${patient.id}/anamnese`)}
+                >
                   <span>Anamnese </span>
                   <AttachmentIcon color={'#111'} />
                 </styled.ActionButton>

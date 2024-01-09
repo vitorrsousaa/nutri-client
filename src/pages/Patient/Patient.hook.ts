@@ -40,6 +40,7 @@ export function usePatientHook() {
     planningMeal: patient?.planningMeal,
     isGeneratingPDF,
     redirectToCreatePlanning,
+    navigate,
     toggleModalEditPatient,
     handleExportPDF,
   };
