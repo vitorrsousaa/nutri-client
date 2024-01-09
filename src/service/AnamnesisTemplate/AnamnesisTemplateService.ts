@@ -9,9 +9,8 @@ export class Service {
   constructor(private readonly httpClient: HttpClient) {}
 
   getAll = async (): Promise<TAnamnesisTemplate[]> => {
-    const anamnesisTemplates = await this.httpClient.get<
-      TAnamnesisTemplatePersistance[]
-    >('/anamnesis-template');
+    const anamnesisTemplates =
+      await this.httpClient.get<TAnamnesisTemplatePersistance[]>('/');
 
     return anamnesisTemplates.map(AnamnesisTemplateMapper.toDomain);
   };
