@@ -6,9 +6,11 @@ export class Service {
   }
 
   async recover() {
-    const user = await this.httpClient.get<{ email: string; name: string }>(
-      '/recover'
-    );
+    const user = await this.httpClient.get<{
+      email: string;
+      name: string;
+      id: string;
+    }>('/recover');
 
     return user;
   }
