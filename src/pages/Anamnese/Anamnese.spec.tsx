@@ -1,4 +1,6 @@
+import { TAnamnesis } from '@godiet-entities/anamnesis/TAnamnesis';
 import { TPatient } from '@godiet-entities/patient/TPatient';
+import * as AnamnesisService from '@godiet-hooks/anamnesis';
 import * as PatientService from '@godiet-hooks/patients';
 import * as Authentication from '@godiet-hooks/useAuth';
 import { render } from '@godiet-utils/test-render';
@@ -57,6 +59,9 @@ describe('Anamnese page', () => {
     useNavigate: {} as SpyInstance<
       Partial<ReturnType<(typeof ReactRouter)['useNavigate']>>
     >,
+    useGetAllAnamnesis: {} as SpyInstance<
+      Partial<ReturnType<typeof AnamnesisService.useGetAllAnamnesis>>
+    >,
   };
 
   beforeEach(() => {
@@ -65,6 +70,7 @@ describe('Anamnese page', () => {
       useNavigate: spyOn(ReactRouter, 'useNavigate'),
       useParams: spyOn(ReactRouter, 'useParams'),
       useAuth: spyOn(Authentication, 'useAuth'),
+      useGetAllAnamnesis: spyOn(AnamnesisService, 'useGetAllAnamnesis'),
     };
 
     spy.useAuth.mockReturnValue({
@@ -107,6 +113,10 @@ describe('Anamnese page', () => {
       spy.useFindPatientById.mockReturnValue({
         patient: null,
       });
+      spy.useGetAllAnamnesis.mockReturnValue({
+        isFetchingAnamnesis: false,
+        anamnesis: [],
+      });
       spy.useParams.mockReturnValue({ id: 'any_id' });
 
       // Act
@@ -116,10 +126,19 @@ describe('Anamnese page', () => {
       expect(rendered.getByText(/Por favor, tente novamente!/));
     });
 
-    it('Should render header patient when patient is found', () => {
+    it('Should render header patient when patient is found and get all anamnesis', () => {
       // Arrange
       spy.useFindPatientById.mockReturnValue({
         patient: patientMock,
+        isFetchingPatient: false,
+      });
+
+      spy.useGetAllAnamnesis.mockReturnValue({
+        isFetchingAnamnesis: false,
+        anamnesis: [
+          { id: '1', createdAt: new Date() },
+          { id: '2', createdAt: new Date() },
+        ] as TAnamnesis[],
       });
 
       // Act
