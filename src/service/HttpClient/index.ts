@@ -22,10 +22,11 @@ class HttpClient {
     });
   }
 
-  delete<T>(path: string) {
+  delete<T, K>(path: string, data?: K) {
     return this.makeRequest<T>({
       method: 'delete',
       url: `${this.baseURL}${path}`,
+      data,
     });
   }
 

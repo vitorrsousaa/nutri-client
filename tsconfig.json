@@ -30,6 +30,7 @@
       "@godiet-components/*": ["./src/components/*"],
       "@godiet-utils/*": ["./src/utils/*"],
       "@godiet-types/*": ["./src/types/*"],
+      "@godiet-services/*":["./src/service/*"],
     },
 
     /* Testing */

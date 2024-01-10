@@ -1,6 +1,6 @@
 import * as PatientService from '@godiet-hooks/patients';
-import * as PlanningMealService from '@godiet-hooks/planningMeal';
 import * as Authentication from '@godiet-hooks/useAuth';
+import * as Generate from '@godiet-hooks/usePdf';
 import {
   act,
   render,
@@ -16,8 +16,9 @@ import {
 
 import { useNavigate, useParams } from 'react-router-dom';
 
-import * as Generate from './hooks/generatePDF';
 const ReactRouter = { useParams, useNavigate };
+import { TPlanningMeal } from '@godiet-entities/planning/TPlanningMeal';
+
 import { Patient } from './Patient';
 import { usePatientHook } from './Patient.hook';
 
@@ -38,9 +39,6 @@ describe('Patient Page', () => {
     useNavigate: {} as SpyInstance<
       Partial<ReturnType<(typeof ReactRouter)['useNavigate']>>
     >,
-    useFindPlanningByPatientId: {} as SpyInstance<
-      Partial<ReturnType<typeof PlanningMealService.useFindPlanningByPatientId>>
-    >,
     useGeneratePDF: {} as SpyInstance<
       Partial<ReturnType<typeof Generate.useGeneratePDF>>
     >,
@@ -52,10 +50,6 @@ describe('Patient Page', () => {
       useNavigate: spyOn(ReactRouter, 'useNavigate'),
       useParams: spyOn(ReactRouter, 'useParams'),
       useAuth: spyOn(Authentication, 'useAuth'),
-      useFindPlanningByPatientId: spyOn(
-        PlanningMealService,
-        'useFindPlanningByPatientId'
-      ),
       useGeneratePDF: spyOn(Generate, 'useGeneratePDF'),
     };
 
@@ -87,10 +81,6 @@ describe('Patient Page', () => {
         isFetchingPatient: true,
         patient: null,
       });
-      spy.useFindPlanningByPatientId.mockReturnValue({
-        isFetchingPlanningByPatientId: false,
-        planningByPatientId: null,
-      });
 
       // Act
       rendered = render(<Patient />);
@@ -120,7 +110,28 @@ describe('Patient Page', () => {
           email: 'any_email@mail.com',
           id: 'any_id',
           name: 'any_patient_name',
-          planningMeal: [],
+          planningMeal: {
+            createdAt: new Date(),
+            description: 'any_description',
+            meals: [
+              {
+                id: 'any_id_meal',
+                name: 'any_name_meal',
+                time: new Date().toISOString(),
+                mealFoods: [
+                  {
+                    id: 'any_id_meal_food',
+                    baseUnit: 'any_base_unit',
+                    carbohydrate: 0,
+                    energy: 0,
+                    foodId: 'any_food_id',
+                    lipid: 0,
+                    name: 'any_name',
+                  },
+                ],
+              },
+            ],
+          } as TPlanningMeal,
         },
       });
 

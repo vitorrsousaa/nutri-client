@@ -1,5 +1,6 @@
 import * as PatientService from '@godiet-hooks/patients';
 import * as Authentication from '@godiet-hooks/useAuth';
+import patient from '@godiet-utils/mocks/patientDomain';
 import { render } from '@godiet-utils/test-render';
 import { clearAllMocks, SpyInstance, spyOn } from '@godiet-utils/test-utils';
 
@@ -47,18 +48,7 @@ describe('Patients Page', () => {
     it('Should render input when has patients', () => {
       // Arrange
       spy.useGetAllPatients.mockReturnValue({
-        patients: [
-          {
-            birthDate: new Date(),
-            email: 'string',
-            id: 'string',
-            gender: 'MASC',
-            name: 'string',
-            height: 1,
-            weight: 1,
-            planningMeal: [],
-          },
-        ],
+        patients: [patient],
       });
 
       // Act
@@ -86,18 +76,7 @@ describe('Patients Page', () => {
       // Arrange
       spy.useGetAllPatients.mockReturnValue({
         isFetchingPatients: false,
-        patients: [
-          {
-            birthDate: new Date(),
-            email: 'string',
-            gender: 'MASC',
-            height: 1,
-            id: 'string',
-            name: 'string',
-            weight: 1,
-            planningMeal: [],
-          },
-        ],
+        patients: [patient],
       });
 
       // Act

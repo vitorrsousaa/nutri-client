@@ -1,3 +1,4 @@
+import { PlanningMealSchema } from '@godiet-entities/planning/TPlanningMeal';
 import { StatusEnum } from '@godiet-entities/status';
 
 import * as z from 'zod';
@@ -19,14 +20,7 @@ export const PatientSchema = z.object({
     .optional(),
   gender: GenderEnum.optional(),
   status: StatusEnum.optional(),
-  planningMeal: z.array(
-    z.object({
-      id: z.string(),
-      userId: z.string(),
-      patientId: z.string(),
-      description: z.string().or(z.null()),
-    })
-  ),
+  planningMeal: PlanningMealSchema.optional(),
 });
 
 export type TPatient = z.infer<typeof PatientSchema>;

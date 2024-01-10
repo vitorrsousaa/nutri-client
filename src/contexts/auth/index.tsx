@@ -13,6 +13,7 @@ import token from '../../storage/token';
 type AuthContextValue = {
   email: string | undefined;
   name: string | undefined;
+  userId: string | undefined;
   signedIn: boolean;
   signIn: (accessToken: string) => void;
   signOut: () => void;
@@ -76,6 +77,7 @@ export function AuthProvider(props: { children: React.ReactNode }) {
         signOut,
         email: data?.email,
         name: data?.name,
+        userId: data?.id,
         signedIn: isSuccess && signedIn,
       }}
     >

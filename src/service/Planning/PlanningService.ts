@@ -1,10 +1,13 @@
 import { CreatePlanningMealDTO } from '@godiet-entities/planning/dtos/create-planning-meal-dto';
-import { TPlanningMeal } from '@godiet-entities/planning/TPlanningMeal';
-import { TPlanningMealPersistance } from '@godiet-entities/planning/TPlanningMealPersistance';
 
 import HttpClient from '../HttpClient';
 
 import PlanningMealMapper from './mappers/PlanningMealMapper';
+
+interface IDeletePlanningMealInput {
+  planningMealId: string;
+  patientId: string;
+}
 
 export class Service {
   constructor(private readonly httpClient: HttpClient) {}
@@ -27,17 +30,17 @@ export class Service {
     return null;
   };
 
-  findByPatientId = async (
-    patientId: string | undefined
-  ): Promise<TPlanningMeal | null> => {
-    if (!patientId) {
-      return null;
-    }
+  delete = async (deletePlanningMealInput: IDeletePlanningMealInput) => {
+    const { planningMealId, patientId } = deletePlanningMealInput;
 
-    const planningMealPersistance =
-      await this.httpClient.get<TPlanningMealPersistance>(`/${patientId}`);
+    const deletePlanningMealBody = {
+      planningMealId,
+    };
 
-    return PlanningMealMapper.toDomain(planningMealPersistance);
+    return this.httpClient.delete(
+      `/delete/${patientId}`,
+      deletePlanningMealBody
+    );
   };
 
   update = async () => {

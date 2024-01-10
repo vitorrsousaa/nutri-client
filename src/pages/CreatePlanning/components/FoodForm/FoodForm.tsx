@@ -13,9 +13,12 @@ import * as styled from './FoodForm.styles';
 
 export interface FoodFormProps {
   mealIndex: number;
+  isCreatingPlanningMeal: boolean;
 }
 
 export function FoodForm(props: FoodFormProps) {
+  const { isCreatingPlanningMeal } = props;
+
   const {
     foods,
     modalAddFoodIsOpen,
@@ -87,7 +90,12 @@ export function FoodForm(props: FoodFormProps) {
         ref={modalFormRef}
       />
 
-      <Button onClick={toggleModalAddNewFood}>Adicionar alimento</Button>
+      <Button
+        onClick={toggleModalAddNewFood}
+        isDisabled={isCreatingPlanningMeal}
+      >
+        Adicionar alimento
+      </Button>
     </>
   );
 }

@@ -5,7 +5,7 @@ import {
   FormControlProps,
   FormErrorMessage,
   FormLabel,
-} from '@chakra-ui/react';
+} from '@chakra-ui/form-control';
 import {
   Controller,
   ControllerRenderProps,

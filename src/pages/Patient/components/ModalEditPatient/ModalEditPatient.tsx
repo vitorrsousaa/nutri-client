@@ -36,7 +36,7 @@ export function ModalEditPatient(props: ModalEditPatientProps) {
     >
       <Modal.Content>
         <Modal.Header>
-          Editando um paciente
+          Dados cadastrais
           <Modal.CloseButton isDisabled={isUpdatingPatient} />
         </Modal.Header>
         <Modal.Body>
