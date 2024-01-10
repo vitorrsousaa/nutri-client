@@ -4,7 +4,16 @@ import { TAnamnesisTemplate } from '@godiet-entities/anamnesisTemplate/TAnamnesi
 import { useGetAllAnamneseTemplate } from '@godiet-hooks/anamnesisTemplate';
 import { useAuth } from '@godiet-hooks/useAuth';
 
-export function useModalCreateAnamnesisHook() {
+import { useNavigate } from 'react-router-dom';
+
+import { ModalSelecteCreateAnamnesisProps } from './ModalSelectCreateAnamnesis';
+
+export function useModalCreateAnamnesisHook(
+  props: ModalSelecteCreateAnamnesisProps
+) {
+  const { patientId } = props;
+  const navigate = useNavigate();
+
   const { userId } = useAuth();
 
   const { anamnesisTemplate, isFetchingAnamnesisTemplate } =
@@ -41,6 +50,14 @@ export function useModalCreateAnamnesisHook() {
     [anamnesisTemplate, userId]
   );
 
+  const handleCreateAnamnese = useCallback(() => {
+    navigate(`/pacientes/${patientId}/anamnese/criar`, {
+      state: {
+        template: selectedAnamneseTemplate,
+      },
+    });
+  }, [navigate, patientId, selectedAnamneseTemplate]);
+
   const anamnesisOptions = useMemo(() => {
     const emptyOption = [
       { value: '', label: 'Selecione um modelo de anamnese' },
@@ -66,5 +83,6 @@ export function useModalCreateAnamnesisHook() {
     anamnesisOptions,
     formIsValid,
     handleChangeAnamnesis,
+    handleCreateAnamnese,
   };
 }

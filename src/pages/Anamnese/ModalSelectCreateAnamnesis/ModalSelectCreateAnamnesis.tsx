@@ -21,7 +21,8 @@ export function ModalSelecteCreateAnamnesis(
     anamnesisOptions,
     formIsValid,
     handleChangeAnamnesis,
-  } = useModalCreateAnamnesisHook();
+    handleCreateAnamnese,
+  } = useModalCreateAnamnesisHook(props);
 
   return (
     <Modal.Root isOpen={isOpen} onClose={onClose}>
@@ -45,7 +46,9 @@ export function ModalSelecteCreateAnamnesis(
           <Button variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
-          <Button isDisabled={!formIsValid}>Confirmar</Button>
+          <Button isDisabled={!formIsValid} onClick={handleCreateAnamnese}>
+            Confirmar
+          </Button>
         </Modal.Footer>
       </Modal.Content>
     </Modal.Root>
