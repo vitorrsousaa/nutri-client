@@ -1,8 +1,7 @@
 import Button from '@godiet-ui/Button';
 
-import { EditorContent } from '@tiptap/react';
-
 import BubbleMenu from './components/BubbleMenu';
+import EditorContent from './components/EditorContent';
 import FloatingMenu from './components/FloatingMenu';
 import { withEditorContext } from './Editor.hoc.tsx';
 import { useEditorHook } from './Editor.hook';
@@ -10,28 +9,37 @@ import * as styled from './Editor.styles.ts';
 
 export interface EditorProps {
   initialContent?: string;
+  isValid?: boolean;
+  isLoading?: boolean;
+  onBackButton?: () => void;
+  onSave?: (text: string) => void;
 }
 
-function Editor() {
+function Editor(props: EditorProps) {
+  const { isValid, isLoading, onBackButton, onSave } = props;
+
   const { editor } = useEditorHook();
 
   return (
     <styled.EditorWrapper>
-      <EditorContent editor={editor} />
-
       {editor && (
         <>
+          <EditorContent />
           <FloatingMenu />
           <BubbleMenu />
         </>
       )}
       <styled.EditorFooter>
-        <Button variant="ghost">Cancelar</Button>
+        <Button variant="ghost" onClick={onBackButton} isDisabled={isLoading}>
+          Cancelar
+        </Button>
         <Button
+          isDisabled={!isValid}
+          isLoading={isLoading}
           onClick={() => {
-            const test = editor?.getHTML();
+            const text = editor?.getHTML();
 
-            console.log(test);
+            onSave?.(text);
           }}
         >
           Salvar

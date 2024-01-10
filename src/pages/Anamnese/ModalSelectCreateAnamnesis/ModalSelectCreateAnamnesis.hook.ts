@@ -54,6 +54,7 @@ export function useModalCreateAnamnesisHook(
     navigate(`/pacientes/${patientId}/anamnese/criar`, {
       state: {
         template: selectedAnamneseTemplate,
+        patientId,
       },
     });
   }, [navigate, patientId, selectedAnamneseTemplate]);

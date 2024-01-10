@@ -20,4 +20,5 @@ export const EditorFooter = styled.footer`
   display: flex;
   gap: 16px;
   justify-content: flex-end;
+  margin-top: 24px;
 `;

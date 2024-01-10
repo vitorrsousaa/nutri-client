@@ -58,14 +58,14 @@ export function Patient() {
                 <span>Editar dados</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
-              {!hasPlanning && (
-                <styled.ActionButton
-                  onClick={() => navigate(`/pacientes/${patient.id}/anamnese`)}
-                >
-                  <span>Anamnese </span>
-                  <AttachmentIcon color={'#111'} />
-                </styled.ActionButton>
-              )}
+
+              <styled.ActionButton
+                onClick={() => navigate(`/pacientes/${patient.id}/anamnese`)}
+              >
+                <span>Anamnese </span>
+                <AttachmentIcon color={'#111'} />
+              </styled.ActionButton>
+
               <styled.ActionButton>
                 <span>Antropometria</span>
                 <InfoIcon color={'#111'} />
