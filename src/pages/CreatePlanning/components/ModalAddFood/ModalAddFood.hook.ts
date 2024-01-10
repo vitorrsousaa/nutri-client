@@ -132,7 +132,7 @@ export function useModalAddFood(props: ModalAddFoodProps) {
 
   const isValid = useMemo(() => {
     return Boolean(
-      newFood && newFood.quantity > 0 && newFood.selectedFood.length > 0
+      newFood && newFood.quantity > 0 && newFood.selectedFood?.length > 0
     );
   }, [newFood]);
 
