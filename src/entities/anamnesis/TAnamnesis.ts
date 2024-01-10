@@ -8,7 +8,7 @@ export const AnamnesisSchema = z.object({
   patientId: z.string(),
   updatedAt: z.date(),
   id: z.string(),
-  createdAt: z.date(),
+  createdAt: z.date().or(z.string()),
   text: z.string(),
   title: z.string(),
 });

@@ -15,10 +15,11 @@ export const EditorContext = createContext<EditorContextValue | null>(null);
 interface EditorContextProviderProps {
   children: React.ReactNode;
   initialContent?: string;
+  isEditable?: boolean;
 }
 
 export function EditorContextProvider(props: EditorContextProviderProps) {
-  const { initialContent } = props;
+  const { initialContent, isEditable } = props;
 
   const PlaceholderExtension = Placeholder.configure({
     placeholder: (props) => {
@@ -40,6 +41,7 @@ export function EditorContextProvider(props: EditorContextProviderProps) {
         class: 'outlined-none',
       },
     },
+    editable: isEditable,
   });
 
   if (!editor) {

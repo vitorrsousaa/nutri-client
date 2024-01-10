@@ -6,7 +6,10 @@ export function withEditorContext(Component: React.ComponentType<EditorProps>) {
 
   return function WithEditorContext(props: EditorProps) {
     return (
-      <EditorContextProvider initialContent={props.initialContent}>
+      <EditorContextProvider
+        initialContent={props.initialContent}
+        isEditable={props.isEditable}
+      >
         <Component {...props} />
       </EditorContextProvider>
     );

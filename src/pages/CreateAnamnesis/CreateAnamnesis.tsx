@@ -38,6 +38,7 @@ export function CreateAnamnesis() {
           />
 
           <Editor
+            hasFooter
             initialContent={anamnesisTemplate?.text}
             isValid={formIsValid}
             isLoading={isLoading}
