@@ -4,6 +4,11 @@ import HttpClient from '../HttpClient';
 
 import PlanningMealMapper from './mappers/PlanningMealMapper';
 
+interface IDeletePlanningMealInput {
+  planningMealId: string;
+  patientId: string;
+}
+
 export class Service {
   constructor(private readonly httpClient: HttpClient) {}
 
@@ -23,6 +28,19 @@ export class Service {
     );
 
     return null;
+  };
+
+  delete = async (deletePlanningMealInput: IDeletePlanningMealInput) => {
+    const { planningMealId, patientId } = deletePlanningMealInput;
+
+    const deletePlanningMealBody = {
+      planningMealId,
+    };
+
+    return this.httpClient.delete(
+      `/delete/${patientId}`,
+      deletePlanningMealBody
+    );
   };
 
   update = async () => {
