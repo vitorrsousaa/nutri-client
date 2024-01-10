@@ -5,7 +5,7 @@ import * as z from 'zod';
  */
 
 export const AnamnesisSchema = z.object({
-  userId: z.string(),
+  patientId: z.string(),
   updatedAt: z.date(),
   id: z.string(),
   createdAt: z.date(),

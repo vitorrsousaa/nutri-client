@@ -7,7 +7,7 @@ class AnamnesisMapper {
       id: anamnesis.id,
       text: anamnesis.text,
       createdAt: anamnesis.createdAt,
-      userId: anamnesis.userId,
+      patientId: anamnesis.patientId,
       title: anamnesis.title,
       updatedAt: anamnesis.updatedAt,
     };
