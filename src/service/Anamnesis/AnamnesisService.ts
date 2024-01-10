@@ -25,4 +25,12 @@ export class Service {
 
     return AnamnesisMapper.toDomain(anamnesisPersistance);
   };
+
+  getAll = async (patientId: string): Promise<TAnamnesis[]> => {
+    const anamnesisPersistance = await this.httpClient.get<
+      TAnamnesisPersistance[]
+    >(`/${patientId}`);
+
+    return anamnesisPersistance.map(AnamnesisMapper.toDomain);
+  };
 }
