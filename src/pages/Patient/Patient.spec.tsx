@@ -1,5 +1,6 @@
 import * as PatientService from '@godiet-hooks/patients';
 import * as Authentication from '@godiet-hooks/useAuth';
+import * as Generate from '@godiet-hooks/usePdf';
 import {
   act,
   render,
@@ -15,7 +16,6 @@ import {
 
 import { useNavigate, useParams } from 'react-router-dom';
 
-import * as Generate from './hooks/generatePDF';
 const ReactRouter = { useParams, useNavigate };
 import { TPlanningMeal } from '@godiet-entities/planning/TPlanningMeal';
 

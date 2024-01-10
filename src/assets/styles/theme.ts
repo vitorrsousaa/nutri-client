@@ -35,6 +35,24 @@ export const theme = extendTheme({
     //     height: '100vh',
     //   },
     // },
+    global: {
+      h1: {
+        fontSize: '32px',
+        fontWeight: '600',
+      },
+      h2: {
+        fontSize: '24px',
+        fontWeight: '600',
+      },
+      h3: {
+        fontSize: '18px',
+        fontWeight: '600',
+      },
+      h4: {
+        fontSize: '16px',
+        fontWeight: '600',
+      },
+    },
   },
 
   components: componentsTheme,
