@@ -4,13 +4,16 @@ import { TAnamnesisCreateDTO } from '@godiet-entities/anamnesis/TAnamnesisCreate
 import { TAnamnesisTemplate } from '@godiet-entities/anamnesisTemplate/TAnamnesisTemplate';
 import { useCreateAnamnesis } from '@godiet-hooks/anamnesis';
 
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export function useCreateAnamnesisHook() {
   const location = useLocation();
   const params = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
-  const { createAnamnesis, isCreatingAnamnesis } = useCreateAnamnesis();
+  const { createAnamnesis, isCreatingAnamnesis } = useCreateAnamnesis(
+    params.id
+  );
 
   const [title, setTitle] = useState('');
 
@@ -20,6 +23,10 @@ export function useCreateAnamnesisHook() {
     },
     []
   );
+
+  const returnPage = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
 
   const handleCreateAnamnesis = useCallback(
     async (text: string) => {
@@ -32,8 +39,10 @@ export function useCreateAnamnesisHook() {
         anamnesis: newAnamnesis,
         patientId: params?.id || location.state?.patientId,
       });
+
+      returnPage();
     },
-    [createAnamnesis, location.state?.patientId, params?.id, title]
+    [createAnamnesis, location.state?.patientId, params?.id, returnPage, title]
   );
 
   const anamnesisTemplate = useMemo<TAnamnesisTemplate | null>(() => {
@@ -53,5 +62,6 @@ export function useCreateAnamnesisHook() {
     isLoading: isCreatingAnamnesis,
     handleChangeTitle,
     handleCreateAnamnesis,
+    returnPage,
   };
 }

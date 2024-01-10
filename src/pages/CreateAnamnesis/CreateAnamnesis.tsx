@@ -3,8 +3,6 @@ import Editor from '@godiet-ui/Editor';
 import Input from '@godiet-ui/Input';
 import Text from '@godiet-ui/Text';
 
-import { useNavigate } from 'react-router-dom';
-
 import { useCreateAnamnesisHook } from './CreateAnamnesis.hook';
 
 export function CreateAnamnesis() {
@@ -15,9 +13,8 @@ export function CreateAnamnesis() {
     isLoading,
     handleChangeTitle,
     handleCreateAnamnesis,
+    returnPage,
   } = useCreateAnamnesisHook();
-
-  const navigate = useNavigate();
 
   return (
     <AppProvider
@@ -44,9 +41,7 @@ export function CreateAnamnesis() {
             initialContent={anamnesisTemplate?.text}
             isValid={formIsValid}
             isLoading={isLoading}
-            onBackButton={() => {
-              navigate(-1);
-            }}
+            onBackButton={returnPage}
             onSave={handleCreateAnamnesis}
           />
         </>
