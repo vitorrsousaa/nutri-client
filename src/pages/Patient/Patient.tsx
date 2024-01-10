@@ -54,15 +54,33 @@ export function Patient() {
             </Text>
             <HStack>
               <styled.ActionButton onClick={toggleModalEditPatient}>
-                <span>Avalição clínica</span>
+                <span>Editar dados</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
               {!hasPlanning && (
-                <styled.ActionButton onClick={redirectToCreatePlanning}>
-                  <span>Planejamento alimentar</span>
+                <styled.ActionButton>
+                  <span>Anamnese </span>
                   <AttachmentIcon color={'#111'} />
                 </styled.ActionButton>
               )}
+              <styled.ActionButton>
+                <span>Antropometria</span>
+                <InfoIcon color={'#111'} />
+              </styled.ActionButton>
+            </HStack>
+            <HStack>
+              <styled.ActionButton onClick={redirectToCreatePlanning}>
+                <span>Planejamento alimentar</span>
+                <InfoIcon color={'#111'} />
+              </styled.ActionButton>
+              <styled.ActionButton>
+                <span>Orientações nutricionais</span>
+                <InfoIcon color={'#111'} />
+              </styled.ActionButton>
+              <styled.ActionButton>
+                <span>Cálculo energético</span>
+                <InfoIcon color={'#111'} />
+              </styled.ActionButton>
             </HStack>
           </Flex>
 
