@@ -14,7 +14,7 @@ export function ModalShowAnamnesis(props: ModalShowAnamnesisProps) {
   return (
     <Modal.Root isOpen={isOpen} onClose={onClose}>
       <Modal.Content maxW={'700px'}>
-        <Modal.Header>
+        <Modal.Header marginBottom={'16px'}>
           {anamnesis
             ? anamnesis.title
             : 'Não foi possível encontrar essa anamnese'}

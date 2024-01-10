@@ -24,9 +24,10 @@ function Editor(props: EditorProps) {
 
   return (
     <styled.EditorWrapper>
+      <EditorContent />
+
       {editor && (
         <>
-          <EditorContent />
           <FloatingMenu />
           <BubbleMenu />
         </>

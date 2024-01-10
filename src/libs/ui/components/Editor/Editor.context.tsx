@@ -19,7 +19,7 @@ interface EditorContextProviderProps {
 }
 
 export function EditorContextProvider(props: EditorContextProviderProps) {
-  const { initialContent, isEditable } = props;
+  const { initialContent, isEditable = true } = props;
 
   const PlaceholderExtension = Placeholder.configure({
     placeholder: (props) => {
