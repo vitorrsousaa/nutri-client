@@ -12,7 +12,7 @@ export default defineConfig({
       '@godiet-utils': path.resolve(__dirname, './src/utils'),
       '@godiet-types': path.resolve(__dirname, './src/types'),
       '@godiet-services': path.resolve(__dirname, './src/service'),
-      '@godiet-query': path.resolve(__dirname, './src/libs/query'),
+      '@godiet-query': path.resolve(__dirname, './src/libs/query/index.ts'),
     },
   },
 });
