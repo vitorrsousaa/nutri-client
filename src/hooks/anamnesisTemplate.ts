@@ -1,26 +1,26 @@
+import { useQuery } from '@godiet-query';
 import AnamnesisTemplateService from '@godiet-services/AnamnesisTemplate';
 
-import { useQuery } from '@tanstack/react-query';
-
 export function useGetAllAnamneseTemplate(
-  id: string = '',
+  userId: string = '',
   options?: {
     enabled?: boolean;
   }
 ) {
   const {
     data: anamnesisTemplate,
+    isPending,
     isFetching: isFetchingAnamnesisTemplate,
     refetch: refetchAnamneseTemplate,
   } = useQuery({
-    queryKey: [`@anamneseTemplate-${id && id}`, id],
+    queryKey: ['@anamnesisTemplate', userId],
     queryFn: AnamnesisTemplateService.getAll,
     enabled: options?.enabled,
   });
 
   return {
     anamnesisTemplate: anamnesisTemplate ?? [],
-    isFetchingAnamnesisTemplate,
+    isFetchingAnamnesisTemplate: isFetchingAnamnesisTemplate || isPending,
     refetchAnamneseTemplate,
   };
 }

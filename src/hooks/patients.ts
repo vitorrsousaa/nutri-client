@@ -1,54 +1,68 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@godiet-query';
+import PatientService from '@godiet-services/Patient';
 
-import PatientService from '../service/Patient';
+import { useAuth } from './useAuth';
 
 export function useGetAllPatients() {
+  const auth = useAuth();
+
   const {
     data: patients,
-    isFetching: isFetchingPatients,
+    isFetching,
+    isPending,
     refetch: refetchPatients,
   } = useQuery({
-    queryKey: ['@patients'],
+    queryKey: ['@patients', auth?.userId],
     queryFn: PatientService.getAll,
   });
 
   return {
     patients: patients ?? [],
-    isFetchingPatients,
+    isFetchingPatients: isFetching || isPending,
     refetchPatients,
   };
 }
 
 export function useCreatePatients() {
   const queryClient = useQueryClient();
+  const auth = useAuth();
 
-  const { isLoading: isCreatingPatient, mutateAsync: createPatient } =
-    useMutation({
-      mutationFn: PatientService.create,
-      onSuccess: () => {
-        queryClient.invalidateQueries(['@patients']);
-      },
-    });
+  const { isPending, mutateAsync: createPatient } = useMutation({
+    mutationFn: PatientService.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['@patients', auth?.userId],
+      });
+    },
+  });
 
   return {
-    isCreatingPatient,
+    isCreatingPatien: isPending,
     createPatient,
   };
 }
 
 export function useFindPatientById(id: string | undefined) {
+  const queryClient = useQueryClient();
+
   const {
     data: patientRequested,
-    isFetching: isFetchingPatient,
-    remove: removePatient,
+    isFetching,
+    isPending,
   } = useQuery({
     queryKey: [`@patients-${id && id}`, id],
     queryFn: () => PatientService.findById(id),
   });
 
+  function removePatient() {
+    queryClient.invalidateQueries({
+      queryKey: [`@patients-${id && id}`, id],
+    });
+  }
+
   return {
     patient: patientRequested,
-    isFetchingPatient,
+    isFetchingPatient: isFetching || isPending,
     removePatient,
   };
 }
@@ -56,16 +70,17 @@ export function useFindPatientById(id: string | undefined) {
 export function useDeletePatient() {
   const queryClient = useQueryClient();
 
-  const { isLoading: isDeletingPatient, mutateAsync: deletePatient } =
-    useMutation({
-      mutationFn: PatientService.delete,
-      onSuccess: () => {
-        queryClient.invalidateQueries(['@patients']);
-      },
-    });
+  const { isPending, mutateAsync: deletePatient } = useMutation({
+    mutationFn: PatientService.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['@patients'],
+      });
+    },
+  });
 
   return {
-    isDeletingPatient,
+    isDeletingPatient: isPending,
     deletePatient,
   };
 }
@@ -73,15 +88,17 @@ export function useDeletePatient() {
 export function useUpdatePatient(id: string) {
   const queryClient = useQueryClient();
 
-  const { isLoading, mutateAsync } = useMutation({
+  const { isPending, mutateAsync } = useMutation({
     mutationFn: PatientService.update,
     onSuccess: () => {
-      queryClient.invalidateQueries([`@patients-${id}`, id]);
+      queryClient.invalidateQueries({
+        queryKey: [`@patients-${id}`, id],
+      });
     },
   });
 
   return {
-    isUpdatingPatient: isLoading,
+    isUpdatingPatient: isPending,
     updatePatient: mutateAsync,
   };
 }
