@@ -39,7 +39,7 @@ export function Dashboard() {
               >
                 <strong>{patient.name}</strong> <br />
                 <strong>{patient.email}</strong>
-                <Button onClick={() => navigate(`/pacientes/${patient.id}`)}>
+                <Button onClick={() => navigate(`/${patient.id}`)}>
                   Acessar informações
                 </Button>
               </div>

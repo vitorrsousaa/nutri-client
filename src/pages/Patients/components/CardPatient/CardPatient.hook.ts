@@ -32,7 +32,7 @@ export function useCardPatientHook(props: CardPatientProps) {
   }, [patient.birthDate]);
 
   const handleNavigateToPatient = useCallback(
-    () => navigate(`/pacientes/${patient.id}`),
+    () => navigate(`/${patient.id}`),
     [navigate, patient.id]
   );
 

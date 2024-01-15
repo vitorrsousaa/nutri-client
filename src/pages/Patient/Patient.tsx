@@ -60,13 +60,15 @@ export function Patient() {
               </styled.ActionButton>
 
               <styled.ActionButton
-                onClick={() => navigate(`/pacientes/${patient.id}/anamnese`)}
+                onClick={() => navigate(`/${patient.id}/anamnese`)}
               >
                 <span>Anamnese </span>
                 <AttachmentIcon color={'#111'} />
               </styled.ActionButton>
 
-              <styled.ActionButton className="inactive">
+              <styled.ActionButton
+                onClick={() => navigate(`/${patient.id}/antropometria`)}
+              >
                 <span>Antropometria</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>

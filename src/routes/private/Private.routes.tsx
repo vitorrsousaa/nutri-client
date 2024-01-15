@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import AnamnesePage from '../../pages/Anamnese';
+import Anthropometry from '../../pages/Anthropometry';
 import CreateAnamnesis from '../../pages/CreateAnamnesis';
 import CreatePlanning from '../../pages/CreatePlanning';
 import Dashboard from '../../pages/Dashboard';
@@ -12,12 +13,16 @@ import { AuthGuard } from '../utils/AuthGuard';
 const routes: TRoute[] = [
   { path: '/dashboard', element: <Dashboard /> },
   { path: '/pacientes', element: <Patients /> },
-  { path: '/pacientes/:id', element: <Patient /> },
-  { path: '/pacientes/:id/plano/criar', element: <CreatePlanning /> },
-  { path: '/pacientes/:id/anamnese', element: <AnamnesePage /> },
+  { path: '/:id', element: <Patient /> },
+  { path: '/:id/plano/criar', element: <CreatePlanning /> },
+  { path: '/:id/anamnese', element: <AnamnesePage /> },
   {
-    path: '/pacientes/:id/anamnese/criar',
+    path: '/:id/anamnese/criar',
     element: <CreateAnamnesis />,
+  },
+  {
+    path: '/:id/antropometria',
+    element: <Anthropometry />,
   },
 ];
 

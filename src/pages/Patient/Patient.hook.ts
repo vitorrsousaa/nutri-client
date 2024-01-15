@@ -19,7 +19,7 @@ export function usePatientHook() {
   const [modalEditPatientIsOpen, setModalEditPatientIsOpen] = useState(false);
 
   const redirectToCreatePlanning = useCallback(() => {
-    navigate(`/pacientes/${id}/plano/criar`);
+    navigate(`/${id}/plano/criar`);
   }, [id, navigate]);
 
   const toggleModalEditPatient = useCallback(() => {

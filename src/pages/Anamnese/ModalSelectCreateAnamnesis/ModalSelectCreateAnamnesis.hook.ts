@@ -51,7 +51,7 @@ export function useModalCreateAnamnesisHook(
   );
 
   const handleCreateAnamnese = useCallback(() => {
-    navigate(`/pacientes/${patientId}/anamnese/criar`, {
+    navigate(`/${patientId}/anamnese/criar`, {
       state: {
         template: selectedAnamneseTemplate,
         patientId,
