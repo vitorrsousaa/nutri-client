@@ -17,7 +17,7 @@ export function useModalCreateAnamnesisHook(
   const { userId } = useAuth();
 
   const { anamnesisTemplate, isFetchingAnamnesisTemplate } =
-    useGetAllAnamneseTemplate(userId);
+    useGetAllAnamneseTemplate();
 
   const [selectedAnamneseTemplate, setSelectedAnamneseTemplate] =
     useState<TAnamnesisTemplate | null>(null);

@@ -1,6 +1,7 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@godiet-query';
+
 import { toast } from 'react-toastify';
 
 import UserService from '../../service/User';
@@ -35,7 +36,7 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
   const queryClient = useQueryClient();
 
-  const { data, isError, isFetching, isSuccess, remove } = useQuery({
+  const { data, isError, isFetching, isSuccess } = useQuery({
     queryKey: ['users', 'me'],
     queryFn: UserService.recover,
     enabled: signedIn,
@@ -55,12 +56,16 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
     removeAuthorizationHeader();
 
-    remove();
+    queryClient.removeQueries({
+      queryKey: ['users', 'me'],
+    });
 
-    queryClient.invalidateQueries(['@patients']);
+    queryClient.invalidateQueries({
+      queryKey: ['@patients'],
+    });
 
     setSignedIn(false);
-  }, [queryClient, remove]);
+  }, [queryClient]);
 
   useEffect(() => {
     if (isError) {
