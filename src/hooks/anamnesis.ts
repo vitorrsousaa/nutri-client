@@ -1,37 +1,49 @@
+import { useMutation, useQuery, useQueryClient } from '@godiet-query';
 import AnamnesisService from '@godiet-services/Anamnesis';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
-export function useCreateAnamnesis(id?: string) {
+export function useCreateAnamnesis(patientId?: string) {
   const queryClient = useQueryClient();
 
-  const { isLoading: isCreatingAnamnesis, mutateAsync: createAnamnesis } =
-    useMutation({
-      mutationFn: AnamnesisService.create,
-      onSuccess: () => {
-        queryClient.invalidateQueries([`@anamnesis-getAll-${id}`]);
-      },
-    });
+  const { isPending, mutateAsync: createAnamnesis } = useMutation({
+    mutationFn: AnamnesisService.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['@anamnesis', patientId && patientId],
+      });
+    },
+  });
 
   return {
-    isCreatingAnamnesis,
+    isCreatingAnamnesis: isPending,
     createAnamnesis,
+  };
+}
+
+export function usePrefetchAnamnesis() {
+  const queryClient = useQueryClient();
+
+  return (patientId: string) => {
+    queryClient.prefetchQuery({
+      queryKey: ['@anamnesis', patientId],
+      queryFn: () => AnamnesisService.getAll(patientId),
+    });
   };
 }
 
 export function useGetAllAnamnesis(patientId?: string) {
   const {
     data: anamnesis,
+    isPending,
     isFetching: isFetchingAnamnesis,
     refetch: refetchAnamnesis,
   } = useQuery({
-    queryKey: [`@anamnesis-getAll-${patientId}`],
+    queryKey: ['@anamnesis', patientId],
     queryFn: () => AnamnesisService.getAll(patientId || ''),
   });
 
   return {
     anamnesis: anamnesis ?? [],
-    isFetchingAnamnesis,
+    isFetchingAnamnesis: isFetchingAnamnesis || isPending,
     refetchAnamnesis,
   };
 }

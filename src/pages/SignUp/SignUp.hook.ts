@@ -52,7 +52,7 @@ export function useSignUpHook() {
 
   const navigate = useNavigate();
 
-  const { isLoading, mutateAsync } = useMutation({
+  const { isPending, mutateAsync } = useMutation({
     mutationFn: AuthService.signUp,
   });
 
@@ -83,7 +83,7 @@ export function useSignUpHook() {
   return {
     errors,
     methods,
-    isLoading,
+    isLoading: isPending,
     isValid,
     handleSubmit,
   };

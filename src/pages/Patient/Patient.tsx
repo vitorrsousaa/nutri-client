@@ -24,6 +24,7 @@ export function Patient() {
     exportElementRef,
     isGeneratingPDF,
     redirectToCreatePlanning,
+    prefetchAnamnesisByPatient,
     toggleModalEditPatient,
     handleExportPDF,
     navigate,
@@ -61,6 +62,7 @@ export function Patient() {
 
               <styled.ActionButton
                 onClick={() => navigate(`/pacientes/${patient.id}/anamnese`)}
+                onMouseEnter={() => prefetchAnamnesisByPatient(patient.id)}
               >
                 <span>Anamnese </span>
                 <AttachmentIcon color={'#111'} />
