@@ -27,6 +27,10 @@ export const ActionButton = styled.button`
 
   max-width: 180px;
   height: 72px;
+
+  &.inactive {
+    cursor: not-allowed;
+  }
 `;
 
 export const PatientContainerLoadingPlanning = styled.div.withConfig({

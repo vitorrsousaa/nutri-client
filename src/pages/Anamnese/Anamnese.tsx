@@ -59,10 +59,10 @@ export function AnamnesePage() {
                           >
                             <ViewIcon />
                           </Button>
-                          <Button variant="ghost">
+                          <Button variant="ghost" cursor={'not-allowed'}>
                             <EditIcon />
                           </Button>
-                          <Button variant="danger">
+                          <Button variant="danger" cursor={'not-allowed'}>
                             <DeleteIcon />
                           </Button>
                         </div>

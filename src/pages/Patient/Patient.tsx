@@ -66,7 +66,7 @@ export function Patient() {
                 <AttachmentIcon color={'#111'} />
               </styled.ActionButton>
 
-              <styled.ActionButton>
+              <styled.ActionButton className="inactive">
                 <span>Antropometria</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
@@ -76,11 +76,11 @@ export function Patient() {
                 <span>Planejamento alimentar</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
-              <styled.ActionButton>
+              <styled.ActionButton className="inactive">
                 <span>Orientações nutricionais</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
-              <styled.ActionButton>
+              <styled.ActionButton className="inactive">
                 <span>Cálculo energético</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
@@ -96,7 +96,11 @@ export function Patient() {
               </Text>
               {hasPlanning && (
                 <div style={{ display: 'flex', gap: 16 }}>
-                  <Button variant="danger" isDisabled={isGeneratingPDF}>
+                  <Button
+                    variant="danger"
+                    isDisabled={isGeneratingPDF}
+                    cursor={'not-allowed'}
+                  >
                     <DeleteIcon />
                   </Button>
                   <Button
