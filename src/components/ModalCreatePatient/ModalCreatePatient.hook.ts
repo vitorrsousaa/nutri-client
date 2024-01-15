@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { GenderEnum } from '@godiet-entities/gender';
 import { useCreatePatients } from '@godiet-hooks/patients';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +16,13 @@ const createPatientFormSchema = z.object({
     .min(1, { message: 'E-mail é obrigatório' })
     .email('Formato de email inválido'),
   name: z.string().min(1, { message: 'Nome é obrigatório' }),
+  gender: GenderEnum,
+  birthDate: z
+    .string()
+    .pipe(z.coerce.date())
+    .refine((date) => date <= new Date(), {
+      message: 'Data de nascimento não pode ser no futuro',
+    }),
 });
 
 type TCreatePatientFormSchema = z.infer<typeof createPatientFormSchema>;
