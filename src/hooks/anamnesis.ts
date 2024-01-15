@@ -19,6 +19,17 @@ export function useCreateAnamnesis(patientId?: string) {
   };
 }
 
+export function usePrefetchAnamnesis() {
+  const queryClient = useQueryClient();
+
+  return (patientId: string) => {
+    queryClient.prefetchQuery({
+      queryKey: ['@anamnesis', patientId],
+      queryFn: () => AnamnesisService.getAll(patientId),
+    });
+  };
+}
+
 export function useGetAllAnamnesis(patientId?: string) {
   const {
     data: anamnesis,
