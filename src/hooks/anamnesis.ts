@@ -28,7 +28,6 @@ export function useGetAllAnamnesis(patientId?: string) {
   } = useQuery({
     queryKey: ['@anamnesis', patientId],
     queryFn: () => AnamnesisService.getAll(patientId || ''),
-    staleTime: Infinity,
   });
 
   return {

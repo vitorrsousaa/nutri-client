@@ -1,19 +1,14 @@
 import { useQuery } from '@godiet-query';
 import AnamnesisTemplateService from '@godiet-services/AnamnesisTemplate';
 
-export function useGetAllAnamneseTemplate(
-  userId: string = '',
-  options?: {
-    enabled?: boolean;
-  }
-) {
+export function useGetAllAnamneseTemplate(options?: { enabled?: boolean }) {
   const {
     data: anamnesisTemplate,
     isPending,
     isFetching: isFetchingAnamnesisTemplate,
     refetch: refetchAnamneseTemplate,
   } = useQuery({
-    queryKey: ['@anamnesisTemplate', userId],
+    queryKey: ['@anamnesisTemplate'],
     queryFn: AnamnesisTemplateService.getAll,
     enabled: options?.enabled,
   });

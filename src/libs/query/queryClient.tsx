@@ -13,7 +13,7 @@ const customQueryClient = new QueryClient({
       refetchInterval: 1000 * 60 * 45, // 45 minutes
       retry: 1,
       refetchOnWindowFocus: false,
-      gcTime: 1000 * 60 * 60 * 2, // 2 hours
+      gcTime: 1000 * 60 * 60 * 1, // 1 hours
     },
   },
 });

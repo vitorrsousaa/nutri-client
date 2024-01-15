@@ -1,18 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@godiet-query';
 import PatientService from '@godiet-services/Patient';
 
-import { useAuth } from './useAuth';
-
 export function useGetAllPatients() {
-  const auth = useAuth();
-
   const {
     data: patients,
     isFetching,
     isPending,
     refetch: refetchPatients,
   } = useQuery({
-    queryKey: ['@patients', auth?.userId],
+    queryKey: ['@patients'],
     queryFn: PatientService.getAll,
   });
 
@@ -25,24 +21,23 @@ export function useGetAllPatients() {
 
 export function useCreatePatients() {
   const queryClient = useQueryClient();
-  const auth = useAuth();
 
   const { isPending, mutateAsync: createPatient } = useMutation({
     mutationFn: PatientService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['@patients', auth?.userId],
+        queryKey: ['@patients'],
       });
     },
   });
 
   return {
-    isCreatingPatien: isPending,
+    isCreatingPatient: isPending,
     createPatient,
   };
 }
 
-export function useFindPatientById(id: string | undefined) {
+export function useFindPatientById(patientId: string | undefined) {
   const queryClient = useQueryClient();
 
   const {
@@ -50,13 +45,13 @@ export function useFindPatientById(id: string | undefined) {
     isFetching,
     isPending,
   } = useQuery({
-    queryKey: [`@patients-${id && id}`, id],
-    queryFn: () => PatientService.findById(id),
+    queryKey: [`@patients-${patientId && patientId}`, patientId],
+    queryFn: () => PatientService.findById(patientId),
   });
 
   function removePatient() {
     queryClient.invalidateQueries({
-      queryKey: [`@patients-${id && id}`, id],
+      queryKey: [`@patients-${patientId && patientId}`, patientId],
     });
   }
 
@@ -85,14 +80,14 @@ export function useDeletePatient() {
   };
 }
 
-export function useUpdatePatient(id: string) {
+export function useUpdatePatient(patientId: string) {
   const queryClient = useQueryClient();
 
   const { isPending, mutateAsync } = useMutation({
     mutationFn: PatientService.update,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [`@patients-${id}`, id],
+        queryKey: [`@patients-${patientId}`, patientId],
       });
     },
   });

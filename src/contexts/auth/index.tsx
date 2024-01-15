@@ -61,11 +61,11 @@ export function AuthProvider(props: { children: React.ReactNode }) {
     });
 
     queryClient.invalidateQueries({
-      queryKey: ['@patients', data?.id],
+      queryKey: ['@patients'],
     });
 
     setSignedIn(false);
-  }, [data?.id, queryClient]);
+  }, [queryClient]);
 
   useEffect(() => {
     if (isError) {
