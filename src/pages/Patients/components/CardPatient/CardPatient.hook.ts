@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import { differenceInYears, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 import { CardPatientProps } from './CardPatient';
@@ -19,8 +20,10 @@ export function useCardPatientHook(props: CardPatientProps) {
 
       const currentDate = new Date();
 
-      const years =
-        currentDate.getFullYear() - new Date(patient.birthDate).getFullYear();
+      const years = differenceInYears(
+        currentDate,
+        parseISO(new Date(patient.birthDate).toISOString())
+      );
 
       return date + `, ${years} anos`;
     }
