@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import AnamnesePage from '../../pages/Anamnese';
 import Anthropometry from '../../pages/Anthropometry';
 import CreateAnamnesis from '../../pages/CreateAnamnesis';
+import CreateAnthropometry from '../../pages/CreateAnthropometry';
 import CreatePlanning from '../../pages/CreatePlanning';
 import Dashboard from '../../pages/Dashboard';
 import Patient from '../../pages/Patient';
@@ -23,6 +24,10 @@ const routes: TRoute[] = [
   {
     path: '/:id/antropometria',
     element: <Anthropometry />,
+  },
+  {
+    path: '/:id/antropometria/criar',
+    element: <CreateAnthropometry />,
   },
 ];
 
