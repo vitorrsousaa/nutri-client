@@ -9,7 +9,7 @@ export function CardRoot(props: CardRootProps) {
   const { children, ...cardRootProps } = props;
 
   return (
-    <ChakraUICard {...cardRootProps} backgroundColor={'#f8f8f8'}>
+    <ChakraUICard backgroundColor={'#f8f8f8'} {...cardRootProps}>
       {children}
     </ChakraUICard>
   );
