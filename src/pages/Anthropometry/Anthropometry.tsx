@@ -3,7 +3,6 @@ import HeaderPatient from '@godiet-components/HeaderPatient';
 import Button from '@godiet-ui/Button';
 import Text from '@godiet-ui/Text';
 
-import ModalSelectType from './components/ModalSelectType';
 import { useAnthropometryHook } from './Anthropometry.hook';
 import * as styled from './Anthropometry.styles';
 
@@ -12,8 +11,7 @@ export function Anthropometry() {
     patient,
     isFetchingPatient,
     hasAnthropometry,
-    modalSelectTypeIsOpen,
-    toggleModalSelectType,
+    handleNavigateToNewAnthropometry,
   } = useAnthropometryHook();
 
   return (
@@ -40,16 +38,13 @@ export function Anthropometry() {
                   antropométrica para crianças.
                 </Text>
               </div>
-              <Button onClick={toggleModalSelectType}>
+              <Button
+                onClick={() => handleNavigateToNewAnthropometry(patient.id)}
+              >
                 Nova avaliação antropométrica
               </Button>
             </styled.AnthropometryEmpty>
           )}
-
-          <ModalSelectType
-            isOpen={modalSelectTypeIsOpen}
-            onClose={toggleModalSelectType}
-          />
         </>
       )}
     </AppProvider>
