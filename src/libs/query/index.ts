@@ -1,3 +1,8 @@
-import { queryClient, QueryClientProvider } from './queryClient';
+import { customQueryClient, CustomQueryClientProvider } from './queryClient';
 
-export { queryClient, QueryClientProvider };
+export * from '@tanstack/react-query';
+
+export {
+  customQueryClient as queryClient,
+  CustomQueryClientProvider as QueryClientProvider,
+};

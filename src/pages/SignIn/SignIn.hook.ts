@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+import { routes } from '@godiet-routes';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -31,7 +33,7 @@ export function useSignInHook() {
 
   const navigate = useNavigate();
 
-  const { isLoading, mutateAsync } = useMutation({
+  const { isPending, mutateAsync } = useMutation({
     mutationFn: AuthService.signIn,
   });
 
@@ -44,7 +46,7 @@ export function useSignInHook() {
 
   useEffect(() => {
     if (signedIn) {
-      navigate('/dashboard');
+      navigate(routes.dashboard);
     }
   }, [navigate, signedIn]);
 
@@ -63,7 +65,7 @@ export function useSignInHook() {
   return {
     errors,
     methods,
-    isLoading,
+    isLoading: isPending,
     isValid,
     handleSubmit,
   };
