@@ -1,4 +1,6 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
+
+import Spinner from '@godiet-ui/Spinner';
 
 import { Route, RouteObject, Routes } from 'react-router-dom';
 
@@ -19,9 +21,9 @@ const CreateAnthropometry = lazy(
 const renderRoutes: RouteObject[] = [
   { path: routes.dashboard, element: <Dashboard /> },
   { path: routes.patients, element: <Patients /> },
-  { path: '/pacientes/:id', element: <Patient /> },
-  { path: '/pacientes/:id/plano/criar', element: <CreatePlanning /> },
-  { path: '/pacientes/:id/anamnese', element: <AnamnesePage /> },
+  { path: '/:id', element: <Patient /> },
+  { path: '/:id/plano/criar', element: <CreatePlanning /> },
+  { path: '/:id/anamnese', element: <AnamnesePage /> },
   {
     path: '/:id/anamnese/criar',
     element: <CreateAnamnesis />,
@@ -38,14 +40,16 @@ const renderRoutes: RouteObject[] = [
 
 export default function PrivateRoutes() {
   return (
-    <Routes>
-      {renderRoutes.map((route) => (
-        <Route
-          key={route.path}
-          path={route.path}
-          element={<AuthGuard>{route.element}</AuthGuard>}
-        />
-      ))}
-    </Routes>
+    <Suspense fallback={<Spinner />}>
+      <Routes>
+        {renderRoutes.map((route) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={<AuthGuard>{route.element}</AuthGuard>}
+          />
+        ))}
+      </Routes>
+    </Suspense>
   );
 }
