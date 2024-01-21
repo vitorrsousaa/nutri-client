@@ -1,3 +1,5 @@
+import { routes } from '@godiet-routes';
+
 import { Box, Text } from '@chakra-ui/layout';
 
 import { useAuth } from '../../hooks/useAuth';
@@ -33,8 +35,8 @@ export function Sidebar() {
               Menu
             </Text>
           </styled.SidebarContentHeader>
-          <SideItem href="/dashboard">Dashboard</SideItem>
-          <SideItem href="/pacientes">Pacientes</SideItem>
+          <SideItem href={routes.dashboard}>Dashboard</SideItem>
+          <SideItem href={routes.patients}>Pacientes</SideItem>
           <SideItem disabled>Check-Ins</SideItem>
         </styled.SidebarContentSection>
         <styled.SidebarContentSection>

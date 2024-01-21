@@ -11,7 +11,7 @@ const customQueryClient = new QueryClient({
     queries: {
       staleTime: Infinity, // Always stale
       refetchInterval: 1000 * 60 * 45, // 45 minutes
-      retry: 1,
+      retry: false,
       refetchOnWindowFocus: false,
       gcTime: 1000 * 60 * 60 * 1, // 1 hours
     },

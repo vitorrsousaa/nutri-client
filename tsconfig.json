@@ -32,6 +32,7 @@
       "@godiet-types/*": ["./src/types/*"],
       "@godiet-services/*":["./src/service/*"],
       "@godiet-query":["./src/libs/query/index.ts"],
+      "@godiet-routes": ["./src/routes/routes.ts"],
     },
 
     /* Testing */

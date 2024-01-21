@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+import { routes } from '@godiet-routes';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -63,7 +65,7 @@ export function useSignUpHook() {
 
   useEffect(() => {
     if (signedIn) {
-      navigate('/dashboard');
+      navigate(routes.dashboard);
     }
   }, [navigate, signedIn]);
 

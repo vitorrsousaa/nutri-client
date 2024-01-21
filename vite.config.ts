@@ -15,6 +15,7 @@ export default defineConfig({
       '@godiet-types': path.resolve(__dirname, './src/types'),
       '@godiet-services': path.resolve(__dirname, './src/service'),
       '@godiet-query': path.resolve(__dirname, './src/libs/query/index.ts'),
+      '@godiet-routes': path.resolve(__dirname, 'src', 'routes', 'routes.ts'),
     },
   },
 });
