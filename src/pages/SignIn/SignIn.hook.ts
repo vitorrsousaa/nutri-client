@@ -1,11 +1,6 @@
-import { useEffect } from 'react';
-
-import { routes } from '@godiet-routes';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
@@ -29,9 +24,7 @@ export function useSignInHook() {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const { signIn, signedIn } = useAuth();
-
-  const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const { isPending, mutateAsync } = useMutation({
     mutationFn: AuthService.signIn,
@@ -43,12 +36,6 @@ export function useSignInHook() {
     setFocus,
     formState: { errors, isValid },
   } = methods;
-
-  useEffect(() => {
-    if (signedIn) {
-      navigate(routes.dashboard);
-    }
-  }, [navigate, signedIn]);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {

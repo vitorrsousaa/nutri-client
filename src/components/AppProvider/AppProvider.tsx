@@ -34,7 +34,9 @@ export function AppProvider(props: AppProviderProps) {
     hasBackButton,
   } = props;
 
-  const { name } = useAuth();
+  // const { name } = useAuth();
+
+  const name = 'John';
 
   const navigate = useNavigate();
 

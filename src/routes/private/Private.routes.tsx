@@ -42,13 +42,11 @@ export default function PrivateRoutes() {
   return (
     <Suspense fallback={<Spinner />}>
       <Routes>
-        {renderRoutes.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={<AuthGuard>{route.element}</AuthGuard>}
-          />
-        ))}
+        <Route element={<AuthGuard isPrivate />}>
+          {renderRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.element} />
+          ))}
+        </Route>
       </Routes>
     </Suspense>
   );

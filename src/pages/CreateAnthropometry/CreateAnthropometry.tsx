@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import AppProvider from '@godiet-components/AppProvider';
 import HeaderPatient from '@godiet-components/HeaderPatient';
@@ -17,8 +17,20 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import * as z from 'zod';
 
 const CreateAnthropometrySchema = z.object({
-  weigth: z.number().positive(),
-  height: z.number().positive(),
+  weight: z
+    .string()
+    .nonempty()
+    .pipe(z.coerce.number())
+    .refine((weight) => weight > 0, {
+      message: 'Peso deve ser maior que 0',
+    }),
+  height: z
+    .string()
+    .nonempty()
+    .pipe(z.coerce.number())
+    .refine((weight) => weight > 0, {
+      message: 'Altura deve ser maior que 0',
+    }),
   date: z
     .string()
     .pipe(z.coerce.date())
@@ -48,20 +60,37 @@ export function CreateAnthropometry() {
   } = methods;
 
   const handleSubmit = hookFormSubmit((data) => {
-    console.log(data);
+    console.log({ data });
   });
 
   const watchWeight = useWatch({
     control,
-    name: 'weigth',
+    name: 'weight',
   });
+
+  console.log(watchWeight);
 
   const watchHeight = useWatch({
     control,
     name: 'height',
   });
 
+  const getIMC = useMemo(() => {
+    if (watchWeight && watchHeight) {
+      const string = (
+        watchWeight /
+        (watchHeight / 100) /
+        (watchHeight / 100)
+      ).toFixed(2);
+
+      return parseFloat(string);
+    }
+
+    return 0;
+  }, [watchHeight, watchWeight]);
+
   const getClassificationOfIMC = useCallback((imc: number) => {
+    console.log(imc);
     if (imc < 18.5) {
       return 'Abaixo do peso';
     }
@@ -107,7 +136,6 @@ export function CreateAnthropometry() {
           >
             <Text fontSize={'18px'}>Avaliação antropométrica</Text>
             <div>
-              <Text>Data da avaliação</Text>
               <FormField
                 label="Data da avaliação"
                 name="date"
@@ -129,13 +157,19 @@ export function CreateAnthropometry() {
                 <Accordion.Panel>
                   <div style={{ display: 'flex', gap: '16px' }}>
                     <FormField
-                      isInvalid={Boolean(errors.weigth)}
+                      isInvalid={Boolean(errors.weight)}
                       name="weight"
-                      errorMessage={errors.weigth?.message}
+                      errorMessage={errors.weight?.message}
                     >
                       <Input type="number" placeholder="Peso (kg)" />
                     </FormField>
-                    <Input placeholder="Altura (cm)" />
+                    <FormField
+                      name="height"
+                      isInvalid={Boolean(errors.height)}
+                      errorMessage={errors.height?.message}
+                    >
+                      <Input type="number" placeholder="Altura (cm)" />
+                    </FormField>
                   </div>
                 </Accordion.Panel>
               </Accordion.Item>
@@ -172,7 +206,9 @@ export function CreateAnthropometry() {
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion.Root>
-            <Button type="submit">Salvar alterações</Button>
+            <Button type="submit" isDisabled={formIsValid}>
+              Salvar alterações
+            </Button>
           </form>
 
           <div
@@ -198,14 +234,18 @@ export function CreateAnthropometry() {
                         justifyContent={'space-between'}
                       >
                         <Text>Peso atual</Text>
-                        <Text>{watchWeight} kg</Text>
+                        <Text>
+                          {watchWeight ? `${watchWeight} kg` : '0 kg'}
+                        </Text>
                       </Stack>
                       <Stack
                         flexDirection={'row'}
                         justifyContent={'space-between'}
                       >
                         <Text>Altura atual</Text>
-                        <Text>{watchHeight / 100} m</Text>
+                        <Text>
+                          {watchHeight ? `${watchHeight / 100} m` : '0 m'}
+                        </Text>
                       </Stack>
                       <Stack
                         flexDirection={'row'}
@@ -213,7 +253,9 @@ export function CreateAnthropometry() {
                       >
                         <Text>Índice de massa corporal</Text>
                         <Text>
-                          {watchWeight / watchHeight / watchHeight} Kg/m2
+                          {watchWeight && watchHeight
+                            ? `${getIMC} Kg/m2`
+                            : '0 Kg/m2'}
                         </Text>
                       </Stack>
                       <Stack
@@ -221,11 +263,7 @@ export function CreateAnthropometry() {
                         justifyContent={'space-between'}
                       >
                         <Text>Classificação do IMC</Text>
-                        <Text>
-                          {getClassificationOfIMC(
-                            watchWeight / watchHeight / watchHeight
-                          )}
-                        </Text>
+                        <Text>{getClassificationOfIMC(getIMC)}</Text>
                       </Stack>
                       {/* <Stack
                         flexDirection={'row'}
