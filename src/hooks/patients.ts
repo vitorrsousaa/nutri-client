@@ -1,5 +1,9 @@
+import { useEffect } from 'react';
+
 import { useMutation, useQuery, useQueryClient } from '@godiet-query';
 import PatientService from '@godiet-services/Patient';
+
+import { toast } from 'react-toastify';
 
 export function useGetAllPatients() {
   const {
@@ -7,10 +11,17 @@ export function useGetAllPatients() {
     isFetching,
     isPending,
     refetch: refetchPatients,
+    isError,
   } = useQuery({
     queryKey: ['@patients'],
     queryFn: PatientService.getAll,
   });
+
+  useEffect(() => {
+    if (isError) {
+      toast.error('Erro ao carregar pacientes');
+    }
+  }, [isError]);
 
   return {
     patients: patients ?? [],

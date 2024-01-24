@@ -2,9 +2,7 @@ import { useCallback } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { ModalSelectTypeProps } from './ModalSelectType';
-
-export function useModalSelectTypeHook(props: ModalSelectTypeProps) {
+export function useModalSelectTypeHook() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
 

@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/card';
 
 interface CardHeader extends ChakraUICardHeaderProps {
-  children: string;
+  children: React.ReactNode;
   extra?: React.ReactNode;
 }
 

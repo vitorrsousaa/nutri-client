@@ -3,7 +3,7 @@ import HttpClient from '@godiet-services/HttpClient';
 interface ICreateAntropometricServiceInput {
   weight: number;
   height: number;
-  date: Date;
+  date: string;
   patientId: string;
 }
 
@@ -11,7 +11,7 @@ interface TAntropometric {
   id: string;
   weight: number;
   height: number;
-  date: Date;
+  date: string;
 }
 
 interface TAntropometricPersistance {
@@ -34,10 +34,32 @@ export class Service {
 
     const antropometricPersistance = await this.httpClient.post<
       TAntropometricPersistance,
-      { date: Date; height: number; weight: number }
+      { date: string; height: number; weight: number }
     >(`/${patientId}`, { date, height, weight });
 
     return this.mapperToDomain(antropometricPersistance);
+  };
+
+  getAll = async (patientId: string) => {
+    const antropometricPersistance = await this.httpClient.get<
+      TAntropometricPersistance[]
+    >(`/${patientId}`);
+
+    return antropometricPersistance.map(this.mapperToDomain);
+  };
+
+  delete = async ({
+    patientId,
+    antropometricId,
+  }: {
+    patientId: string;
+    antropometricId: string;
+  }) => {
+    await this.httpClient.delete(`/${patientId}`, {
+      id: antropometricId,
+    });
+
+    return null;
   };
 
   private mapperToDomain(
@@ -47,7 +69,7 @@ export class Service {
       id: antropometricPersistance.id,
       weight: antropometricPersistance.weight,
       height: antropometricPersistance.height,
-      date: new Date(antropometricPersistance.createdAt),
+      date: antropometricPersistance.createdAt,
     };
   }
 }

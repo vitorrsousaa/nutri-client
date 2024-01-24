@@ -1,9 +1,6 @@
-import { useCallback, useMemo } from 'react';
-
 import AppProvider from '@godiet-components/AppProvider';
 import HeaderPatient from '@godiet-components/HeaderPatient';
 import { TPatient } from '@godiet-entities/patient/TPatient';
-import Accordion from '@godiet-ui/Accordion';
 import Button from '@godiet-ui/Button';
 import Card from '@godiet-ui/Card';
 import Divider from '@godiet-ui/Divider';
@@ -12,34 +9,9 @@ import Input from '@godiet-ui/Input';
 import Text from '@godiet-ui/Text';
 
 import { Stack } from '@chakra-ui/layout';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm, useWatch } from 'react-hook-form';
-import * as z from 'zod';
+import { FormProvider } from 'react-hook-form';
 
-const CreateAnthropometrySchema = z.object({
-  weight: z
-    .string()
-    .nonempty()
-    .pipe(z.coerce.number())
-    .refine((weight) => weight > 0, {
-      message: 'Peso deve ser maior que 0',
-    }),
-  height: z
-    .string()
-    .nonempty()
-    .pipe(z.coerce.number())
-    .refine((weight) => weight > 0, {
-      message: 'Altura deve ser maior que 0',
-    }),
-  date: z
-    .string()
-    .pipe(z.coerce.date())
-    .refine((date) => date <= new Date(), {
-      message: 'Data de avaliação não pode ser no futuro',
-    }),
-});
-
-type TCreateAnthropometrySchema = z.infer<typeof CreateAnthropometrySchema>;
+import { useCreateAnthropometryHook } from './useCreateAnthropometry';
 
 export function CreateAnthropometry() {
   const patientMock: TPatient = {
@@ -49,79 +21,24 @@ export function CreateAnthropometry() {
     birthDate: new Date('1990-01-01'),
   };
 
-  const methods = useForm<TCreateAnthropometrySchema>({
-    resolver: zodResolver(CreateAnthropometrySchema),
-  });
-
   const {
-    handleSubmit: hookFormSubmit,
-    formState: { errors, isValid: formIsValid },
-    control,
-  } = methods;
-
-  const handleSubmit = hookFormSubmit((data) => {
-    console.log({ data });
-  });
-
-  const watchWeight = useWatch({
-    control,
-    name: 'weight',
-  });
-
-  console.log(watchWeight);
-
-  const watchHeight = useWatch({
-    control,
-    name: 'height',
-  });
-
-  const getIMC = useMemo(() => {
-    if (watchWeight && watchHeight) {
-      const string = (
-        watchWeight /
-        (watchHeight / 100) /
-        (watchHeight / 100)
-      ).toFixed(2);
-
-      return parseFloat(string);
-    }
-
-    return 0;
-  }, [watchHeight, watchWeight]);
-
-  const getClassificationOfIMC = useCallback((imc: number) => {
-    console.log(imc);
-    if (imc < 18.5) {
-      return 'Abaixo do peso';
-    }
-
-    if (imc >= 18.5 && imc < 24.9) {
-      return 'Peso normal';
-    }
-
-    if (imc >= 25 && imc < 29.9) {
-      return 'Sobrepeso';
-    }
-
-    if (imc >= 30 && imc < 34.9) {
-      return 'Obesidade grau 1';
-    }
-
-    if (imc >= 35 && imc < 39.9) {
-      return 'Obesidade grau 2';
-    }
-
-    if (imc >= 40) {
-      return 'Obesidade grau 3';
-    }
-  }, []);
+    getClassificationOfIMC,
+    methods,
+    handleSubmit,
+    errors,
+    formIsValid,
+    watchHeight,
+    getIMC,
+    watchWeight,
+    isCreatingAnthropometry,
+  } = useCreateAnthropometryHook();
 
   return (
-    <AppProvider title="Criar antropometria">
+    <AppProvider title="Criar antropometria" hasBackButton>
       <HeaderPatient patient={patientMock} />
       <Divider />
       <FormProvider {...methods}>
-        <div style={{ display: 'flex', gap: '16px' }}>
+        <div style={{ display: 'flex', gap: '16px', width: '100%' }}>
           <form
             style={{
               border: 'solid 1px #ddd',
@@ -144,69 +61,31 @@ export function CreateAnthropometry() {
                 <Input type="date" />
               </FormField>
             </div>
-            <Accordion.Root allowMultiple>
-              <Accordion.Item>
-                <Accordion.Header
-                  buttonProps={{
-                    fontSize: '16px',
-                    fontWeight: '400',
-                  }}
+            <div>
+              <Text>Dados antropométricos básicos:</Text>
+              <div style={{ display: 'flex', gap: '16px' }}>
+                <FormField
+                  isInvalid={Boolean(errors.weight)}
+                  name="weight"
+                  errorMessage={errors.weight?.message}
                 >
-                  <Text>Dados antropométricos básicos:</Text>
-                </Accordion.Header>
-                <Accordion.Panel>
-                  <div style={{ display: 'flex', gap: '16px' }}>
-                    <FormField
-                      isInvalid={Boolean(errors.weight)}
-                      name="weight"
-                      errorMessage={errors.weight?.message}
-                    >
-                      <Input type="number" placeholder="Peso (kg)" />
-                    </FormField>
-                    <FormField
-                      name="height"
-                      isInvalid={Boolean(errors.height)}
-                      errorMessage={errors.height?.message}
-                    >
-                      <Input type="number" placeholder="Altura (cm)" />
-                    </FormField>
-                  </div>
-                </Accordion.Panel>
-              </Accordion.Item>
-              <Accordion.Item>
-                <Accordion.Header
-                  buttonProps={{
-                    fontSize: '16px',
-                    fontWeight: '400',
-                  }}
+                  <Input type="number" placeholder="Peso (kg)" />
+                </FormField>
+                <FormField
+                  name="height"
+                  isInvalid={Boolean(errors.height)}
+                  errorMessage={errors.height?.message}
                 >
-                  Dobras cutâneas (mm)
-                </Accordion.Header>
-                <Accordion.Panel>
-                  <div style={{ display: 'flex', gap: '16px' }}>
-                    <Input placeholder="Dobra tricipital (mm)" />
-                    <Input placeholder="Dobra bicipial (mm)" />
-                  </div>
-                </Accordion.Panel>
-              </Accordion.Item>
-              <Accordion.Item>
-                <Accordion.Header
-                  buttonProps={{
-                    fontSize: '16px',
-                    fontWeight: '400',
-                  }}
-                >
-                  Circunferências corporais (cm)
-                </Accordion.Header>
-                <Accordion.Panel>
-                  <div style={{ display: 'flex', gap: '16px' }}>
-                    <Input placeholder="Circunferência da cintura (cm)" />
-                    <Input placeholder="Circunferência do quadril (cm)" />
-                  </div>
-                </Accordion.Panel>
-              </Accordion.Item>
-            </Accordion.Root>
-            <Button type="submit" isDisabled={formIsValid}>
+                  <Input type="number" placeholder="Altura (cm)" />
+                </FormField>
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              isDisabled={!formIsValid}
+              isLoading={isCreatingAnthropometry}
+            >
               Salvar alterações
             </Button>
           </form>
@@ -219,7 +98,7 @@ export function CreateAnthropometry() {
               padding: '16px',
               flexDirection: 'column',
               gap: '16px',
-              minWidth: '600px',
+              width: '750px',
             }}
           >
             <Text fontSize={'18px'}>Resultados</Text>
@@ -263,15 +142,8 @@ export function CreateAnthropometry() {
                         justifyContent={'space-between'}
                       >
                         <Text>Classificação do IMC</Text>
-                        <Text>{getClassificationOfIMC(getIMC)}</Text>
+                        <Text>{getClassificationOfIMC}</Text>
                       </Stack>
-                      {/* <Stack
-                        flexDirection={'row'}
-                        justifyContent={'space-between'}
-                      >
-                        <Text>Faixa de peso ideal</Text>
-                        <Text>62.6 a 84.3 Kg</Text>
-                      </Stack> */}
                     </Stack>
                   </Card.Body>
                 </Card.Root>
