@@ -1,25 +1,25 @@
-import { ReactNode } from 'react';
+import { routes } from '@godiet-routes';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/useAuth';
 
 type AuthGuardProps = {
-  children: ReactNode;
+  isPrivate: boolean;
 };
 
 export function AuthGuard(props: AuthGuardProps) {
-  const { children } = props;
+  const { isPrivate } = props;
 
   const { signedIn } = useAuth();
 
-  // if (loading) {
-  //   return <h1>loading...</h1>;
-  // }
-
-  if (!signedIn) {
-    return <Navigate to="/" />;
+  if (!signedIn && isPrivate) {
+    return <Navigate to="/login" replace />;
   }
 
-  return children;
+  if (signedIn && !isPrivate) {
+    return <Navigate to={routes.dashboard} replace />;
+  }
+
+  return <Outlet />;
 }

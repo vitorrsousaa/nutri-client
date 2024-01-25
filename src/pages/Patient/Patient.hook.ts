@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import { usePrefetchAnamnesis } from '@godiet-hooks/anamnesis';
 import { useFindPatientById } from '@godiet-hooks/patients';
 import { useGeneratePDF } from '@godiet-hooks/usePdf';
 
@@ -12,6 +13,8 @@ export function usePatientHook() {
 
   const { patient, isFetchingPatient } = useFindPatientById(id);
 
+  const prefetchAnamnesisByPatient = usePrefetchAnamnesis();
+
   const { exportElementRef, isGeneratingPDF, generatePDF } = useGeneratePDF();
 
   const hasPlanning = useMemo(() => !!patient?.planningMeal, [patient]);
@@ -19,7 +22,7 @@ export function usePatientHook() {
   const [modalEditPatientIsOpen, setModalEditPatientIsOpen] = useState(false);
 
   const redirectToCreatePlanning = useCallback(() => {
-    navigate(`/pacientes/${id}/plano/criar`);
+    navigate(`/${id}/plano/criar`);
   }, [id, navigate]);
 
   const toggleModalEditPatient = useCallback(() => {
@@ -39,6 +42,7 @@ export function usePatientHook() {
     planningMeal: patient?.planningMeal,
     isGeneratingPDF,
     redirectToCreatePlanning,
+    prefetchAnamnesisByPatient,
     navigate,
     toggleModalEditPatient,
     handleExportPDF,

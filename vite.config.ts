@@ -5,6 +5,9 @@ import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    open: true,
+  },
   resolve: {
     alias: {
       '@godiet-ui': path.resolve(__dirname, './src/libs/ui/components'),
@@ -14,6 +17,8 @@ export default defineConfig({
       '@godiet-utils': path.resolve(__dirname, './src/utils'),
       '@godiet-types': path.resolve(__dirname, './src/types'),
       '@godiet-services': path.resolve(__dirname, './src/service'),
+      '@godiet-query': path.resolve(__dirname, './src/libs/query/index.ts'),
+      '@godiet-routes': path.resolve(__dirname, 'src', 'routes', 'routes.ts'),
     },
   },
 });

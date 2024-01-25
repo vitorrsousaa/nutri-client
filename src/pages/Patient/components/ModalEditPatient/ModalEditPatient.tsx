@@ -4,7 +4,6 @@ import FormField from '@godiet-ui/FormField';
 import Input from '@godiet-ui/Input';
 import InputNumber from '@godiet-ui/InputNumber';
 import Modal from '@godiet-ui/Modal';
-import Radio from '@godiet-ui/Radio';
 
 import { FormProvider } from 'react-hook-form';
 
@@ -67,31 +66,6 @@ export function ModalEditPatient(props: ModalEditPatientProps) {
                 label="Insira o peso do paciente (kilogramas)"
               >
                 <InputNumber placeholder="Peso em Kg" min={10} />
-              </FormField>
-
-              <FormField
-                isInvalid={Boolean(errors.gender)}
-                name="gender"
-                errorMessage={errors.gender?.message}
-                label="Selecione o gênero do paciente"
-              >
-                <Radio
-                  direction="row"
-                  name="gender"
-                  options={[
-                    { label: 'MASC', value: 'MASC' },
-                    { label: 'FEM', value: 'FEM' },
-                  ]}
-                />
-              </FormField>
-
-              <FormField
-                isInvalid={Boolean(errors.birthDate)}
-                name="birthDate"
-                errorMessage={errors.birthDate?.message}
-                label="Insira a data de nascimento do paciente"
-              >
-                <Input placeholder="birthDate" type="date" />
               </FormField>
             </form>
           </FormProvider>

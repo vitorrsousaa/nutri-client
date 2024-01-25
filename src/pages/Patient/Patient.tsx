@@ -24,6 +24,7 @@ export function Patient() {
     exportElementRef,
     isGeneratingPDF,
     redirectToCreatePlanning,
+    prefetchAnamnesisByPatient,
     toggleModalEditPatient,
     handleExportPDF,
     navigate,
@@ -60,13 +61,16 @@ export function Patient() {
               </styled.ActionButton>
 
               <styled.ActionButton
-                onClick={() => navigate(`/pacientes/${patient.id}/anamnese`)}
+                onClick={() => navigate(`/${patient.id}/anamnese`)}
+                onMouseEnter={() => prefetchAnamnesisByPatient(patient.id)}
               >
                 <span>Anamnese </span>
                 <AttachmentIcon color={'#111'} />
               </styled.ActionButton>
 
-              <styled.ActionButton>
+              <styled.ActionButton
+                onClick={() => navigate(`/${patient.id}/antropometria`)}
+              >
                 <span>Antropometria</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
@@ -76,11 +80,11 @@ export function Patient() {
                 <span>Planejamento alimentar</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
-              <styled.ActionButton>
+              <styled.ActionButton className="inactive">
                 <span>Orientações nutricionais</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
-              <styled.ActionButton>
+              <styled.ActionButton className="inactive">
                 <span>Cálculo energético</span>
                 <InfoIcon color={'#111'} />
               </styled.ActionButton>
@@ -96,7 +100,11 @@ export function Patient() {
               </Text>
               {hasPlanning && (
                 <div style={{ display: 'flex', gap: 16 }}>
-                  <Button variant="danger" isDisabled={isGeneratingPDF}>
+                  <Button
+                    variant="danger"
+                    isDisabled={isGeneratingPDF}
+                    cursor={'not-allowed'}
+                  >
                     <DeleteIcon />
                   </Button>
                   <Button

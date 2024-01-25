@@ -2,8 +2,6 @@ import { TPlanningMeal } from '@godiet-entities/planning/TPlanningMeal';
 import Divider from '@godiet-ui/Divider';
 import Text from '@godiet-ui/Text';
 
-import format from 'date-fns/format';
-
 import * as styled from './PatientContentPlanning.styles';
 
 export interface PatientContentPlanningProps {
@@ -34,7 +32,11 @@ export function PatientContentPlanning(props: PatientContentPlanningProps) {
               Nome: {meal.name}
             </Text>
             <Text as="small" className="small-text">
-              Horário: {format(new Date(meal.time), 'HH:mm')}
+              Horário:{' '}
+              {new Intl.DateTimeFormat('pt-br', {
+                hour: 'numeric',
+                minute: 'numeric',
+              }).format(new Date(meal.time))}
             </Text>
             <Divider height={'1px'} />
             {meal.mealFoods.map((mealFood) => {

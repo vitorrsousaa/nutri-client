@@ -1,12 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@godiet-query';
+import FoodService from '@godiet-services/Food';
 
 import { TOriginFoodEnum } from '../entities/food/origin/TOrigin';
-import FoodService from '../service/Food';
 
 export function useGetAllFoods(origin: TOriginFoodEnum) {
   const {
     data: foods,
-    isFetching: isFetchingFoods,
+    isFetching,
+    isPending,
     refetch: refetchFoods,
   } = useQuery({
     queryKey: ['@foods', origin],
@@ -15,7 +16,7 @@ export function useGetAllFoods(origin: TOriginFoodEnum) {
 
   return {
     foods: foods ?? [],
-    isFetchingFoods,
+    isFetchingFoods: isFetching || isPending,
     refetchFoods,
   };
 }

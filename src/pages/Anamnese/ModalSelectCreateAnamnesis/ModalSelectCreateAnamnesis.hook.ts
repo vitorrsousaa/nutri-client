@@ -17,7 +17,7 @@ export function useModalCreateAnamnesisHook(
   const { userId } = useAuth();
 
   const { anamnesisTemplate, isFetchingAnamnesisTemplate } =
-    useGetAllAnamneseTemplate(userId);
+    useGetAllAnamneseTemplate();
 
   const [selectedAnamneseTemplate, setSelectedAnamneseTemplate] =
     useState<TAnamnesisTemplate | null>(null);
@@ -51,7 +51,7 @@ export function useModalCreateAnamnesisHook(
   );
 
   const handleCreateAnamnese = useCallback(() => {
-    navigate(`/pacientes/${patientId}/anamnese/criar`, {
+    navigate(`/${patientId}/anamnese/criar`, {
       state: {
         template: selectedAnamneseTemplate,
         patientId,

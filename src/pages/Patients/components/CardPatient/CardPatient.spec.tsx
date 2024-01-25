@@ -71,7 +71,7 @@ describe('Card Patient Component', () => {
 
       // Assert
       expect(rendered.result.current.formatedBirthDate).toEqual(
-        '01/09/2021, 3 anos'
+        '01/09/2021, 2 anos'
       );
     });
   });

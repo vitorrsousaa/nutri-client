@@ -1,4 +1,47 @@
-# React + TypeScript + Vite
+# goDiet - Client
+
+<h2 id="started">📌 About</h2>
+
+Simple description of what your project do or how to use it.
+
+<h2 id="started">🚀 Getting started</h2>
+
+Here you describe how to run your project locally
+
+<h3>Prerequisites</h3>
+
+Here you list all prerequisites necessary for running your project. For example:
+
+- [NodeJS](https://github.com/)
+- [Git 2](https://github.com)
+
+<h3>Cloning</h3>
+
+How to clone your project
+
+```bash
+git clone your-project-url-in-github
+```
+
+<h3>Starting</h3>
+
+How to start your project
+
+```bash
+cd project-name
+npm some-command-to-run
+```
+
+<h2 id="routes">📍 Application Routes</h2>
+
+Here you can list the main routes of your API, and what are their expected request bodies.
+​
+| route               | description
+|----------------------|-----------------------------------------------------
+| <kbd>/authenticate</kbd>     | page that list all user info
+| <kbd>/login</kbd>     | page to login
+| <kbd>/dashboard</kbd>     | page that contains all user shopping and spences info
+
 
 ### Conventional commits
 
